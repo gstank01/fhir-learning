@@ -27,7 +27,9 @@ Which topics a visitor has marked as studied is kept in their own browser.
 The **FHIR resources** tab at the top lists all 146 resources from the
 [R4 resource list](https://hl7.org/fhir/R4/resourcelist.html), grouped the same
 way: five categories (Foundation, Base, Clinical, Financial, Specialized) and
-their sub-groups, shown as a horizontal bar under the header. Each resource
+their sub-groups, shown as a horizontal bar under the header. The first tab,
+**All**, shows every resource; the category tabs, the search box and the
+Maturity and Progress filters narrow the list and can be combined. Each resource
 page shows its maturity, its definition from the spec, a link to its spec
 page, and study notes the admin can add.
 

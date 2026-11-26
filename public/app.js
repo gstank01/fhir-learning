@@ -12,7 +12,9 @@
     route: OVERVIEW,
     filter: '',
     resourceFilter: '',
-    lastCategory: null,
+    lastCategory: 'all',
+    maturityFilter: 'any',
+    studiedFilter: 'any',
     resourceIndex: null,
     studied: loadStudied(),
     editing: null, // { id, original, draft, pane, busy, error, confirmRestore }
@@ -190,8 +192,8 @@
     return `<span class="mat" title="Trial use, FHIR Maturity Model level ${level} of 5">FMM ${level} <span class="mat-scale" aria-hidden="true">${bars}</span></span>`;
   }
 
-  // Horizontal bar under the header: category tabs, then the resources of the
-  // active category in one scrolling row.
+  // Horizontal bar under the header: "All" plus one tab per category, then the
+  // resources of the selected tab in one scrolling row.
   function renderResourceBar(route) {
     const bar = els.resourceBar;
     if (route.section !== 'resources') {
@@ -199,19 +201,22 @@
       bar.innerHTML = '';
       return;
     }
-    const active = route.category;
-    const cats = resourceCategories().map((c) =>
-      `<a href="#${CATEGORY_PREFIX}${c.id}"${c.id === active.id ? ' aria-current="true"' : ''}>${esc(c.title)} <span class="count">${resourceCount(c)}</span></a>`,
-    ).join('');
-    const strip = active.groups.map((g) => `<span class="grp">${esc(g.title)}</span>` +
-      g.resources.map((r) => {
-        const id = RESOURCE_PREFIX + r.name;
-        const cur = route.resource && route.resource.name === r.name ? ' aria-current="page"' : '';
-        const done = state.studied.has(id);
-        return `<a href="#${id}"${cur}><span class="dot${done ? ' done' : ''}"></span>${esc(r.name)}</a>`;
-      }).join(''),
-    ).join('');
-    bar.innerHTML = `<div class="res-cats" role="list">${cats}</div><div class="res-strip">${strip}</div>`;
+    const active = route.category; // null = All
+    const tab = (href, label, count, current) =>
+      `<a href="#${href}"${current ? ' aria-current="true"' : ''}>${esc(label)} <span class="count">${count}</span></a>`;
+    const cats = tab('resources', 'All', allResources().length, !active)
+      + resourceCategories().map((c) => tab(CATEGORY_PREFIX + c.id, c.title, resourceCount(c), active && c.id === active.id)).join('');
+    const link = (r) => {
+      const id = RESOURCE_PREFIX + r.name;
+      const cur = route.resource && route.resource.name === r.name ? ' aria-current="page"' : '';
+      const done = state.studied.has(id);
+      return `<a href="#${id}"${cur}><span class="dot${done ? ' done' : ''}"></span>${esc(r.name)}</a>`;
+    };
+    const strip = active
+      ? active.groups.map((g) => `<span class="grp">${esc(g.title)}</span>` + g.resources.map(link).join('')).join('')
+      : resourceCategories().map((c) => `<span class="grp">${esc(c.title)}</span>`
+        + c.groups.flatMap((g) => g.resources).map(link).join('')).join('');
+    bar.innerHTML = `<div class="res-cats">${cats}</div><div class="res-strip">${strip}</div>`;
     bar.hidden = false;
     const cur = bar.querySelector('.res-strip [aria-current="page"]');
     if (cur) {
@@ -231,41 +236,97 @@
     </a>`;
   }
 
-  function renderResourceResults(route) {
+  const MATURITY_FILTERS = [['any', 'Any'], ['N', 'Normative'], ['trial', 'Trial use']];
+  const STUDIED_FILTERS = [['any', 'Any'], ['todo', 'Not studied'], ['done', 'Studied']];
+
+  function filtersActive() {
+    return Boolean(state.resourceFilter.trim()) || state.maturityFilter !== 'any' || state.studiedFilter !== 'any';
+  }
+
+  function filteredResources(route) {
     const q = state.resourceFilter.trim().toLowerCase();
-    if (q) {
-      const hits = allResources().filter((r) => r.name.toLowerCase().includes(q) || r.description.toLowerCase().includes(q));
-      hits.sort((a, b) => Number(!a.name.toLowerCase().startsWith(q)) - Number(!b.name.toLowerCase().startsWith(q)));
-      return `<div class="res-cat-head"><h2>${hits.length} ${hits.length === 1 ? 'match' : 'matches'}</h2>
-          <p>Resources whose name or definition contains “${esc(state.resourceFilter.trim())}”.</p></div>
-        ${hits.length ? `<div class="res-grid">${hits.map(resourceCard).join('')}</div>` : '<p class="res-empty">No resource matches. Try a shorter word, such as “medic” or “claim”.</p>'}`;
+    let list = allResources();
+    if (route.category) list = list.filter((r) => r.category.id === route.category.id);
+    if (state.maturityFilter === 'N') list = list.filter((r) => r.maturity === 'N');
+    if (state.maturityFilter === 'trial') list = list.filter((r) => r.maturity !== 'N');
+    if (state.studiedFilter !== 'any') {
+      const want = state.studiedFilter === 'done';
+      list = list.filter((r) => state.studied.has(RESOURCE_PREFIX + r.name) === want);
     }
-    const c = route.category;
-    return `<div class="res-cat-head"><h2>${esc(c.title)}</h2><p>${esc(c.description)}</p></div>
+    if (q) {
+      list = list.filter((r) => r.name.toLowerCase().includes(q) || r.description.toLowerCase().includes(q));
+      list = [...list].sort((a, b) => Number(!a.name.toLowerCase().startsWith(q)) - Number(!b.name.toLowerCase().startsWith(q)));
+    }
+    return list;
+  }
+
+  function groupedSection(c, headingLevel) {
+    const head = headingLevel === 2
+      ? `<div class="res-cat-head"><h2>${esc(c.title)}</h2><p>${esc(c.description)}</p></div>`
+      : '';
+    return `<section class="res-category">${head}
       ${c.groups.map((g) => `<section class="res-group">
         <h3>${esc(g.title)} <span class="n">${g.resources.length}</span></h3>
-        <div class="res-grid">${g.resources.map(resourceCard).join('')}</div>
-      </section>`).join('')}`;
+        <div class="res-grid">${g.resources.map((r) => resourceCard({ ...r, category: c, group: g.title })).join('')}</div>
+      </section>`).join('')}</section>`;
+  }
+
+  function renderResourceResults(route) {
+    const scope = route.category ? route.category.title : 'all categories';
+    if (!filtersActive()) {
+      if (route.category) return groupedSection(route.category, 2);
+      return resourceCategories().map((c) => groupedSection(c, 2)).join('');
+    }
+    const hits = filteredResources(route);
+    const parts = [];
+    if (state.resourceFilter.trim()) parts.push(`matching “${esc(state.resourceFilter.trim())}”`);
+    if (state.maturityFilter === 'N') parts.push('normative');
+    if (state.maturityFilter === 'trial') parts.push('trial use');
+    if (state.studiedFilter === 'done') parts.push('studied');
+    if (state.studiedFilter === 'todo') parts.push('not studied yet');
+    return `<div class="res-cat-head"><h2>${hits.length} ${hits.length === 1 ? 'resource' : 'resources'}</h2>
+        <p>In ${esc(scope)}, ${parts.join(', ')}. <button class="link-btn" type="button" data-action="res-clear">Clear filters</button></p></div>
+      ${hits.length ? `<div class="res-grid">${hits.map(resourceCard).join('')}</div>`
+        : '<p class="res-empty">No resource matches these filters. Try a shorter word, or pick All at the top.</p>'}`;
+  }
+
+  function filterChips(key, options, current, label) {
+    return `<div class="seg" role="group" aria-label="${esc(label)}"><span class="seg-label">${esc(label)}</span>${options.map(([v, t]) =>
+      `<button type="button" class="seg-btn" data-action="res-filter" data-key="${key}" data-value="${v}" aria-pressed="${v === current}">${esc(t)}</button>`).join('')}</div>`;
+  }
+
+  function renderResourceFilters() {
+    return `${filterChips('maturityFilter', MATURITY_FILTERS, state.maturityFilter, 'Maturity')}
+      ${filterChips('studiedFilter', STUDIED_FILTERS, state.studiedFilter, 'Progress')}`;
   }
 
   function renderResourceIndex(route) {
     const all = allResources();
     const done = all.filter((r) => state.studied.has(RESOURCE_PREFIX + r.name)).length;
+    const title = route.category ? route.category.title : 'All FHIR resources';
     return `<article class="page wide">
       <header class="page-head">
         <p class="eyebrow">FHIR R4 (4.0.1) · ${all.length} resources · ${done} studied</p>
-        <h1 class="page-title">FHIR resources</h1>
+        <h1 class="page-title">${esc(title)}</h1>
         <p class="lead">Every resource in FHIR R4, grouped the way the specification’s
           <a href="${esc(state.data.resources.specBase)}resourcelist.html" target="_blank" rel="noopener noreferrer">resource list</a> groups them.
-          Pick a category above, or search by name.</p>
+          Narrow the list with a category above, or with search and the filters below.</p>
       </header>
       <div class="res-tools">
-        <label for="resource-filter" class="visually-hidden">Find a resource</label>
-        <input id="resource-filter" type="search" placeholder="Find a resource, e.g. Observation" autocomplete="off" value="${esc(state.resourceFilter)}">
-        <span class="legend">${maturityBadge('N')} stable ${maturityBadge('3')} trial use, maturity 0–5</span>
+        <label for="resource-filter" class="visually-hidden">Search resources</label>
+        <input id="resource-filter" type="search" placeholder="Search by name or definition" autocomplete="off" value="${esc(state.resourceFilter)}">
+        <div class="res-filters" id="resource-filters">${renderResourceFilters()}</div>
       </div>
       <div id="resource-results">${renderResourceResults(route)}</div>
     </article>`;
+  }
+
+  function refreshResourceResults() {
+    const route = parseRoute(state.route);
+    const box = document.getElementById('resource-results');
+    const f = document.getElementById('resource-filters');
+    if (box) box.innerHTML = renderResourceResults(route);
+    if (f) f.innerHTML = renderResourceFilters();
   }
 
   function renderResourcePage(route) {
@@ -461,7 +522,7 @@
         title = `${route.resource.name} · FHIR resources`;
       } else {
         els.main.innerHTML = renderResourceIndex(route);
-        title = `FHIR resources · ${route.category.title}`;
+        title = route.category ? `FHIR resources · ${route.category.title}` : 'FHIR resources';
       }
     } else {
       const t = route.topic;
@@ -493,14 +554,21 @@
   // #resource-<Name>                     one FHIR resource
   function parseRoute(id) {
     const cats = resourceCategories();
-    if (id === 'resources' || id.startsWith(CATEGORY_PREFIX)) {
-      const c = cats.find((x) => CATEGORY_PREFIX + x.id === id)
-        || cats.find((x) => x.id === state.lastCategory) || cats[0];
-      return { section: 'resources', key: id === 'resources' ? id : CATEGORY_PREFIX + c.id, category: c, resource: null };
+    if (id === 'resources') {
+      return { section: 'resources', key: id, category: null, resource: null };
+    }
+    if (id.startsWith(CATEGORY_PREFIX)) {
+      const c = cats.find((x) => CATEGORY_PREFIX + x.id === id);
+      if (c) return { section: 'resources', key: id, category: c, resource: null };
+      return { section: 'resources', key: 'resources', category: null, resource: null };
     }
     if (id.startsWith(RESOURCE_PREFIX)) {
       const r = findResource(id.slice(RESOURCE_PREFIX.length));
-      if (r) return { section: 'resources', key: id, category: r.category, resource: r };
+      if (r) {
+        // Keep the bar on the tab the visitor came from: All, or the resource's own category.
+        const category = state.lastCategory === 'all' ? null : r.category;
+        return { section: 'resources', key: id, category, resource: r };
+      }
     }
     const t = findTopic(id) || findTopic(OVERVIEW);
     return { section: 'guide', key: t.id, topic: t };
@@ -509,7 +577,7 @@
   function routeFromHash() {
     const id = decodeURIComponent(location.hash.replace(/^#/, ''));
     const route = parseRoute(id || OVERVIEW);
-    if (route.section === 'resources') state.lastCategory = route.category.id;
+    if (route.section === 'resources' && !route.resource) state.lastCategory = route.category ? route.category.id : 'all';
     return route.key;
   }
 
@@ -684,6 +752,13 @@
     else if (action === 'restore-ask' && e) { e.confirmRestore = true; renderMain(); }
     else if (action === 'restore-cancel' && e) { e.confirmRestore = false; renderMain(); }
     else if (action === 'restore') restoreOriginal();
+    else if (action === 'res-filter') { state[el.dataset.key] = el.dataset.value; refreshResourceResults(); }
+    else if (action === 'res-clear') {
+      state.resourceFilter = ''; state.maturityFilter = 'any'; state.studiedFilter = 'any';
+      const input = document.getElementById('resource-filter');
+      if (input) input.value = '';
+      refreshResourceResults();
+    }
   });
 
   document.addEventListener('change', (ev) => {
@@ -703,8 +778,7 @@
   document.addEventListener('input', (ev) => {
     if (ev.target.id === 'resource-filter') {
       state.resourceFilter = ev.target.value;
-      const box = document.getElementById('resource-results');
-      if (box) box.innerHTML = renderResourceResults(parseRoute(state.route));
+      refreshResourceResults();
       return;
     }
     if (ev.target.id !== 'editor-text' || !state.editing) return;

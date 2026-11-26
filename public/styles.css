@@ -493,3 +493,15 @@ body[data-section="resources"] #menu-btn { display: none; }
   .header-row { gap: 0.35rem; }
   .section-nav { margin-left: 0; }
 }
+
+/* ---------- Resource filters ---------- */
+.res-filters { display: flex; flex-wrap: wrap; gap: 0.6rem 1.25rem; }
+.seg { display: inline-flex; align-items: center; gap: 0.25rem; flex-wrap: wrap; }
+.seg-label { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-right: 0.25rem; }
+.seg-btn {
+  border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+  padding: 0.3rem 0.7rem; border-radius: 2rem; font-size: 0.85rem; cursor: pointer;
+}
+.seg-btn:hover { border-color: var(--accent); }
+.seg-btn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.res-category + .res-category { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); }

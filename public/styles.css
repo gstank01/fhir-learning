@@ -588,3 +588,12 @@ body[data-section="mine"] #menu-btn { display: none; }
 .my-title.mono { font-family: var(--font-mono); font-weight: 500; }
 .my-excerpt { color: var(--muted); font-size: 0.9rem; overflow-wrap: anywhere; }
 .my-date { font-size: 0.78rem; color: var(--muted); }
+.res-group-desc { margin: -0.35rem 0 0.9rem; color: var(--muted); font-size: 0.92rem; max-width: 70ch; }
+.res-context {
+  margin: -1rem 0 2rem; padding: 0.8rem 1.1rem; border-radius: 0.65rem;
+  background: var(--accent-soft); display: grid; gap: 0.3rem; font-size: 0.92rem;
+}
+.res-context p { margin: 0; max-width: 70ch; }
+.res-context-path { font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.res-context-path a { color: var(--accent); text-decoration: none; }
+.res-context-path a:hover { text-decoration: underline; }

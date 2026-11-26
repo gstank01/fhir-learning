@@ -203,7 +203,7 @@
   function allResources() {
     if (!state.resourceIndex) {
       state.resourceIndex = resourceCategories().flatMap((c) =>
-        c.groups.flatMap((g) => g.resources.map((r) => ({ ...r, category: c, group: g.title }))),
+        c.groups.flatMap((g) => g.resources.map((r) => ({ ...r, category: c, group: g.title, groupDescription: g.description }))),
       );
     }
     return state.resourceIndex;
@@ -243,7 +243,7 @@
       return `<a href="#${id}"${cur}><span class="dot${done ? ' done' : ''}"></span>${esc(r.name)}</a>`;
     };
     const strip = active
-      ? active.groups.map((g) => `<span class="grp">${esc(g.title)}</span>` + g.resources.map(link).join('')).join('')
+      ? active.groups.map((g) => `<span class="grp" title="${esc(g.description || '')}">${esc(g.title)}</span>` + g.resources.map(link).join('')).join('')
       : resourceCategories().map((c) => `<span class="grp">${esc(c.title)}</span>`
         + c.groups.flatMap((g) => g.resources).map(link).join('')).join('');
     bar.innerHTML = `<div class="res-cats">${cats}</div><div class="res-strip">${strip}</div>`;
@@ -297,6 +297,7 @@
     return `<section class="res-category">${head}
       ${c.groups.map((g) => `<section class="res-group">
         <h3>${esc(g.title)} <span class="n">${g.resources.length}</span></h3>
+        ${g.description ? `<p class="res-group-desc">${esc(g.description)}</p>` : ''}
         <div class="res-grid">${g.resources.map((r) => resourceCard({ ...r, category: c, group: g.title })).join('')}</div>
       </section>`).join('')}</section>`;
   }
@@ -394,6 +395,10 @@
         <h2 id="def-${esc(r.name)}">Definition</h2>
         <p>${esc(r.description)}</p>
         <span class="src">From the FHIR R4 specification.</span>
+      </section>
+      <section class="res-context" aria-label="Where ${esc(r.name)} fits">
+        <p class="res-context-path"><a href="#resources-${esc(r.category.id)}">${esc(r.category.title)}</a> › ${esc(r.group)}</p>
+        ${r.groupDescription ? `<p>${esc(r.groupDescription)}</p>` : ''}
       </section>
       <section aria-label="Study notes">
         <div class="notes-head"><h2>Study notes</h2>${!editing && hasNotes ? editButton(id) : ''}</div>

@@ -63,6 +63,17 @@ page, and study notes the admin can add.
 The resource list is in `lib/resources.js`. Optional starting notes for a
 resource go in `content/resources/<ResourceName>.md`.
 
+To copy a resource's structure table, terminology bindings or search
+parameters from the spec into Markdown (with the site's icons and links),
+use `tools/spec_to_markdown.py`:
+
+```bash
+curl -s -o /tmp/observation.html https://hl7.org/fhir/R4/observation.html
+python3 tools/spec_to_markdown.py /tmp/observation.html structure
+python3 tools/spec_to_markdown.py /tmp/observation.html bindings
+python3 tools/spec_to_markdown.py /tmp/observation.html search
+```
+
 ## Deploy on Vercel
 
 1. In Vercel, choose **Add New… → Project** and import this GitHub repository.

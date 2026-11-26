@@ -733,3 +733,8 @@ body.cards-active .section-nav .nav-btn { color: var(--ink); border-bottom-color
   }
 }
 @media (prefers-reduced-motion: reduce) { .cards-overlay[open] { animation: none; } }
+/* Bindings and search parameter tables copied from the spec */
+.spec-table table { font-size: 0.86rem; }
+.spec-table td:first-child { font-family: var(--font-mono); font-size: 0.8rem; white-space: nowrap; }
+.spec-table a { text-decoration: none; }
+.spec-table a:hover { text-decoration: underline; }

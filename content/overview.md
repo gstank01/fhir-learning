@@ -18,10 +18,11 @@ The HL7 FHIR Foundational Implementer exam checks a basic understanding of the F
 
 ## How to use this site
 
-1. Work through the topics in the sidebar. Each one lists the exam objectives from the official study guide, followed by study notes.
-2. Spend the most time on the heaviest topics: **Resource Model and Structure** (25–33%) and **FHIR API Behavior** (19–33%).
-3. Keep the spec open while you study: [hl7.org/fhir/R4](https://hl7.org/fhir/R4/). The exam is closed book, so practise finding answers there now and remembering them later.
-4. Tick **Mark as studied** at the bottom of a topic when you are confident with it.
+1. **Start with Core resource concepts** at the top of the sidebar. It teaches you to read a resource definition: elements, icons, flags, types, bindings, value sets and code systems. Every exam area builds on it.
+2. Then work through the exam competencies in the sidebar. Each one lists the exam objectives from the official study guide, followed by study notes.
+3. Spend the most time on the heaviest topics: **Resource Model and Structure** (25–33%) and **FHIR API Behavior** (19–33%).
+4. Keep the spec open while you study: [hl7.org/fhir/R4](https://hl7.org/fhir/R4/). The exam is closed book, so practise finding answers there now and remembering them later.
+5. Tick **Mark as studied** at the bottom of a topic when you are confident with it.
 
 ## Formal training offered by HL7
 

@@ -142,7 +142,7 @@
       html += `<section class="nav-domain" aria-label="${esc(d.title)}">
         <div class="nav-domain-head">
           <span class="nav-domain-title">${esc(d.title)}</span>
-          <span class="nav-domain-weight">${range(d.weight)}</span>
+          ${d.weight ? `<span class="nav-domain-weight">${range(d.weight)}</span>` : `<span class="nav-domain-label">${esc(d.label || '')}</span>`}
         </div>
         ${topics.map((t) => link(t.id, t.title, t.weight)).join('')}
       </section>`;
@@ -443,7 +443,7 @@
     const note = notes[OVERVIEW];
     const ticks = [0, 10, 20, 30, 40];
     const pos = (v) => `${(v / AXIS_MAX) * 100}%`;
-    const rows = domains.map((d) => {
+    const rows = domains.filter((d) => d.weight).map((d) => {
       const done = d.topics.filter((t) => state.studied.has(t.id)).length;
       return `<a class="weight-row" href="#${d.topics[0].id}">
         <span class="weight-name">${esc(d.title)}<small>${d.topics.length} topics · ${done} studied</small></span>
@@ -491,17 +491,17 @@
 
     return `<article class="page">
       <header class="page-head">
-        <p class="eyebrow">${esc(t.domain.title)} · ${range(t.domain.weight)}</p>
+        <p class="eyebrow">${esc(t.domain.title)}${t.domain.weight ? ` · ${range(t.domain.weight)}` : ''}</p>
         <h1 class="page-title">${esc(t.title)}</h1>
         <div class="meta-row">
-          <span class="chip" title="Share of exam questions">${range(t.weight)} of exam</span>
+          ${t.weight ? `<span class="chip" title="Share of exam questions">${range(t.weight)} of exam</span>` : '<span class="chip">Background for every exam area</span>'}
           ${notesMeta(note)}
           ${editing ? '' : editButton(t.id)}
         </div>
       </header>
       ${storageNotice()}
       <section class="objectives" aria-labelledby="obj-${t.id}">
-        <h2 id="obj-${t.id}">What the exam expects</h2>
+        <h2 id="obj-${t.id}">${t.weight ? 'What the exam expects' : 'What you’ll learn'}</h2>
         <ul>${t.objectives.map((o) => `<li>${esc(o)}</li>`).join('')}</ul>
       </section>
       ${editing ? renderEditor() : `<div class="notes">${renderMarkdown(note.markdown)}</div>`}

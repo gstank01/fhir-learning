@@ -25,6 +25,17 @@ deletes the saved edit and shows the file again.
 
 Which topics a visitor has marked as studied is kept in their own browser.
 
+## Core resource concepts
+
+The first group in the study-guide sidebar, **Core resource concepts** (marked
+"Start here"), teaches how to read a resource definition: resource names,
+elements and cardinality, icons, flags, data types, descriptions and
+constraints, bindings and binding strength, and ValueSet vs CodeSystem. These
+pages have no exam weight; they are background for every exam area.
+
+The element icons in `public/img/fhir/` are copied from the FHIR R4
+specification, which HL7 publishes under the CC0 public-domain licence.
+
 ## FHIR resources section
 
 The **FHIR resources** tab at the top lists all 146 resources from the

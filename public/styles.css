@@ -597,3 +597,13 @@ body[data-section="mine"] #menu-btn { display: none; }
 .res-context-path { font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
 .res-context-path a { color: var(--accent); text-decoration: none; }
 .res-context-path a:hover { text-decoration: underline; }
+.nav-domain-label {
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap;
+  color: var(--accent-ink); background: var(--accent); padding: 0.1rem 0.45rem; border-radius: 1rem;
+}
+/* Official FHIR icons in notes: keep them crisp and readable on dark backgrounds */
+.notes img[src^="img/fhir/"] {
+  width: 16px; height: 16px; vertical-align: -3px; image-rendering: pixelated;
+  background: #ffffff; border-radius: 3px; padding: 1px; box-sizing: content-box;
+}
+.notes td { white-space: normal; }

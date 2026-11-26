@@ -1,0 +1,16 @@
+{
+  "name": "fhir-exam-prep",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Study site for the HL7 FHIR Foundational Implementer exam",
+  "type": "module",
+  "scripts": {
+    "dev": "node dev-server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.0"
+  }
+}

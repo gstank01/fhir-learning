@@ -22,6 +22,9 @@
     myPane: {}, // pageId -> 'write' | 'preview'
     myFilter: '',
     accountMode: 'login',
+    cards: { deck: 'scenario', category: 'all', hideKnown: false, order: [], index: 0, flipped: false, key: '' },
+    cardMarks: loadCardMarks(), // cardId -> 'known' | 'learning'
+    randomCard: null, // { index, revealed }
     studiedFilter: 'any',
     resourceIndex: null,
     studied: loadStudied(),
@@ -48,6 +51,12 @@
   }
   function loadStudied() {
     try { return new Set(JSON.parse(localStorage.getItem(STUDIED_KEY) || '[]')); } catch { return new Set(); }
+  }
+  function loadCardMarks() {
+    try { return JSON.parse(localStorage.getItem('fhirprep.cards.v1') || '{}') || {}; } catch { return {}; }
+  }
+  function saveCardMarks() {
+    try { localStorage.setItem('fhirprep.cards.v1', JSON.stringify(state.cardMarks)); } catch { /* storage unavailable */ }
   }
   function saveStudied() {
     try { localStorage.setItem(STUDIED_KEY, JSON.stringify([...state.studied])); } catch { /* storage unavailable */ }
@@ -468,6 +477,7 @@
         <div class="stat"><div class="v">${exam.passPercent}%</div><div class="k">needed to pass</div></div>
         <div class="stat"><div class="v">${esc(exam.fhirVersion)}</div><div class="k">FHIR version tested</div></div>
       </div>
+      <div id="random-card-box">${renderRandomCard()}</div>
       <h2 class="section-title">Where the marks are</h2>
       <p class="section-sub">Share of exam questions for each competency, from HL7’s study guide.</p>
       <div class="weights">
@@ -699,10 +709,210 @@
     }).join('')}</div>`;
   }
 
+  // ---------- Study cards ----------
+  const DECKS = [
+    { id: 'scenario', title: 'Which resource?', blurb: 'Real-life situations. Name the resource you would use.' },
+    { id: 'definition', title: 'Definition → resource', blurb: 'The official definition from the spec, with the resource name hidden.' },
+    { id: 'reverse', title: 'Resource → what it’s for', blurb: 'See the resource name and recall what it’s used for.' },
+  ];
+
+  function shuffle(list) {
+    const a = [...list];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function maskName(text, name) {
+    const spaced = name.replace(/([a-z])([A-Z])/g, '$1 $2');
+    const escRe = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return text.split(name).join('_____').replace(new RegExp(escRe(spaced), 'gi'), '_____');
+  }
+
+  function deckCards(deckId) {
+    if (deckId === 'scenario') {
+      return (state.data.cards || []).map((c, i) => ({ id: `s${i}:${c.resource}`, r: findResource(c.resource), prompt: c.scenario, note: c.note }))
+        .filter((c) => c.r);
+    }
+    return allResources().map((r) => ({
+      id: `${deckId === 'definition' ? 'd' : 'r'}:${r.name}`, r,
+      prompt: deckId === 'definition' ? maskName(r.description, r.name) : r.name,
+    }));
+  }
+
+  function cardPool() {
+    const c = state.cards;
+    return deckCards(c.deck).filter((x) => (c.category === 'all' || x.r.category.id === c.category)
+      && (!c.hideKnown || state.cardMarks[x.id] !== 'known'));
+  }
+
+  function reshuffle() {
+    const c = state.cards;
+    c.order = shuffle(cardPool().map((x) => x.id));
+    c.index = 0;
+    c.flipped = false;
+    c.key = `${c.deck}|${c.category}|${c.hideKnown}`;
+  }
+
+  function currentCard() {
+    const c = state.cards;
+    if (c.key !== `${c.deck}|${c.category}|${c.hideKnown}` || !c.order.length) reshuffle();
+    const pool = new Map(deckCards(c.deck).map((x) => [x.id, x]));
+    return pool.get(c.order[c.index]) || null;
+  }
+
+  function exampleFor(name) {
+    const ex = (state.data.cards || []).find((c) => c.resource === name);
+    return ex ? ex.scenario : '';
+  }
+
+  function cardFaces(card) {
+    const deck = state.cards.deck;
+    const r = card.r;
+    const where = `${esc(r.category.title)} › ${esc(r.group)}`;
+    const link = `<a class="card-link" href="#${RESOURCE_PREFIX}${esc(r.name)}">Open ${esc(r.name)} →</a>`;
+    if (deck === 'scenario') {
+      return {
+        front: `<p class="card-label">Which resource would you use?</p><p class="card-prompt">${esc(card.prompt)}</p>`,
+        back: `<p class="card-label">Answer</p><p class="card-answer">${esc(r.name)}</p><p class="card-where">${where}</p>
+          <p class="card-note">${esc(card.note || '')}</p>${link}`,
+      };
+    }
+    if (deck === 'definition') {
+      return {
+        front: `<p class="card-label">Which resource is this?</p><p class="card-prompt small">${esc(card.prompt)}</p>`,
+        back: `<p class="card-label">Answer</p><p class="card-answer">${esc(r.name)}</p><p class="card-where">${where}</p>${link}`,
+      };
+    }
+    const ex = exampleFor(r.name);
+    return {
+      front: `<p class="card-label">What is this resource for?</p><p class="card-answer">${esc(r.name)}</p><p class="card-where">${where}</p>`,
+      back: `<p class="card-label">${esc(r.name)}</p><p class="card-prompt small">${esc(r.description)}</p>
+        ${ex ? `<p class="card-note"><strong>Example:</strong> ${esc(ex)}</p>` : ''}${link}`,
+    };
+  }
+
+  function renderCardsPage() {
+    const c = state.cards;
+    const card = currentCard();
+    const pool = c.order.length;
+    const all = deckCards(c.deck).filter((x) => c.category === 'all' || x.r.category.id === c.category);
+    const known = all.filter((x) => state.cardMarks[x.id] === 'known').length;
+    const learning = all.filter((x) => state.cardMarks[x.id] === 'learning').length;
+    const deck = DECKS.find((d) => d.id === c.deck);
+    const chip = (key, value, label, pressed) =>
+      `<button type="button" class="seg-btn" data-action="card-set" data-key="${key}" data-value="${value}" aria-pressed="${pressed}">${label}</button>`;
+
+    let body;
+    if (!card) {
+      body = `<div class="empty-notes"><p>${c.hideKnown && all.length ? `You know all ${all.length} cards in this set. Nice work.` : 'There are no cards in this set.'}</p>
+        <div class="confirm">${c.hideKnown ? '<button class="btn small primary" type="button" data-action="card-set" data-key="hideKnown" data-value="false">Show all cards again</button>' : ''}
+        <button class="btn small" type="button" data-action="card-reset">Reset progress for this set</button></div></div>`;
+    } else {
+      const faces = cardFaces(card);
+      const mark = state.cardMarks[card.id];
+      body = `<div class="flashcard${c.flipped ? ' flipped' : ''}" role="button" tabindex="0" data-action="card-flip"
+          aria-label="${c.flipped ? 'Card answer. Press to show the question' : 'Card question. Press to show the answer'}">
+          <div class="card-inner">
+            <div class="face front" aria-hidden="${c.flipped}">${faces.front}<span class="card-hint">Click or press Space to flip</span></div>
+            <div class="face back" aria-hidden="${!c.flipped}">${faces.back}</div>
+          </div>
+          ${mark ? `<span class="card-mark ${mark}">${mark === 'known' ? 'Known' : 'Still learning'}</span>` : ''}
+        </div>
+        <div class="card-controls">
+          <button class="btn" type="button" data-action="card-prev"${c.index === 0 ? ' disabled' : ''}>← Previous</button>
+          ${c.flipped
+            ? `<button class="btn learn" type="button" data-action="card-mark" data-value="learning">Still learning <kbd>1</kbd></button>
+               <button class="btn primary" type="button" data-action="card-mark" data-value="known">I knew it <kbd>2</kbd></button>`
+            : '<button class="btn primary" type="button" data-action="card-flip">Show answer</button>'}
+          <button class="btn" type="button" data-action="card-next"${c.index >= pool - 1 ? ' disabled' : ''}>Next →</button>
+        </div>`;
+    }
+
+    return `<article class="page cards-page">
+      <header class="page-head">
+        <p class="eyebrow">Study cards · ${esc(deck.title)}</p>
+        <h1 class="page-title">Study cards</h1>
+        <p class="lead">${esc(deck.blurb)} Cards come in random order. Mark each one so you can focus on the ones you’re still learning.</p>
+      </header>
+      <div class="card-settings">
+        <div class="seg" role="group" aria-label="Deck"><span class="seg-label">Deck</span>
+          ${DECKS.map((d) => chip('deck', d.id, `${esc(d.title)} <span class="count">${deckCards(d.id).length}</span>`, d.id === c.deck)).join('')}</div>
+        <div class="seg" role="group" aria-label="Category"><span class="seg-label">Category</span>
+          ${chip('category', 'all', 'All', c.category === 'all')}
+          ${resourceCategories().map((cat) => chip('category', cat.id, esc(cat.title), c.category === cat.id)).join('')}</div>
+        <div class="seg" role="group" aria-label="Which cards"><span class="seg-label">Show</span>
+          ${chip('hideKnown', 'false', 'All cards', !c.hideKnown)}${chip('hideKnown', 'true', 'Hide cards I know', c.hideKnown)}</div>
+      </div>
+      <div class="card-progress">
+        <span>${card ? `Card ${c.index + 1} of ${pool}` : 'No cards to show'}</span>
+        <span class="tally"><span class="known">${known} known</span> · <span class="learning">${learning} still learning</span> · ${all.length} in set</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" style="width:${all.length ? Math.round((known / all.length) * 100) : 0}%"></div></div>
+      <div class="card-stage">${body}</div>
+      <div class="card-foot">
+        <button class="link-btn" type="button" data-action="card-shuffle">Shuffle again</button>
+        <span class="kbd-help">Keys: <kbd>Space</kbd> flip · <kbd>←</kbd> <kbd>→</kbd> move · <kbd>1</kbd> still learning · <kbd>2</kbd> I knew it</span>
+      </div>
+    </article>`;
+  }
+
+  function cardAction(action, value) {
+    const c = state.cards;
+    const card = currentCard();
+    if (action === 'flip' && card) c.flipped = !c.flipped;
+    else if (action === 'next' && c.index < c.order.length - 1) { c.index += 1; c.flipped = false; }
+    else if (action === 'prev' && c.index > 0) { c.index -= 1; c.flipped = false; }
+    else if (action === 'mark' && card) {
+      state.cardMarks[card.id] = value;
+      saveCardMarks();
+      if (c.hideKnown && value === 'known') {
+        c.order.splice(c.index, 1);
+        if (c.index >= c.order.length) c.index = Math.max(0, c.order.length - 1);
+      } else if (c.index < c.order.length - 1) c.index += 1;
+      c.flipped = false;
+    } else if (action === 'shuffle') reshuffle();
+    else if (action === 'reset') {
+      deckCards(c.deck).filter((x) => c.category === 'all' || x.r.category.id === c.category).forEach((x) => delete state.cardMarks[x.id]);
+      saveCardMarks();
+      c.hideKnown = false;
+      reshuffle();
+    }
+    renderMain();
+    const fc = document.querySelector('.flashcard');
+    if (fc && (action === 'flip' || action === 'next' || action === 'prev' || action === 'mark')) fc.focus({ preventScroll: true });
+  }
+
+  // A random scenario card on the overview page.
+  function renderRandomCard() {
+    const cards = state.data.cards || [];
+    if (!cards.length) return '';
+    if (!state.randomCard) state.randomCard = { index: Math.floor(Math.random() * cards.length), revealed: false };
+    const rc = state.randomCard;
+    const card = cards[rc.index];
+    const r = findResource(card.resource);
+    return `<section class="random-card" aria-label="Random study card">
+      <div class="random-head"><span class="card-label">Random study card</span>
+        <span class="random-actions"><button class="link-btn" type="button" data-action="random-next">Another card</button>
+        <a class="link-btn" href="#cards">All study cards</a></span></div>
+      <p class="random-q"><strong>Which resource would you use?</strong> ${esc(card.scenario)}</p>
+      ${rc.revealed && r
+        ? `<p class="random-a"><a class="res-chip" href="#${RESOURCE_PREFIX}${esc(r.name)}">${esc(r.name)}</a> ${esc(card.note)}</p>`
+        : '<button class="btn small" type="button" data-action="random-reveal">Show answer</button>'}
+    </section>`;
+  }
+
   function renderMain() {
     if (!state.data) return;
     const route = parseRoute(state.route);
     let title = 'FHIR Foundational Prep';
+    if (route.section === 'cards') {
+      els.main.innerHTML = renderCardsPage();
+      document.title = 'Study cards · FHIR Foundational Prep';
+      return;
+    }
     if (route.section === 'mine') {
       els.main.innerHTML = renderMyNotesPage();
       document.title = 'My notes · FHIR Foundational Prep';
@@ -747,6 +957,7 @@
   function parseRoute(id) {
     const cats = resourceCategories();
     if (id === 'my-notes') return { section: 'mine', key: id };
+    if (id === 'cards') return { section: 'cards', key: id };
     if (id === 'resources') {
       return { section: 'resources', key: id, category: null, resource: null };
     }
@@ -832,6 +1043,15 @@
   els.scrim.addEventListener('click', closeDrawer);
   document.addEventListener('keydown', (ev) => {
     if (ev.key === 'Escape') closeDrawer();
+    const typing = ev.target.closest && ev.target.closest('input, textarea, select, dialog, [contenteditable]');
+    if (!typing && !ev.ctrlKey && !ev.metaKey && !ev.altKey && state.data && parseRoute(state.route).section === 'cards') {
+      const onButton = ev.target.closest && ev.target.closest('button, a');
+      if ((ev.key === ' ' || ev.key === 'Enter') && !onButton) { ev.preventDefault(); cardAction('flip'); return; }
+      if ((ev.key === ' ' || ev.key === 'Enter') && ev.target.classList.contains('flashcard')) { ev.preventDefault(); cardAction('flip'); return; }
+      if (ev.key === 'ArrowRight') { ev.preventDefault(); cardAction('next'); return; }
+      if (ev.key === 'ArrowLeft') { ev.preventDefault(); cardAction('prev'); return; }
+      if ((ev.key === '1' || ev.key === '2') && state.cards.flipped) { cardAction('mark', ev.key === '1' ? 'learning' : 'known'); return; }
+    }
     if ((ev.ctrlKey || ev.metaKey) && ev.key.toLowerCase() === 's' && state.editing) {
       ev.preventDefault();
       saveEdit();
@@ -1083,6 +1303,25 @@
       renderMain();
     }
     else if (action === 'my-retry') saveMyNote(el.dataset.id);
+    else if (action === 'card-flip') { if (!ev.target.closest('a')) cardAction('flip'); }
+    else if (action === 'card-next') cardAction('next');
+    else if (action === 'card-prev') cardAction('prev');
+    else if (action === 'card-mark') cardAction('mark', el.dataset.value);
+    else if (action === 'card-shuffle') cardAction('shuffle');
+    else if (action === 'card-reset') cardAction('reset');
+    else if (action === 'card-set') {
+      const k = el.dataset.key;
+      state.cards[k] = k === 'hideKnown' ? el.dataset.value === 'true' : el.dataset.value;
+      renderMain();
+    }
+    else if (action === 'random-reveal') { state.randomCard.revealed = true; document.getElementById('random-card-box').innerHTML = renderRandomCard(); }
+    else if (action === 'random-next') {
+      const n = (state.data.cards || []).length;
+      let i = Math.floor(Math.random() * n);
+      if (n > 1 && i === state.randomCard.index) i = (i + 1) % n;
+      state.randomCard = { index: i, revealed: false };
+      document.getElementById('random-card-box').innerHTML = renderRandomCard();
+    }
     else if (action === 'logout') logout();
     else if (action === 'edit') startEdit(el.dataset.id);
     else if (action === 'cancel') { state.editing = null; renderMain(); }

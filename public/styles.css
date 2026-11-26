@@ -83,12 +83,9 @@ button, input, textarea { font: inherit; color: inherit; }
 .header-row .admin-box { margin-left: auto; }
 
 .shell { display: grid; grid-template-columns: var(--sidebar-w) minmax(0, 1fr); min-height: calc(100vh - var(--header-h, 3.6rem)); }
-body[data-section="resources"] .shell,
-body[data-section="mine"] .shell { grid-template-columns: minmax(0, 1fr); }
-body[data-section="resources"] .sidebar,
-body[data-section="resources"] #menu-btn,
-body[data-section="mine"] .sidebar,
-body[data-section="mine"] #menu-btn { display: none; }
+body:not([data-section="guide"]) .shell { grid-template-columns: minmax(0, 1fr); }
+body:not([data-section="guide"]) .sidebar,
+body:not([data-section="guide"]) #menu-btn { display: none; }
 .sidebar {
   position: sticky; top: var(--header-h, 3.6rem); align-self: start;
   height: calc(100vh - var(--header-h, 3.6rem));
@@ -614,3 +611,77 @@ body[data-section="mine"] #menu-btn { display: none; }
 .structure-table td { padding-top: 0.45rem; padding-bottom: 0.45rem; }
 .structure-table a { text-decoration: none; }
 .structure-table a:hover { text-decoration: underline; }
+
+/* Top tabs scroll sideways on small screens instead of squashing */
+.section-nav { min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.section-nav::-webkit-scrollbar { display: none; }
+.header-row .admin-box { flex: none; }
+
+/* ---------- Study cards ---------- */
+.cards-page { max-width: 46rem; }
+.card-settings { display: grid; gap: 0.6rem; margin-bottom: 1.5rem; }
+.seg-btn .count { font-family: var(--font-mono); font-size: 0.75rem; opacity: 0.75; margin-left: 0.2rem; }
+.card-progress { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; font-size: 0.88rem; color: var(--muted); font-variant-numeric: tabular-nums; margin-bottom: 0.4rem; }
+.card-progress .known { color: var(--good); }
+.card-progress .learning { color: var(--warn); }
+.card-stage { margin-top: 1.25rem; display: grid; gap: 1rem; }
+.flashcard { position: relative; perspective: 1400px; cursor: pointer; border-radius: 1rem; outline-offset: 4px; }
+.card-inner {
+  display: grid; position: relative; min-height: 17rem;
+  transition: transform 0.5s cubic-bezier(0.3, 0.1, 0.2, 1); transform-style: preserve-3d;
+}
+.flashcard.flipped .card-inner { transform: rotateY(180deg); }
+.face {
+  grid-area: 1 / 1; display: flex; flex-direction: column; justify-content: center; gap: 0.6rem;
+  padding: 2rem 2.2rem; border-radius: 1rem; min-width: 0;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  background: var(--panel); border: 1px solid var(--line); box-shadow: 0 6px 24px rgba(22, 33, 43, 0.08);
+}
+.face.back { transform: rotateY(180deg); background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); }
+.flashcard:not(.flipped) .face.back, .flashcard.flipped .face.front { pointer-events: none; }
+.card-label { margin: 0; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--accent); }
+.card-prompt { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: clamp(1.2rem, 2.6vw, 1.5rem); line-height: 1.35; text-wrap: balance; }
+.card-prompt.small { font-family: var(--font-body); font-weight: 400; font-size: 1.05rem; line-height: 1.55; text-wrap: pretty; }
+.card-answer { margin: 0; font-family: var(--font-mono); font-weight: 500; font-size: clamp(1.5rem, 4vw, 2.1rem); letter-spacing: -0.02em; overflow-wrap: anywhere; }
+.card-where { margin: 0; font-size: 0.85rem; color: var(--muted); }
+.card-note { margin: 0.25rem 0 0; font-size: 0.98rem; max-width: 60ch; }
+.card-link { font-size: 0.9rem; font-weight: 500; margin-top: 0.4rem; align-self: flex-start; }
+.card-hint { position: absolute; bottom: 0.9rem; right: 1.2rem; font-size: 0.75rem; color: var(--muted); }
+.card-mark {
+  position: absolute; top: 0.9rem; right: 1rem; z-index: 2; font-size: 0.72rem; font-weight: 600;
+  padding: 0.15rem 0.55rem; border-radius: 1rem; pointer-events: none;
+}
+.card-mark.known { background: var(--good-soft); color: var(--good); }
+.card-mark.learning { background: var(--warn-soft); color: var(--warn); }
+.card-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+.card-controls .btn { min-width: 7.5rem; padding: 0.6rem 1rem; }
+.btn.learn { border-color: color-mix(in srgb, var(--warn) 50%, var(--line)); color: var(--warn); }
+kbd {
+  font-family: var(--font-mono); font-size: 0.72rem; padding: 0.05rem 0.35rem; border-radius: 0.3rem;
+  border: 1px solid var(--line); background: var(--bg); color: var(--muted); margin-left: 0.15rem;
+}
+.btn.primary kbd { background: transparent; color: inherit; border-color: currentColor; opacity: 0.8; }
+.card-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1rem; margin-top: 1.5rem; font-size: 0.85rem; color: var(--muted); }
+@media (max-width: 600px) {
+  .face { padding: 1.5rem 1.25rem 2.25rem; }
+  .card-inner { min-height: 15rem; }
+  .kbd-help { display: none; }
+  .card-controls .btn { min-width: 0; flex: 1 1 auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-inner { transition: none; }
+}
+
+/* Random card on the overview */
+.random-card {
+  margin: 0 0 2.25rem; padding: 1rem 1.2rem; border-radius: 0.8rem;
+  background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--accent);
+  display: grid; gap: 0.6rem; justify-items: start;
+}
+.random-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.5rem 1rem; width: 100%; }
+.random-actions { display: inline-flex; gap: 1rem; font-size: 0.88rem; }
+.random-q, .random-a { margin: 0; }
+.res-chip {
+  font-family: var(--font-mono); font-weight: 500; text-decoration: none; padding: 0.1rem 0.5rem; border-radius: 0.4rem;
+  background: var(--accent-soft); color: var(--ink); margin-right: 0.35rem;
+}

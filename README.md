@@ -36,6 +36,19 @@ pages have no exam weight; they are background for every exam area.
 The element icons in `public/img/fhir/` are copied from the FHIR R4
 specification, which HL7 publishes under the CC0 public-domain licence.
 
+## Study cards
+
+The **Study cards** tab is a flashcard trainer with three decks:
+
+- **Which resource?** Real-life scenarios ("A nurse gives a dose of morphine") with the resource that fits and a note on why. The cards are in `lib/studycards.js`; add more there.
+- **Definition → resource:** every resource's official definition, with its name hidden.
+- **Resource → what it's for:** the resource name; recall what it's used for.
+
+Cards come in random order and can be filtered by category. Visitors mark
+each card "I knew it" or "Still learning", and can hide the cards they know.
+Those marks are kept in the visitor's browser. A random scenario card also
+appears on the exam overview page.
+
 ## FHIR resources section
 
 The **FHIR resources** tab at the top lists all 146 resources from the

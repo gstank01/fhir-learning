@@ -1,5 +1,7 @@
 # FHIR Foundational Prep
 
+> **Setup still to do:** deployment, database and sign-in credentials aren't set up yet. See [SETUP-TODO.md](SETUP-TODO.md).
+
 A study website for the **HL7 FHIR Foundational Implementer** exam. The sidebar
 follows the competencies in HL7's official study guide. Each topic shows the
 exam objectives, its share of the exam, and study notes. An admin can sign in

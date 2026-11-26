@@ -14,6 +14,14 @@
     resourceFilter: '',
     lastCategory: 'all',
     maturityFilter: 'any',
+    user: null, // signed-in visitor's email
+    accountsAvailable: false,
+    myNotes: {}, // pageId -> { markdown, updatedAt }
+    myDrafts: {}, // pageId -> text typed but not yet saved
+    myStatus: {}, // pageId -> 'saving' | 'saved' | 'error: …'
+    myPane: {}, // pageId -> 'write' | 'preview'
+    myFilter: '',
+    accountMode: 'login',
     studiedFilter: 'any',
     resourceIndex: null,
     studied: loadStudied(),
@@ -27,6 +35,11 @@
     dialog: $('#login-dialog'), loginForm: $('#login-form'), loginPassword: $('#login-password'),
     loginError: $('#login-error'), loginSubmit: $('#login-submit'), loginCancel: $('#login-cancel'),
     toast: $('#toast'), resourceBar: $('#resource-bar'),
+    accountDialog: $('#account-dialog'), accountForm: $('#account-form'), accountEmail: $('#account-email'),
+    accountPassword: $('#account-password'), accountError: $('#account-error'), accountSubmit: $('#account-submit'),
+    accountHelp: $('#account-help'), accountHint: $('#account-hint'), accountTitle: $('#account-title'),
+    deleteDialog: $('#delete-dialog'), deleteForm: $('#delete-form'), deletePassword: $('#delete-password'),
+    deleteError: $('#delete-error'), deleteSubmit: $('#delete-submit'),
   };
 
   // ---------- Helpers ----------
@@ -149,12 +162,29 @@
   }
 
   function renderAdminBox() {
-    if (state.admin) {
-      els.adminBox.innerHTML = `<span class="admin-state"><span class="pip"></span><span class="admin-label">Admin</span></span>
-        <button class="btn small ghost" type="button" data-action="logout">Sign out</button>`;
-    } else {
-      els.adminBox.innerHTML = `<button class="btn small ghost" type="button" data-action="login" aria-label="Admin sign-in"><span class="long">Admin sign-in</span><span class="short">Sign in</span></button>`;
+    if (!state.user && !state.admin) {
+      els.adminBox.innerHTML = `<button class="btn small primary" type="button" data-action="account-open">Sign in</button>`;
+      return;
     }
+    const label = state.user || 'Admin';
+    const initial = esc(label.charAt(0).toUpperCase());
+    const items = [];
+    if (state.user) {
+      items.push(`<p class="menu-who">Signed in as<br><strong>${esc(state.user)}</strong></p>`);
+      items.push('<a class="menu-item" href="#my-notes">My notes</a>');
+      items.push('<button class="menu-item" type="button" data-action="account-logout">Sign out</button>');
+      items.push('<button class="menu-item danger" type="button" data-action="account-delete">Delete account…</button>');
+    } else {
+      items.push('<button class="menu-item" type="button" data-action="account-open">Sign in to your account</button>');
+    }
+    if (state.admin) {
+      items.push('<p class="menu-who admin-line"><span class="pip"></span>Admin editing is on</p>');
+      items.push('<button class="menu-item" type="button" data-action="logout">Admin sign out</button>');
+    }
+    els.adminBox.innerHTML = `<details class="account-menu">
+      <summary aria-label="Account menu"><span class="avatar${state.admin ? ' admin' : ''}" aria-hidden="true">${initial}</span><span class="account-name">${esc(label)}</span></summary>
+      <div class="menu">${items.join('')}</div>
+    </details>`;
   }
 
   function renderSidebar() {
@@ -369,6 +399,7 @@
         <div class="notes-head"><h2>Study notes</h2>${!editing && hasNotes ? editButton(id) : ''}</div>
         ${notesBody}
       </section>
+      ${renderMyNotesPanel(id)}
       <footer class="topic-foot">
         <label class="studied-toggle${studied ? ' on' : ''}">
           <input type="checkbox" id="studied-${esc(id)}" data-action="studied" data-id="${esc(id)}"${studied ? ' checked' : ''}>
@@ -469,6 +500,7 @@
         <ul>${t.objectives.map((o) => `<li>${esc(o)}</li>`).join('')}</ul>
       </section>
       ${editing ? renderEditor() : `<div class="notes">${renderMarkdown(note.markdown)}</div>`}
+      ${renderMyNotesPanel(t.id)}
       <footer class="topic-foot">
         <label class="studied-toggle${studied ? ' on' : ''}">
           <input type="checkbox" id="studied-${t.id}" data-action="studied" data-id="${t.id}"${studied ? ' checked' : ''}>
@@ -512,10 +544,165 @@
     </section>`;
   }
 
+  // ---------- My notes (signed-in visitors) ----------
+  function pageInfo(id) {
+    if (id.startsWith(RESOURCE_PREFIX)) {
+      const r = findResource(id.slice(RESOURCE_PREFIX.length));
+      return r ? { title: r.name, where: `FHIR resources · ${r.category.title}`, mono: true } : null;
+    }
+    const t = findTopic(id);
+    if (!t) return null;
+    return { title: t.title, where: t.domain ? `Study guide · ${t.domain.title}` : 'Study guide' };
+  }
+
+  function myNoteText(id) {
+    if (Object.prototype.hasOwnProperty.call(state.myDrafts, id)) return state.myDrafts[id];
+    return state.myNotes[id] ? state.myNotes[id].markdown : '';
+  }
+
+  function myStatusText(id) {
+    const st = state.myStatus[id];
+    if (st === 'saving') return 'Saving…';
+    if (st === 'pending') return 'Unsaved changes';
+    if (st && st.startsWith('error:')) return `Not saved: ${st.slice(6)}`;
+    const n = state.myNotes[id];
+    return n && n.updatedAt ? `Saved ${formatDate(n.updatedAt)}` : '';
+  }
+
+  function renderMyNotesPanel(id) {
+    const head = `<div class="my-notes-head"><h2>My notes</h2><span class="chip private">Only you can see these</span></div>`;
+    if (!state.accountsAvailable) {
+      return `<section class="my-notes" aria-label="My notes">${head}
+        <p class="empty-notes">Personal notes aren’t available on this site yet.</p></section>`;
+    }
+    if (!state.user) {
+      return `<section class="my-notes" aria-label="My notes">${head}
+        <div class="empty-notes"><p>Create a free account to keep your own notes on this page. They’re saved to your account, so they’re there on any device.</p>
+          <div class="confirm"><button class="btn small primary" type="button" data-action="account-open" data-mode="signup">Create account</button>
+          <button class="btn small" type="button" data-action="account-open" data-mode="login">Sign in</button></div></div></section>`;
+    }
+    const text = myNoteText(id);
+    const pane = state.myPane[id] || 'write';
+    const err = (state.myStatus[id] || '').startsWith('error:');
+    return `<section class="my-notes" aria-label="My notes">${head}
+      <div class="my-notes-bar">
+        <div class="editor-tabs show" role="group" aria-label="My notes view">
+          <button class="btn small" type="button" data-action="my-pane" data-id="${esc(id)}" data-pane="write" aria-pressed="${pane === 'write'}">Write</button>
+          <button class="btn small" type="button" data-action="my-pane" data-id="${esc(id)}" data-pane="preview" aria-pressed="${pane === 'preview'}">Preview</button>
+        </div>
+        <span class="my-status${err ? ' error' : ''}" id="my-status" aria-live="polite">${esc(myStatusText(id))}</span>
+        ${err ? `<button class="btn small" type="button" data-action="my-retry" data-id="${esc(id)}">Try again</button>` : ''}
+      </div>
+      ${pane === 'write'
+        ? `<label class="visually-hidden" for="my-notes-text">My notes</label>
+           <textarea id="my-notes-text" class="my-textarea" data-id="${esc(id)}" placeholder="Write anything that helps you remember: mnemonics, examples, exam traps. Markdown works. Notes save automatically.">${esc(text)}</textarea>`
+        : `<div class="notes my-preview">${text.trim() ? renderMarkdown(text) : '<p class="notes-empty">Nothing written yet.</p>'}</div>`}
+    </section>`;
+  }
+
+  function updateMyStatus(id) {
+    const el = document.getElementById('my-status');
+    const ta = document.getElementById('my-notes-text');
+    if (el && (!ta || ta.dataset.id === id)) {
+      el.textContent = myStatusText(id);
+      el.classList.toggle('error', (state.myStatus[id] || '').startsWith('error:'));
+    }
+  }
+
+  const saveTimers = {};
+  function scheduleMySave(id) {
+    state.myStatus[id] = 'pending';
+    updateMyStatus(id);
+    clearTimeout(saveTimers[id]);
+    saveTimers[id] = setTimeout(() => saveMyNote(id), 900);
+  }
+
+  async function saveMyNote(id) {
+    clearTimeout(saveTimers[id]);
+    delete saveTimers[id];
+    if (!Object.prototype.hasOwnProperty.call(state.myDrafts, id)) return;
+    const text = state.myDrafts[id];
+    state.myStatus[id] = 'saving';
+    updateMyStatus(id);
+    try {
+      const saved = await api(`/api/my-notes?id=${encodeURIComponent(id)}`, { method: 'PUT', body: JSON.stringify({ markdown: text }) });
+      if (saved.markdown) state.myNotes[id] = { markdown: saved.markdown, updatedAt: saved.updatedAt };
+      else delete state.myNotes[id];
+      if (state.myDrafts[id] === text) { delete state.myDrafts[id]; delete state.myStatus[id]; }
+      else scheduleMySave(id);
+    } catch (err) {
+      if (err.status === 401) {
+        state.user = null;
+        renderAdminBox();
+        state.myStatus[id] = 'error:you were signed out. Copy your text, sign in again, and paste it back.';
+      } else {
+        state.myStatus[id] = `error:${err.message}`;
+      }
+    }
+    updateMyStatus(id);
+    const retry = document.querySelector('[data-action="my-retry"]');
+    if (retry && !(state.myStatus[id] || '').startsWith('error:')) retry.remove();
+  }
+
+  function flushMySaves() {
+    Object.keys(saveTimers).forEach((id) => saveMyNote(id));
+  }
+
+  function renderMyNotesPage() {
+    const head = `<header class="page-head">
+        <p class="eyebrow">Private to you</p>
+        <h1 class="page-title">My notes</h1>
+        <p class="lead">Everything you’ve written on the study guide and resource pages, newest first.</p>
+      </header>`;
+    if (!state.accountsAvailable) {
+      return `<article class="page">${head}<div class="notice">Personal notes need a database. Add <code>DATABASE_URL</code> in Vercel and redeploy.</div></article>`;
+    }
+    if (!state.user) {
+      return `<article class="page">${head}<div class="empty-notes">
+        <p>Create a free account to keep your own notes on any topic or resource. Your notes are private and saved to your account.</p>
+        <div class="confirm"><button class="btn small primary" type="button" data-action="account-open" data-mode="signup">Create account</button>
+        <button class="btn small" type="button" data-action="account-open" data-mode="login">Sign in</button></div></div></article>`;
+    }
+    const ids = Object.keys(state.myNotes).filter((id) => pageInfo(id));
+    if (!ids.length) {
+      return `<article class="page">${head}<div class="empty-notes">
+        <p>You haven’t written any notes yet. Open a topic in the study guide or a FHIR resource and use the <strong>My notes</strong> box at the bottom of the page.</p>
+        <div class="confirm"><a class="btn small" href="#ig-select-profiles">Go to the first topic</a><a class="btn small" href="#resource-Patient">Open Patient</a></div></div></article>`;
+    }
+    return `<article class="page">${head}
+      <div class="res-tools"><label for="my-filter" class="visually-hidden">Search my notes</label>
+        <input id="my-filter" type="search" placeholder="Search my notes" autocomplete="off" value="${esc(state.myFilter)}"></div>
+      <div id="my-results">${renderMyNotesList()}</div>
+    </article>`;
+  }
+
+  function renderMyNotesList() {
+    const q = state.myFilter.trim().toLowerCase();
+    const rows = Object.entries(state.myNotes)
+      .map(([id, n]) => ({ id, n, info: pageInfo(id) }))
+      .filter((x) => x.info && (!q || x.n.markdown.toLowerCase().includes(q) || x.info.title.toLowerCase().includes(q)))
+      .sort((a, b) => String(b.n.updatedAt).localeCompare(String(a.n.updatedAt)));
+    if (!rows.length) return '<p class="res-empty">None of your notes match that search.</p>';
+    return `<p class="my-count">${rows.length} ${rows.length === 1 ? 'page' : 'pages'} with notes</p><div class="my-list">${rows.map(({ id, n, info }) => {
+      const excerpt = n.markdown.replace(/[#*`>|_-]+/g, ' ').replace(/\s+/g, ' ').trim();
+      return `<a class="my-item" href="#${esc(id)}">
+        <span class="my-where">${esc(info.where)}</span>
+        <span class="my-title${info.mono ? ' mono' : ''}">${esc(info.title)}</span>
+        <span class="my-excerpt">${esc(excerpt.length > 220 ? excerpt.slice(0, 220) + '…' : excerpt)}</span>
+        <span class="my-date">Updated ${esc(formatDate(n.updatedAt))}</span>
+      </a>`;
+    }).join('')}</div>`;
+  }
+
   function renderMain() {
     if (!state.data) return;
     const route = parseRoute(state.route);
     let title = 'FHIR Foundational Prep';
+    if (route.section === 'mine') {
+      els.main.innerHTML = renderMyNotesPage();
+      document.title = 'My notes · FHIR Foundational Prep';
+      return;
+    }
     if (route.section === 'resources') {
       if (route.resource) {
         els.main.innerHTML = renderResourcePage(route);
@@ -554,6 +741,7 @@
   // #resource-<Name>                     one FHIR resource
   function parseRoute(id) {
     const cats = resourceCategories();
+    if (id === 'my-notes') return { section: 'mine', key: id };
     if (id === 'resources') {
       return { section: 'resources', key: id, category: null, resource: null };
     }
@@ -603,6 +791,7 @@
       closeDrawer();
       return;
     }
+    flushMySaves();
     state.editing = null;
     state.route = next;
     render();
@@ -612,6 +801,14 @@
   });
 
   window.addEventListener('beforeunload', (ev) => {
+    Object.keys(saveTimers).forEach((id) => {
+      try {
+        fetch(`/api/my-notes?id=${encodeURIComponent(id)}`, {
+          method: 'PUT', keepalive: true, credentials: 'same-origin',
+          headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ markdown: state.myDrafts[id] }),
+        });
+      } catch { /* best effort */ }
+    });
     if (isDirty()) { ev.preventDefault(); ev.returnValue = ''; }
   });
 
@@ -639,6 +836,130 @@
   els.filter.addEventListener('input', () => {
     state.filter = els.filter.value;
     renderNav();
+  });
+
+  // ---------- Visitor accounts ----------
+  function showDialog(d) {
+    if (typeof d.showModal === 'function') d.showModal(); else d.setAttribute('open', '');
+  }
+  function hideDialog(d) {
+    if (typeof d.close === 'function') d.close(); else d.removeAttribute('open');
+  }
+  document.querySelectorAll('dialog [data-close]').forEach((b) => b.addEventListener('click', () => hideDialog(b.closest('dialog'))));
+
+  function setAccountMode(mode) {
+    state.accountMode = mode;
+    const signup = mode === 'signup';
+    document.getElementById('tab-login').setAttribute('aria-selected', String(!signup));
+    document.getElementById('tab-signup').setAttribute('aria-selected', String(signup));
+    els.accountTitle.textContent = signup ? 'Create account' : 'Sign in';
+    els.accountHelp.textContent = signup
+      ? 'Create a free account to keep your own private study notes on every page.'
+      : 'Sign in to see and edit your own study notes.';
+    els.accountSubmit.textContent = signup ? 'Create account' : 'Sign in';
+    els.accountPassword.autocomplete = signup ? 'new-password' : 'current-password';
+    els.accountHint.hidden = !signup;
+    els.accountError.hidden = true;
+  }
+  document.querySelectorAll('.dialog-tabs [data-mode]').forEach((b) => b.addEventListener('click', () => setAccountMode(b.dataset.mode)));
+
+  function openAccount(mode) {
+    closeMenus();
+    setAccountMode(mode || 'login');
+    els.accountPassword.value = '';
+    if (!state.accountsAvailable) {
+      els.accountError.textContent = 'Accounts aren’t available yet: the site owner needs to connect a database.';
+      els.accountError.hidden = false;
+    }
+    showDialog(els.accountDialog);
+    (els.accountEmail.value ? els.accountPassword : els.accountEmail).focus();
+  }
+
+  els.accountForm.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const email = els.accountEmail.value.trim();
+    const password = els.accountPassword.value;
+    if (!email || !password) {
+      els.accountError.textContent = 'Enter your email and password.';
+      els.accountError.hidden = false;
+      return;
+    }
+    els.accountSubmit.disabled = true;
+    els.accountError.hidden = true;
+    try {
+      const res = await api('/api/account', { method: 'POST', body: JSON.stringify({ action: state.accountMode, email, password }) });
+      state.user = res.user.email;
+      await loadMyNotes();
+      hideDialog(els.accountDialog);
+      els.accountPassword.value = '';
+      render();
+      toast(state.accountMode === 'signup' ? 'Account created. Your notes now save to your account.' : 'Signed in');
+    } catch (err) {
+      els.accountError.textContent = err.message;
+      els.accountError.hidden = false;
+    } finally {
+      els.accountSubmit.disabled = false;
+    }
+  });
+
+  async function loadMyNotes() {
+    try {
+      const res = await api('/api/my-notes');
+      state.myNotes = res.notes || {};
+    } catch {
+      state.myNotes = {};
+    }
+  }
+
+  function forgetUser() {
+    Object.keys(saveTimers).forEach((id) => clearTimeout(saveTimers[id]));
+    Object.keys(saveTimers).forEach((id) => delete saveTimers[id]);
+    state.user = null;
+    state.myNotes = {};
+    state.myDrafts = {};
+    state.myStatus = {};
+    state.myPane = {};
+  }
+
+  async function accountLogout() {
+    closeMenus();
+    flushMySaves();
+    try { await api('/api/account', { method: 'POST', body: JSON.stringify({ action: 'logout' }) }); } catch { /* already signed out */ }
+    forgetUser();
+    render();
+    toast('Signed out');
+  }
+
+  function openDelete() {
+    closeMenus();
+    els.deletePassword.value = '';
+    els.deleteError.hidden = true;
+    showDialog(els.deleteDialog);
+    els.deletePassword.focus();
+  }
+  els.deleteForm.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    els.deleteSubmit.disabled = true;
+    els.deleteError.hidden = true;
+    try {
+      await api('/api/account', { method: 'POST', body: JSON.stringify({ action: 'delete', password: els.deletePassword.value }) });
+      hideDialog(els.deleteDialog);
+      forgetUser();
+      render();
+      toast('Your account and notes were deleted');
+    } catch (err) {
+      els.deleteError.textContent = err.message;
+      els.deleteError.hidden = false;
+    } finally {
+      els.deleteSubmit.disabled = false;
+    }
+  });
+
+  function closeMenus() {
+    document.querySelectorAll('details.account-menu[open]').forEach((d) => d.removeAttribute('open'));
+  }
+  document.addEventListener('click', (ev) => {
+    if (!ev.target.closest('details.account-menu')) closeMenus();
   });
 
   // ---------- Admin ----------
@@ -677,6 +998,7 @@
   });
 
   async function logout() {
+    closeMenus();
     if (isDirty()) {
       state.editing.error = 'Save or cancel your edits before signing out.';
       renderMain();
@@ -686,7 +1008,7 @@
     state.admin = false;
     state.editing = null;
     render();
-    toast('Signed out');
+    toast('Admin signed out');
   }
 
   function startEdit(id) {
@@ -744,6 +1066,18 @@
     const action = el.dataset.action;
     const e = state.editing;
     if (action === 'login') openLogin();
+    else if (action === 'admin-login') { hideDialog(els.accountDialog); openLogin(); }
+    else if (action === 'account-open') openAccount(el.dataset.mode);
+    else if (action === 'account-logout') accountLogout();
+    else if (action === 'account-delete') openDelete();
+    else if (action === 'my-pane') {
+      const ta = document.getElementById('my-notes-text');
+      if (ta) state.myDrafts[ta.dataset.id] = ta.value;
+      state.myPane[el.dataset.id] = el.dataset.pane;
+      if (state.myDrafts[el.dataset.id] === (state.myNotes[el.dataset.id] ? state.myNotes[el.dataset.id].markdown : '')) delete state.myDrafts[el.dataset.id];
+      renderMain();
+    }
+    else if (action === 'my-retry') saveMyNote(el.dataset.id);
     else if (action === 'logout') logout();
     else if (action === 'edit') startEdit(el.dataset.id);
     else if (action === 'cancel') { state.editing = null; renderMain(); }
@@ -776,6 +1110,17 @@
 
   let previewTimer;
   document.addEventListener('input', (ev) => {
+    if (ev.target.id === 'my-notes-text') {
+      state.myDrafts[ev.target.dataset.id] = ev.target.value;
+      scheduleMySave(ev.target.dataset.id);
+      return;
+    }
+    if (ev.target.id === 'my-filter') {
+      state.myFilter = ev.target.value;
+      const box = document.getElementById('my-results');
+      if (box) box.innerHTML = renderMyNotesList();
+      return;
+    }
     if (ev.target.id === 'resource-filter') {
       state.resourceFilter = ev.target.value;
       refreshResourceResults();
@@ -795,11 +1140,15 @@
 
   // ---------- Start ----------
   async function reload() {
-    const [data, auth] = await Promise.all([
+    const [data, auth, account] = await Promise.all([
       api('/api/topics'),
       api('/api/auth').catch(() => ({ admin: false, configured: false })),
+      api('/api/account').catch(() => ({ user: null, available: false })),
     ]);
     state.data = data;
+    state.accountsAvailable = Boolean(account.available);
+    state.user = account.user ? account.user.email : null;
+    if (state.user) await loadMyNotes();
     state.resourceIndex = null;
     state.admin = Boolean(data.admin);
     state.adminConfigured = Boolean(auth.configured);

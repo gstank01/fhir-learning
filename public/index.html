@@ -27,6 +27,7 @@
       <nav class="section-nav" aria-label="Sections">
         <a href="#overview" data-section="guide"><span class="long">Study guide</span><span class="short">Guide</span></a>
         <a href="#resources" data-section="resources"><span class="long">FHIR resources</span><span class="short">Resources</span></a>
+        <a href="#my-notes" data-section="mine"><span class="long">My notes</span><span class="short">Notes</span></a>
       </nav>
       <div class="admin-box" id="admin-box"></div>
     </div>
@@ -54,13 +55,49 @@
   <dialog id="login-dialog" class="dialog" aria-labelledby="login-title">
     <form id="login-form" method="dialog">
       <h2 id="login-title">Admin sign-in</h2>
-      <p class="dialog-help">Sign in to edit the study notes.</p>
+      <p class="dialog-help">For the site owner: sign in to edit the official study notes everyone sees.</p>
       <label for="login-password">Password</label>
       <input id="login-password" type="password" autocomplete="current-password" required>
       <p class="form-error" id="login-error" role="alert" hidden></p>
       <div class="dialog-actions">
         <button type="button" class="btn ghost" id="login-cancel">Cancel</button>
         <button type="submit" class="btn primary" id="login-submit">Sign in</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="account-dialog" class="dialog" aria-labelledby="account-title">
+    <form id="account-form" method="dialog" novalidate>
+      <div class="dialog-tabs" role="tablist" aria-label="Account">
+        <button type="button" role="tab" id="tab-login" data-mode="login" aria-selected="true">Sign in</button>
+        <button type="button" role="tab" id="tab-signup" data-mode="signup" aria-selected="false">Create account</button>
+      </div>
+      <h2 id="account-title" class="visually-hidden">Sign in</h2>
+      <p class="dialog-help" id="account-help">Sign in to see and edit your own study notes.</p>
+      <label for="account-email">Email</label>
+      <input id="account-email" type="email" autocomplete="email" required>
+      <label for="account-password">Password</label>
+      <input id="account-password" type="password" autocomplete="current-password" required>
+      <p class="field-hint" id="account-hint" hidden>At least 8 characters. There’s no password reset, so keep it somewhere safe.</p>
+      <p class="form-error" id="account-error" role="alert" hidden></p>
+      <div class="dialog-actions">
+        <button type="button" class="btn ghost" data-close>Cancel</button>
+        <button type="submit" class="btn primary" id="account-submit">Sign in</button>
+      </div>
+      <p class="dialog-foot">Site owner? <button type="button" class="link-btn" data-action="admin-login">Admin sign-in</button></p>
+    </form>
+  </dialog>
+
+  <dialog id="delete-dialog" class="dialog" aria-labelledby="delete-title">
+    <form id="delete-form" method="dialog">
+      <h2 id="delete-title">Delete your account</h2>
+      <p class="dialog-help">This permanently deletes your account and all your notes. It can’t be undone.</p>
+      <label for="delete-password">Enter your password to confirm</label>
+      <input id="delete-password" type="password" autocomplete="current-password" required>
+      <p class="form-error" id="delete-error" role="alert" hidden></p>
+      <div class="dialog-actions">
+        <button type="button" class="btn ghost" data-close>Keep my account</button>
+        <button type="submit" class="btn danger-solid" id="delete-submit">Delete account and notes</button>
       </div>
     </form>
   </dialog>

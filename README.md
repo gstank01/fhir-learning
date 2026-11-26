@@ -14,7 +14,8 @@ and edit the notes from the website.
 | FHIR resources | `lib/resources.js` | All R4 resources by category, with maturity and definition |
 | Original notes | `content/*.md` | One Markdown file per topic. These are the starting notes. |
 | API | `api/topics.js`, `api/auth.js` | Vercel serverless functions |
-| Saved edits | Neon Postgres | Table `exam_topic_notes`, created automatically on first use |
+| Saved data | Neon Postgres | Tables `exam_topic_notes` (admin edits), `app_users` and `user_notes` (visitor accounts and their notes), created automatically on first use |
+| Accounts | `lib/accounts.js`, `api/account.js`, `api/my-notes.js` | Visitor sign-up, sign-in and private notes |
 
 When the admin saves a topic, the new notes are stored in the database and
 shown instead of the Markdown file. **Restore original notes** in the editor
@@ -48,7 +49,7 @@ resource go in `content/resources/<ResourceName>.md`.
    |---|---|
    | `ADMIN_PASSWORD` | The password you will use to sign in as admin. Make it long. |
    | `DATABASE_URL` | Your Neon connection string (the same kind your other project uses). |
-   | `SESSION_SECRET` | Optional. A long random string used to sign the admin cookie. If you leave it out, one is derived from `ADMIN_PASSWORD`. |
+   | `SESSION_SECRET` | Recommended. A long random string used to sign sign-in cookies. Without it, keys are derived from `ADMIN_PASSWORD` and `DATABASE_URL`. |
 
    You can reuse your existing Neon database; the app only creates and uses
    the `exam_topic_notes` table. You can also connect a new Neon database from
@@ -60,9 +61,26 @@ Every push to GitHub redeploys the site automatically.
 Without `DATABASE_URL` the site still works, but it is read-only: it shows the
 original notes and the editor reports that saving is turned off.
 
+## Visitor accounts and private notes
+
+Anyone can create a free account (email and password) from **Sign in** in the
+top right. Signed-in visitors get a **My notes** box at the bottom of every
+study topic and FHIR resource page. Notes save automatically as they type,
+support Markdown, and are private to that account. The **My notes** tab lists
+everything they have written, newest first, with search.
+
+- Passwords are hashed with scrypt; the site never stores them in plain text.
+- Visitors stay signed in for 30 days.
+- Visitors can delete their account (and all their notes) from the account menu.
+- There is no password reset, because the site doesn't send email. A visitor
+  who forgets their password has to create a new account.
+- Accounts need `DATABASE_URL`. Without a database, the **My notes** box says
+  personal notes aren't available.
+
 ## Using the admin editor
 
-1. Open the site and click **Admin sign-in** at the bottom of the sidebar.
+1. Open the site, click **Sign in** in the top right, then **Admin sign-in**
+   at the bottom of the dialog.
 2. Enter your `ADMIN_PASSWORD`.
 3. Open any topic (or the overview) and click **Edit notes**.
 4. Write in Markdown. The preview updates as you type. Save with the button or
@@ -79,7 +97,7 @@ ADMIN_PASSWORD=choose-a-password npm run dev
 ```
 
 Then open <http://localhost:3000>. Without `DATABASE_URL`, edits are kept in
-memory until you stop the server. Add `DATABASE_URL=...` in front of the
+memory until you stop the server (that includes visitor accounts). Add `DATABASE_URL=...` in front of the
 command to use your real database.
 
 ## Changing the topics

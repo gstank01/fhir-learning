@@ -769,29 +769,59 @@
     return ex ? ex.scenario : '';
   }
 
+  // The detailed part of an answer: definition, key elements and look-alikes.
+  function answerDetails(r, opts = {}) {
+    const tip = (state.data.tips || {})[r.name];
+    const parts = [];
+    if (opts.definition !== false) {
+      parts.push(`<div class="ans-block"><p class="ans-h">Definition</p><p class="ans-def">${esc(r.description)}</p></div>`);
+    }
+    if (opts.example) {
+      parts.push(`<div class="ans-block"><p class="ans-h">Example</p><p class="ans-def">${esc(opts.example)}</p></div>`);
+    }
+    if (tip && tip.keys && tip.keys.length) {
+      parts.push(`<div class="ans-block"><p class="ans-h">Key elements</p><ul class="ans-keys">${tip.keys.map(([el, hint]) => {
+        const req = el.includes('*');
+        const name = el.replace(/\*/g, '');
+        return `<li><code>${esc(name)}</code>${req ? '<span class="req" title="Required: minimum cardinality 1">required</span>' : ''} <span class="hint">${esc(hint)}</span></li>`;
+      }).join('')}</ul></div>`);
+    }
+    if (tip && tip.vs && tip.vs.length) {
+      parts.push(`<div class="ans-block"><p class="ans-h">Don’t confuse with</p><ul class="ans-vs">${tip.vs.map(([names, why]) =>
+        `<li>${names.split(' / ').map((n) => `<a href="#${RESOURCE_PREFIX}${esc(n)}">${esc(n)}</a>`).join(' / ')}: <span class="hint">${esc(why)}</span></li>`).join('')}</ul></div>`);
+    }
+    return `<div class="ans-details">${parts.join('')}</div>`;
+  }
+
+  function answerHead(r) {
+    return `<p class="card-answer">${esc(r.name)}</p>
+      <p class="card-where">${esc(r.category.title)} › ${esc(r.group)} ${maturityBadge(r.maturity)}</p>`;
+  }
+
   function cardFaces(card) {
     const deck = state.cards.deck;
     const r = card.r;
-    const where = `${esc(r.category.title)} › ${esc(r.group)}`;
     const link = `<a class="card-link" href="#${RESOURCE_PREFIX}${esc(r.name)}">Open ${esc(r.name)} →</a>`;
     if (deck === 'scenario') {
       return {
         front: `<p class="card-label">Which resource would you use?</p><p class="card-prompt">${esc(card.prompt)}</p>`,
-        back: `<p class="card-label">Answer</p><p class="card-answer">${esc(r.name)}</p><p class="card-where">${where}</p>
-          <p class="card-note">${esc(card.note || '')}</p>${link}`,
+        back: `<p class="card-label">Answer</p>${answerHead(r)}
+          ${card.note ? `<p class="card-note"><strong>Why:</strong> ${esc(card.note)}</p>` : ''}
+          ${answerDetails(r)}${link}`,
       };
     }
     if (deck === 'definition') {
       return {
         front: `<p class="card-label">Which resource is this?</p><p class="card-prompt small">${esc(card.prompt)}</p>`,
-        back: `<p class="card-label">Answer</p><p class="card-answer">${esc(r.name)}</p><p class="card-where">${where}</p>${link}`,
+        back: `<p class="card-label">Answer</p>${answerHead(r)}${answerDetails(r, { example: exampleFor(r.name) })}${link}`,
       };
     }
-    const ex = exampleFor(r.name);
     return {
-      front: `<p class="card-label">What is this resource for?</p><p class="card-answer">${esc(r.name)}</p><p class="card-where">${where}</p>`,
-      back: `<p class="card-label">${esc(r.name)}</p><p class="card-prompt small">${esc(r.description)}</p>
-        ${ex ? `<p class="card-note"><strong>Example:</strong> ${esc(ex)}</p>` : ''}${link}`,
+      front: `<p class="card-label">What is this resource for?</p><p class="card-answer">${esc(r.name)}</p>
+        <p class="card-where">${esc(r.category.title)} › ${esc(r.group)}</p>`,
+      back: `<p class="card-label">${esc(r.name)}</p>
+        <p class="card-where">${esc(r.category.title)} › ${esc(r.group)} ${maturityBadge(r.maturity)}</p>
+        ${answerDetails(r, { example: exampleFor(r.name) })}${link}`,
     };
   }
 

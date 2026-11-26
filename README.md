@@ -41,6 +41,11 @@ specification, which HL7 publishes under the CC0 public-domain licence.
 **Study cards** in the top bar opens a flashcard trainer on top of the current page (close it with ✕, Esc, or by clicking outside, and you're back where you were). It has three decks:
 
 - **Which resource?** Real-life scenarios ("A nurse gives a dose of morphine") with the resource that fits and a note on why. The cards are in `lib/studycards.js`; add more there.
+
+Each answer also shows the resource's definition and maturity, its key
+elements (with required ones marked) and the look-alike resources it is
+often confused with. That detail is in `lib/resourcetips.js`, one entry per
+resource.
 - **Definition → resource:** every resource's official definition, with its name hidden.
 - **Resource → what it's for:** the resource name; recall what it's used for.
 

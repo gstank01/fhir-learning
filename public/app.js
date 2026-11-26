@@ -22,7 +22,7 @@
     myPane: {}, // pageId -> 'write' | 'preview'
     myFilter: '',
     accountMode: 'login',
-    cards: { deck: 'scenario', category: 'all', hideKnown: false, order: [], index: 0, flipped: false, key: '' },
+    cards: { deck: 'scenario', category: 'all', hideKnown: false, order: [], index: 0, flipped: false, key: '', filtersOpen: false },
     cardMarks: loadCardMarks(), // cardId -> 'known' | 'learning'
     randomCard: null, // { index, revealed }
     studiedFilter: 'any',
@@ -38,6 +38,7 @@
     dialog: $('#login-dialog'), loginForm: $('#login-form'), loginPassword: $('#login-password'),
     loginError: $('#login-error'), loginSubmit: $('#login-submit'), loginCancel: $('#login-cancel'),
     toast: $('#toast'), resourceBar: $('#resource-bar'),
+    cardsDialog: $('#cards-dialog'), cardsBody: $('#cards-body'),
     accountDialog: $('#account-dialog'), accountForm: $('#account-form'), accountEmail: $('#account-email'),
     accountPassword: $('#account-password'), accountError: $('#account-error'), accountSubmit: $('#account-submit'),
     accountHelp: $('#account-help'), accountHint: $('#account-hint'), accountTitle: $('#account-title'),
@@ -831,20 +832,29 @@
         </div>`;
     }
 
-    return `<article class="page cards-page">
-      <header class="page-head">
-        <p class="eyebrow">Study cards · ${esc(deck.title)}</p>
-        <h1 class="page-title">Study cards</h1>
-        <p class="lead">${esc(deck.blurb)} Cards come in random order. Mark each one so you can focus on the ones you’re still learning.</p>
+    const catTitle = c.category === 'all' ? 'All categories' : (resourceCategories().find((x) => x.id === c.category) || {}).title;
+    return `<header class="cards-head">
+        <div class="cards-head-text">
+          <p class="eyebrow">Study cards · ${esc(deck.title)}</p>
+          <h2 class="cards-title" id="cards-title">${esc(deck.blurb)}</h2>
+        </div>
+        <button class="icon-btn cards-close" type="button" data-action="cards-close" aria-label="Close study cards">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+        </button>
       </header>
       <div class="card-settings">
-        <div class="seg" role="group" aria-label="Deck"><span class="seg-label">Deck</span>
+        <div class="seg deck-tabs" role="group" aria-label="Deck">
           ${DECKS.map((d) => chip('deck', d.id, `${esc(d.title)} <span class="count">${deckCards(d.id).length}</span>`, d.id === c.deck)).join('')}</div>
-        <div class="seg" role="group" aria-label="Category"><span class="seg-label">Category</span>
-          ${chip('category', 'all', 'All', c.category === 'all')}
-          ${resourceCategories().map((cat) => chip('category', cat.id, esc(cat.title), c.category === cat.id)).join('')}</div>
-        <div class="seg" role="group" aria-label="Which cards"><span class="seg-label">Show</span>
-          ${chip('hideKnown', 'false', 'All cards', !c.hideKnown)}${chip('hideKnown', 'true', 'Hide cards I know', c.hideKnown)}</div>
+        <details class="card-filters" id="card-filters"${c.filtersOpen ? ' open' : ''}>
+          <summary>Filters: ${esc(catTitle)} · ${c.hideKnown ? 'hiding cards I know' : 'all cards'}</summary>
+          <div class="card-filter-body">
+            <div class="seg" role="group" aria-label="Category"><span class="seg-label">Category</span>
+              ${chip('category', 'all', 'All', c.category === 'all')}
+              ${resourceCategories().map((cat) => chip('category', cat.id, esc(cat.title), c.category === cat.id)).join('')}</div>
+            <div class="seg" role="group" aria-label="Which cards"><span class="seg-label">Show</span>
+              ${chip('hideKnown', 'false', 'All cards', !c.hideKnown)}${chip('hideKnown', 'true', 'Hide cards I know', c.hideKnown)}</div>
+          </div>
+        </details>
       </div>
       <div class="card-progress">
         <span>${card ? `Card ${c.index + 1} of ${pool}` : 'No cards to show'}</span>
@@ -854,10 +864,43 @@
       <div class="card-stage">${body}</div>
       <div class="card-foot">
         <button class="link-btn" type="button" data-action="card-shuffle">Shuffle again</button>
-        <span class="kbd-help">Keys: <kbd>Space</kbd> flip · <kbd>←</kbd> <kbd>→</kbd> move · <kbd>1</kbd> still learning · <kbd>2</kbd> I knew it</span>
-      </div>
-    </article>`;
+        <span class="kbd-help">Keys: <kbd>Space</kbd> flip · <kbd>←</kbd> <kbd>→</kbd> move · <kbd>1</kbd> still learning · <kbd>2</kbd> I knew it · <kbd>Esc</kbd> close</span>
+      </div>`;
   }
+
+  // The study cards open in a dialog on top of the current page.
+  function renderCards() {
+    els.cardsBody.innerHTML = renderCardsPage();
+  }
+  function cardsOpen() {
+    return els.cardsDialog.open;
+  }
+  function openCards() {
+    if (!state.data) return;
+    closeMenus();
+    closeDrawer();
+    renderCards();
+    if (!cardsOpen()) {
+      if (typeof els.cardsDialog.showModal === 'function') els.cardsDialog.showModal();
+      else els.cardsDialog.setAttribute('open', '');
+    }
+    document.body.classList.add('cards-active');
+    const fc = els.cardsBody.querySelector('.flashcard') || els.cardsBody.querySelector('.cards-close');
+    if (fc) fc.focus({ preventScroll: true });
+  }
+  function closeCards() {
+    if (typeof els.cardsDialog.close === 'function') els.cardsDialog.close();
+    else els.cardsDialog.removeAttribute('open');
+  }
+  els.cardsDialog.addEventListener('close', () => {
+    document.body.classList.remove('cards-active');
+    if (els.main.querySelector('#random-card-box')) els.main.querySelector('#random-card-box').innerHTML = renderRandomCard();
+  });
+  // Clicking the dimmed area around the panel closes the cards.
+  els.cardsDialog.addEventListener('click', (ev) => { if (ev.target === els.cardsDialog) closeCards(); });
+  els.cardsDialog.addEventListener('toggle', (ev) => {
+    if (ev.target.id === 'card-filters') state.cards.filtersOpen = ev.target.open;
+  }, true);
 
   function cardAction(action, value) {
     const c = state.cards;
@@ -880,8 +923,8 @@
       c.hideKnown = false;
       reshuffle();
     }
-    renderMain();
-    const fc = document.querySelector('.flashcard');
+    renderCards();
+    const fc = els.cardsBody.querySelector('.flashcard');
     if (fc && (action === 'flip' || action === 'next' || action === 'prev' || action === 'mark')) fc.focus({ preventScroll: true });
   }
 
@@ -896,7 +939,7 @@
     return `<section class="random-card" aria-label="Random study card">
       <div class="random-head"><span class="card-label">Random study card</span>
         <span class="random-actions"><button class="link-btn" type="button" data-action="random-next">Another card</button>
-        <a class="link-btn" href="#cards">All study cards</a></span></div>
+        <button class="link-btn" type="button" data-action="cards-open">Practise with study cards</button></span></div>
       <p class="random-q"><strong>Which resource would you use?</strong> ${esc(card.scenario)}</p>
       ${rc.revealed && r
         ? `<p class="random-a"><a class="res-chip" href="#${RESOURCE_PREFIX}${esc(r.name)}">${esc(r.name)}</a> ${esc(card.note)}</p>`
@@ -908,11 +951,6 @@
     if (!state.data) return;
     const route = parseRoute(state.route);
     let title = 'FHIR Foundational Prep';
-    if (route.section === 'cards') {
-      els.main.innerHTML = renderCardsPage();
-      document.title = 'Study cards · FHIR Foundational Prep';
-      return;
-    }
     if (route.section === 'mine') {
       els.main.innerHTML = renderMyNotesPage();
       document.title = 'My notes · FHIR Foundational Prep';
@@ -957,7 +995,6 @@
   function parseRoute(id) {
     const cats = resourceCategories();
     if (id === 'my-notes') return { section: 'mine', key: id };
-    if (id === 'cards') return { section: 'cards', key: id };
     if (id === 'resources') {
       return { section: 'resources', key: id, category: null, resource: null };
     }
@@ -998,6 +1035,12 @@
 
   window.addEventListener('hashchange', () => {
     if (!state.data) return;
+    if (location.hash === '#cards') {
+      history.replaceState(null, '', `#${state.route}`);
+      openCards();
+      return;
+    }
+    if (cardsOpen()) closeCards();
     const next = routeFromHash();
     if (next === state.route) return;
     if (isDirty()) {
@@ -1043,8 +1086,8 @@
   els.scrim.addEventListener('click', closeDrawer);
   document.addEventListener('keydown', (ev) => {
     if (ev.key === 'Escape') closeDrawer();
-    const typing = ev.target.closest && ev.target.closest('input, textarea, select, dialog, [contenteditable]');
-    if (!typing && !ev.ctrlKey && !ev.metaKey && !ev.altKey && state.data && parseRoute(state.route).section === 'cards') {
+    const typing = ev.target.closest && ev.target.closest('input, textarea, select, [contenteditable]');
+    if (!typing && !ev.ctrlKey && !ev.metaKey && !ev.altKey && state.data && cardsOpen()) {
       const onButton = ev.target.closest && ev.target.closest('button, a');
       if ((ev.key === ' ' || ev.key === 'Enter') && !onButton) { ev.preventDefault(); cardAction('flip'); return; }
       if ((ev.key === ' ' || ev.key === 'Enter') && ev.target.classList.contains('flashcard')) { ev.preventDefault(); cardAction('flip'); return; }
@@ -1312,8 +1355,10 @@
     else if (action === 'card-set') {
       const k = el.dataset.key;
       state.cards[k] = k === 'hideKnown' ? el.dataset.value === 'true' : el.dataset.value;
-      renderMain();
+      renderCards();
     }
+    else if (action === 'cards-open') openCards();
+    else if (action === 'cards-close') closeCards();
     else if (action === 'random-reveal') { state.randomCard.revealed = true; document.getElementById('random-card-box').innerHTML = renderRandomCard(); }
     else if (action === 'random-next') {
       const n = (state.data.cards || []).length;
@@ -1398,6 +1443,10 @@
     state.adminConfigured = Boolean(auth.configured);
     state.route = routeFromHash();
     render();
+    if (location.hash === '#cards') {
+      history.replaceState(null, '', `#${state.route}`);
+      openCards();
+    }
   }
 
   reload().catch((err) => {

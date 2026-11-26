@@ -38,7 +38,7 @@ specification, which HL7 publishes under the CC0 public-domain licence.
 
 ## Study cards
 
-The **Study cards** tab is a flashcard trainer with three decks:
+**Study cards** in the top bar opens a flashcard trainer on top of the current page (close it with ✕, Esc, or by clicking outside, and you're back where you were). It has three decks:
 
 - **Which resource?** Real-life scenarios ("A nurse gives a dose of morphine") with the resource that fits and a note on why. The cards are in `lib/studycards.js`; add more there.
 - **Definition → resource:** every resource's official definition, with its name hidden.

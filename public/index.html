@@ -27,7 +27,7 @@
       <nav class="section-nav" aria-label="Sections">
         <a href="#overview" data-section="guide"><span class="long">Study guide</span><span class="short">Guide</span></a>
         <a href="#resources" data-section="resources"><span class="long">FHIR resources</span><span class="short">Resources</span></a>
-        <a href="#cards" data-section="cards"><span class="long">Study cards</span><span class="short">Cards</span></a>
+        <button type="button" class="nav-btn" data-action="cards-open" aria-haspopup="dialog"><span class="long">Study cards</span><span class="short">Cards</span></button>
         <a href="#my-notes" data-section="mine"><span class="long">My notes</span><span class="short">Notes</span></a>
       </nav>
       <div class="admin-box" id="admin-box"></div>
@@ -101,6 +101,10 @@
         <button type="submit" class="btn danger-solid" id="delete-submit">Delete account and notes</button>
       </div>
     </form>
+  </dialog>
+
+  <dialog id="cards-dialog" class="cards-overlay" aria-labelledby="cards-title">
+    <div class="cards-panel" id="cards-body"></div>
   </dialog>
 
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>

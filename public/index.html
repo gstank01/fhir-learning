@@ -12,24 +12,29 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="shell">
-    <header class="topbar">
+  <header class="site-header" id="site-header">
+    <div class="header-row">
       <button class="icon-btn" id="menu-btn" type="button" aria-label="Open topics" aria-expanded="false" aria-controls="sidebar">
         <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
       </button>
-      <a class="topbar-title" href="#overview">FHIR Foundational Prep</a>
-    </header>
+      <a href="#overview" class="brand-link">
+        <span class="brand-mark" aria-hidden="true">R4</span>
+        <span class="brand-text">
+          <span class="brand-name">FHIR Foundational Prep</span>
+          <span class="brand-sub">HL7 Foundational Implementer exam</span>
+        </span>
+      </a>
+      <nav class="section-nav" aria-label="Sections">
+        <a href="#overview" data-section="guide"><span class="long">Study guide</span><span class="short">Guide</span></a>
+        <a href="#resources" data-section="resources"><span class="long">FHIR resources</span><span class="short">Resources</span></a>
+      </nav>
+      <div class="admin-box" id="admin-box"></div>
+    </div>
+    <nav class="resource-bar" id="resource-bar" aria-label="FHIR resources" hidden></nav>
+  </header>
 
+  <div class="shell">
     <aside class="sidebar" id="sidebar" aria-label="Exam topics">
-      <div class="brand">
-        <a href="#overview" class="brand-link">
-          <span class="brand-mark" aria-hidden="true">R4</span>
-          <span class="brand-text">
-            <span class="brand-name">FHIR Foundational Prep</span>
-            <span class="brand-sub">HL7 Foundational Implementer exam</span>
-          </span>
-        </a>
-      </div>
       <div class="search">
         <label for="topic-filter" class="visually-hidden">Filter topics</label>
         <input id="topic-filter" type="search" placeholder="Filter topics" autocomplete="off">
@@ -37,7 +42,6 @@
       <nav id="nav" class="nav"></nav>
       <div class="sidebar-foot">
         <div class="progress" id="progress"></div>
-        <div class="admin-box" id="admin-box"></div>
       </div>
     </aside>
     <div class="scrim" id="scrim" hidden></div>

@@ -11,6 +11,7 @@ and edit the notes from the website.
 |---|---|---|
 | Website | `public/` | Plain HTML, CSS and JavaScript. No build step. |
 | Topic structure | `lib/structure.js` | Domains, topics, exam weights and objectives from the study guide |
+| FHIR resources | `lib/resources.js` | All R4 resources by category, with maturity and definition |
 | Original notes | `content/*.md` | One Markdown file per topic. These are the starting notes. |
 | API | `api/topics.js`, `api/auth.js` | Vercel serverless functions |
 | Saved edits | Neon Postgres | Table `exam_topic_notes`, created automatically on first use |
@@ -20,6 +21,18 @@ shown instead of the Markdown file. **Restore original notes** in the editor
 deletes the saved edit and shows the file again.
 
 Which topics a visitor has marked as studied is kept in their own browser.
+
+## FHIR resources section
+
+The **FHIR resources** tab at the top lists all 146 resources from the
+[R4 resource list](https://hl7.org/fhir/R4/resourcelist.html), grouped the same
+way: five categories (Foundation, Base, Clinical, Financial, Specialized) and
+their sub-groups, shown as a horizontal bar under the header. Each resource
+page shows its maturity, its definition from the spec, a link to its spec
+page, and study notes the admin can add.
+
+The resource list is in `lib/resources.js`. Optional starting notes for a
+resource go in `content/resources/<ResourceName>.md`.
 
 ## Deploy on Vercel
 

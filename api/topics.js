@@ -1,11 +1,12 @@
 import { isAdmin } from '../lib/auth.js';
 import { readOriginalNotes } from '../lib/content.js';
 import { deleteNotes, getEditedNotes, saveNotes, storageMode, StorageUnavailable } from '../lib/db.js';
+import { RESOURCE_CATEGORIES, SPEC_BASE } from '../lib/resources.js';
 import { allTopicIds, DOMAINS, EXAM, isTopicId } from '../lib/structure.js';
 
 const MAX_NOTES_LENGTH = 200_000;
 
-// GET    /api/topics           -> exam structure + notes for every topic
+// GET    /api/topics           -> exam structure, FHIR resources, and notes for every topic
 // PUT    /api/topics?id=<id>   { markdown } -> save edited notes (admin)
 // DELETE /api/topics?id=<id>   -> restore the original notes (admin)
 export default async function handler(req, res) {
@@ -69,6 +70,7 @@ async function getAll(req, res) {
   return res.status(200).json({
     exam: EXAM,
     domains: DOMAINS,
+    resources: { specBase: SPEC_BASE, categories: RESOURCE_CATEGORIES },
     notes,
     storage: storageMode(),
     storageError,

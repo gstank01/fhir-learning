@@ -607,3 +607,10 @@ body[data-section="mine"] #menu-btn { display: none; }
   background: #ffffff; border-radius: 3px; padding: 1px; box-sizing: content-box;
 }
 .notes td { white-space: normal; }
+/* Spec-style structure tables (e.g. the full Patient table) */
+.structure-table td:first-child { white-space: nowrap; }
+.structure-table td:nth-child(2), .structure-table td:nth-child(3) { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.structure-table table { font-size: 0.86rem; }
+.structure-table td { padding-top: 0.45rem; padding-bottom: 0.45rem; }
+.structure-table a { text-decoration: none; }
+.structure-table a:hover { text-decoration: underline; }

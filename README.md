@@ -36,6 +36,15 @@ pages have no exam weight; they are background for every exam area.
 The element icons in `public/img/fhir/` are copied from the FHIR R4
 specification, which HL7 publishes under the CC0 public-domain licence.
 
+The group also has a long article, **Deep dive: ValueSets and
+CodeableConcept** (`content/core-valueset-codeableconcept.md`), with
+screenshots of the specification (`public/img/spec/`, also CC0; click one to
+enlarge it) and a 20-question quiz at the end. Article quizzes live in
+`public/data/quiz/topic-<id>.json`, are linked from a topic with `quiz` in
+`lib/structure.js`, and can include exhibits (screenshots, JSON, XML) and a
+"Read more" link per question. The source for this quiz is
+`tools/article_quizzes/valueset_codeableconcept.py`.
+
 ## Resource quizzes
 
 Every FHIR resource page ends with **Check your understanding**: a quiz of

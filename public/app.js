@@ -391,9 +391,19 @@
   }
 
   function refreshResourceQuiz(name) {
+    // The quiz section says which quiz it shows, so a late-loading quiz never
+    // lands on a different page.
     const box = document.getElementById('res-quiz');
-    const route = parseRoute(state.route);
-    if (box && route.resource && route.resource.name === name) box.innerHTML = renderResourceQuiz(name);
+    if (box && box.dataset.quiz === name) box.innerHTML = renderResourceQuiz(name);
+  }
+
+  // An exhibit attached to a quiz question: { title, markdown } (screenshot, JSON, XML…).
+  function renderQuizExhibit(exhibit) {
+    if (!exhibit.html) exhibit.html = renderMarkdown(exhibit.markdown);
+    return `<details class="q-exhibit" open>
+        <summary>Exhibit: ${esc(exhibit.title)}</summary>
+        <div class="q-exhibit-body notes">${exhibit.html}</div>
+      </details>`;
   }
 
   function renderResourceQuiz(name) {
@@ -427,16 +437,21 @@
       }).join('');
       return `<li class="rq-item">
           <p class="rq-q"><span class="rq-num">${i + 1}</span><span class="rq-text">${fmt(q.question)}</span></p>
+          ${q.exhibit ? renderQuizExhibit(q.exhibit) : ''}
           <ol class="q-options">${opts}</ol>
           ${done ? `<div class="q-result ${picked === 0 ? 'right' : 'wrong'}" role="status">
               <p class="q-verdict">${picked === 0 ? 'Correct' : 'Not quite'}</p>
-              <p class="q-explain">${fmt(q.explanation)}</p></div>` : ''}
+              <p class="q-explain">${fmt(q.explanation)}</p>
+              ${q.ref ? `<p class="q-ref">Read more: <a href="${esc(q.ref.url)}" target="_blank" rel="noopener noreferrer">${esc(q.ref.label)} ↗</a></p>` : ''}</div>` : ''}
         </li>`;
     }).join('');
 
     const finished = answered === qs.length;
-    const message = correct === qs.length ? 'Perfect score. You know this resource well.'
-      : correct >= qs.length - 1 ? 'Nearly there. Read the explanation for the one you missed.'
+    const pct = correct / qs.length;
+    const subject = data.title ? 'this topic' : 'this resource';
+    const message = pct === 1 ? `Perfect score. You know ${subject} well.`
+      : pct >= 0.8 ? `Nearly there. Read the explanation for ${qs.length - correct === 1 ? 'the one' : 'the ones'} you missed.`
+      : data.title ? `Worth another look (the exam pass mark is 60%): re-read the sections above, then try again.`
       : 'Worth another look: re-read the definition and key elements above, then try again.';
     const summary = finished ? `<div class="rq-score${correct === qs.length ? ' full' : ''}" role="status">
         <p class="rq-score-num">You scored ${correct} of ${qs.length}</p>
@@ -445,7 +460,9 @@
       </div>` : '';
 
     return `${head(best ? `<span class="chip">Best score ${best.best}/${qs.length}</span>` : '')}
-      <p class="rq-sub">${qs.length} quick questions on what ${esc(name)} is for and how it’s built. ${finished ? '' : `${answered} of ${qs.length} answered.`}</p>
+      <p class="rq-sub">${data.title
+        ? `${qs.length} questions on this article: concepts, JSON and XML snippets, screenshots from the specification and terminology operations.`
+        : `${qs.length} quick questions on what ${esc(name)} is for and how it’s built.`} ${finished ? '' : `${answered} of ${qs.length} answered.`}</p>
       <ol class="rq-list">${items}</ol>
       ${summary}`;
   }
@@ -510,7 +527,7 @@
         ${notesBody}
       </section>
       ${renderMyNotesPanel(id)}
-      <section class="res-quiz" id="res-quiz" aria-label="Check your understanding">${renderResourceQuiz(r.name)}</section>
+      <section class="res-quiz" id="res-quiz" data-quiz="${esc(r.name)}" aria-label="Check your understanding">${renderResourceQuiz(r.name)}</section>
       <footer class="topic-foot">
         <label class="studied-toggle${studied ? ' on' : ''}">
           <input type="checkbox" id="studied-${esc(id)}" data-action="studied" data-id="${esc(id)}"${studied ? ' checked' : ''}>
@@ -612,6 +629,7 @@
         <ul>${t.objectives.map((o) => `<li>${esc(o)}</li>`).join('')}</ul>
       </section>
       ${editing ? renderEditor() : `<div class="notes">${renderMarkdown(note.markdown)}</div>`}
+      ${t.quiz ? `<section class="res-quiz" id="res-quiz" data-quiz="${esc(t.quiz)}" aria-label="Check your understanding">${renderResourceQuiz(t.quiz)}</section>` : ''}
       ${renderMyNotesPanel(t.id)}
       <footer class="topic-foot">
         <label class="studied-toggle${studied ? ' on' : ''}">
@@ -1568,7 +1586,35 @@
     }
   }
 
+  // ---------- Screenshot zoom ----------
+  const zoomDialog = document.getElementById('zoom-dialog');
+  const zoomImg = document.getElementById('zoom-img');
+  document.addEventListener('click', (ev) => {
+    const img = ev.target.closest('.notes img[src^="img/spec/"]');
+    if (!img) return;
+    zoomImg.src = img.getAttribute('src');
+    zoomImg.alt = img.alt;
+    if (typeof zoomDialog.showModal === 'function') zoomDialog.showModal(); else zoomDialog.setAttribute('open', '');
+  });
+  zoomDialog.addEventListener('click', (ev) => {
+    if (ev.target === zoomDialog || ev.target.closest('[data-action="zoom-close"]')) {
+      if (typeof zoomDialog.close === 'function') zoomDialog.close(); else zoomDialog.removeAttribute('open');
+    }
+  });
+
   // ---------- Event delegation ----------
+  // Links to a section on the same page (e.g. "#bindings" in an article) scroll
+  // to it instead of being treated as a page route.
+  document.addEventListener('click', (ev) => {
+    const a = ev.target.closest('a[href^="#"]');
+    if (!a || !state.data) return;
+    const id = decodeURIComponent(a.getAttribute('href').slice(1));
+    const target = id && document.getElementById(id);
+    if (!target || !els.main.contains(target) || parseRoute(id).key === id) return;
+    ev.preventDefault();
+    target.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+  });
+
   document.addEventListener('click', (ev) => {
     const el = ev.target.closest('[data-action]');
     if (!el || el.tagName === 'INPUT') return;

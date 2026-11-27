@@ -107,6 +107,13 @@
     <div class="cards-panel" id="cards-body"></div>
   </dialog>
 
+  <dialog id="zoom-dialog" class="zoom-dialog" aria-label="Enlarged screenshot">
+    <button class="icon-btn zoom-close" type="button" data-action="zoom-close" aria-label="Close">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <div class="zoom-body"><img id="zoom-img" alt=""></div>
+  </dialog>
+
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
   <script src="vendor/marked.min.js"></script>

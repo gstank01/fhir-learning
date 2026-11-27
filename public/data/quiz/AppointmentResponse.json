@@ -1,0 +1,60 @@
+{
+ "resource": "AppointmentResponse",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **AppointmentResponse** resource?",
+   "options": [
+    "A reply to an appointment request for a patient and/or practitioner(s), such as a confirmation or rejection.",
+    "A container for slots of time that may be available for booking appointments.",
+    "A booking of a healthcare event among patient(s), practitioner(s), related person(s) and/or device(s) for a specific date/time.",
+    "Describes validation requirements, source(s), status and dates for one or more elements."
+   ],
+   "explanation": "**AppointmentResponse**: A reply to an appointment request for a patient and/or practitioner(s), such as a confirmation or rejection. The other descriptions belong to **Schedule**, **Appointment**, **VerificationResult**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “A reply to an appointment request for a patient and/or practitioner(s), such as a confirmation or rejection.”",
+   "options": [
+    "AppointmentResponse",
+    "Schedule",
+    "Slot",
+    "VerificationResult"
+   ],
+   "explanation": "This is the definition of **AppointmentResponse** (Base › Workflow)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **AppointmentResponse** sit in the FHIR R4 resource list?",
+   "options": [
+    "Base › Workflow",
+    "Financial › Payment",
+    "Foundation › Other",
+    "Specialized › Quality Reporting & Testing"
+   ],
+   "explanation": "**AppointmentResponse** is in **Base › Workflow**: Coordinating work and time: tasks that track who is doing what, appointment booking (Schedule, Slot, Appointment, AppointmentResponse), and checks on information such as a clinician’s credentials."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **AppointmentResponse** instance?",
+   "options": [
+    "`appointment`",
+    "`comment`",
+    "`start`",
+    "`actor`"
+   ],
+   "explanation": "The required top-level elements of AppointmentResponse are `appointment` (1..1), `participantStatus` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **AppointmentResponse** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`participantStatus`",
+    "`identifier`",
+    "`appointment`",
+    "`participantType`"
+   ],
+   "explanation": "Modifier elements of AppointmentResponse: `participantStatus`. `participantStatus`: accepted | declined | tentative | needs-action. A modifier can change the meaning of the whole resource, so systems must understand it before using the data."
+  }
+ ]
+}

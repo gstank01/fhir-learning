@@ -1,0 +1,60 @@
+{
+ "resource": "BiologicallyDerivedProduct",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **BiologicallyDerivedProduct** resource?",
+   "options": [
+    "A material substance originating from a biological entity intended to be transplanted or infused into another (possibly the same) biological entity.",
+    "A type of a manufactured item that is used in the provision of healthcare without being substantially changed through that activity.",
+    "Describes a measurement, calculation or setting capability of a medical device.",
+    "A homogeneous material with a definite composition."
+   ],
+   "explanation": "**BiologicallyDerivedProduct**: A material substance originating from a biological entity intended to be transplanted or infused into another (possibly the same) biological entity. The other descriptions belong to **Device**, **DeviceMetric**, **Substance**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “A material substance originating from a biological entity intended to be transplanted or infused into another (possibly the same) biological entity.”",
+   "options": [
+    "BiologicallyDerivedProduct",
+    "Substance",
+    "Device",
+    "DeviceMetric"
+   ],
+   "explanation": "This is the definition of **BiologicallyDerivedProduct** (Base › Entities #2)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **BiologicallyDerivedProduct** sit in the FHIR R4 resource list?",
+   "options": [
+    "Base › Entities #2",
+    "Clinical › Diagnostics",
+    "Specialized › Public Health & Research",
+    "Foundation › Conformance"
+   ],
+   "explanation": "**BiologicallyDerivedProduct** is in **Base › Entities #2**: Things used in care: substances, medical devices and their measurements, and products made from biological material such as blood or tissue."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **BiologicallyDerivedProduct** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`storage` is required in every instance",
+    "`manipulation` is required in every instance",
+    "`quantity` is required in every instance"
+   ],
+   "explanation": "Every top-level element of BiologicallyDerivedProduct is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `BiologicallyDerivedProduct.request`?",
+   "options": [
+    "`Reference(ServiceRequest)`",
+    "`boolean`",
+    "`Period`",
+    "`code`"
+   ],
+   "explanation": "`BiologicallyDerivedProduct.request` (0..*) is `Reference(ServiceRequest)`: Procedure request."
+  }
+ ]
+}

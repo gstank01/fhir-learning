@@ -1,0 +1,60 @@
+{
+ "resource": "VisionPrescription",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **VisionPrescription** resource?",
+   "options": [
+    "An authorization for the provision of glasses and/or contact lenses to a patient.",
+    "A request to supply a diet, formula feeding (enteral) or oral nutritional supplement to a patient/resident.",
+    "A record of a request for service such as diagnostic investigations, treatments, or operations to be performed.",
+    "A group of related requests that can be used to capture intended activities that have inter-dependencies such as \"give this medication after that one\"."
+   ],
+   "explanation": "**VisionPrescription**: An authorization for the provision of glasses and/or contact lenses to a patient. The other descriptions belong to **NutritionOrder**, **ServiceRequest**, **RequestGroup**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “An authorization for the provision of glasses and/or contact lenses to a patient.”",
+   "options": [
+    "VisionPrescription",
+    "ServiceRequest",
+    "RequestGroup",
+    "Goal"
+   ],
+   "explanation": "This is the definition of **VisionPrescription** (Clinical › Care Provision)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **VisionPrescription** sit in the FHIR R4 resource list?",
+   "options": [
+    "Clinical › Care Provision",
+    "Base › Management",
+    "Foundation › Conformance",
+    "Base › Individuals"
+   ],
+   "explanation": "**VisionPrescription** is in **Clinical › Care Provision**: Planning and ordering care: care plans, care teams and goals, orders for tests, procedures or referrals (ServiceRequest), diet orders, eyewear prescriptions and risk assessments."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **VisionPrescription** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`patient`",
+    "`dateWritten`",
+    "`prescriber`"
+   ],
+   "explanation": "Modifier elements of VisionPrescription: `status`. `status`: active | cancelled | draft | entered-in-error. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `VisionPrescription.encounter`?",
+   "options": [
+    "`Reference(Encounter)`",
+    "`dateTime`",
+    "`decimal`",
+    "`Identifier`"
+   ],
+   "explanation": "`VisionPrescription.encounter` (0..1) is `Reference(Encounter)`: Created during encounter / admission / stay."
+  }
+ ]
+}

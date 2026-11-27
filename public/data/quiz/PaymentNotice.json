@@ -1,0 +1,60 @@
+{
+ "resource": "PaymentNotice",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **PaymentNotice** resource?",
+   "options": [
+    "This resource provides the status of the payment for goods and services rendered, and the request and response resource references.",
+    "This resource provides the details including amount of a payment and allocates the payment items being paid.",
+    "Financial instrument which may be used to reimburse or pay for health care products and services.",
+    "Legally enforceable, formally recorded unilateral or bilateral directive i.e., a policy or agreement."
+   ],
+   "explanation": "**PaymentNotice**: This resource provides the status of the payment for goods and services rendered, and the request and response resource references. The other descriptions belong to **PaymentReconciliation**, **Coverage**, **Contract**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “This resource provides the status of the payment for goods and services rendered, and the request and response resource references.”",
+   "options": [
+    "PaymentNotice",
+    "PaymentReconciliation",
+    "ChargeItemDefinition",
+    "InsurancePlan"
+   ],
+   "explanation": "This is the definition of **PaymentNotice** (Financial › Payment)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **PaymentNotice** sit in the FHIR R4 resource list?",
+   "options": [
+    "Financial › Payment",
+    "Base › Entities #2",
+    "Base › Entities #1",
+    "Base › Workflow"
+   ],
+   "explanation": "**PaymentNotice** is in **Financial › Payment**: Paying and reconciling: notices that a payment was made, and how payments match up with claims."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **PaymentNotice** instance?",
+   "options": [
+    "`payment`",
+    "`request`",
+    "`response`",
+    "`identifier`"
+   ],
+   "explanation": "The required top-level elements of PaymentNotice are `status` (1..1), `created` (1..1), `payment` (1..1), `recipient` (1..1), `amount` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **PaymentNotice** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`paymentStatus`",
+    "`provider`",
+    "`response`"
+   ],
+   "explanation": "Modifier elements of PaymentNotice: `status`. `status`: active | cancelled | draft | entered-in-error. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

@@ -1,0 +1,60 @@
+{
+ "resource": "SupplyDelivery",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **SupplyDelivery** resource?",
+   "options": [
+    "Record of delivery of what is supplied.",
+    "A request to convey information; e.g.",
+    "Represents a request for a patient to employ a medical device.",
+    "A record of a device being used by a patient where the record is the result of a report from the patient or another clinician."
+   ],
+   "explanation": "**SupplyDelivery**: Record of delivery of what is supplied. The other descriptions belong to **CommunicationRequest**, **DeviceRequest**, **DeviceUseStatement**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “Record of delivery of what is supplied.”",
+   "options": [
+    "SupplyDelivery",
+    "CommunicationRequest",
+    "SupplyRequest",
+    "DeviceRequest"
+   ],
+   "explanation": "This is the definition of **SupplyDelivery** (Clinical › Request & Response)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **SupplyDelivery** sit in the FHIR R4 resource list?",
+   "options": [
+    "Clinical › Request & Response",
+    "Clinical › Care Provision",
+    "Base › Workflow",
+    "Clinical › Summary"
+   ],
+   "explanation": "**SupplyDelivery** is in **Clinical › Request & Response**: Requests and records for other activities: messages between people (Communication), requests for devices and supplies and their delivery, a patient’s use of a device, and responses from decision-support services."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **SupplyDelivery** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`status` is required in every instance",
+    "`type` is required in every instance",
+    "`suppliedItem` is required in every instance"
+   ],
+   "explanation": "Every top-level element of SupplyDelivery is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **SupplyDelivery** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`destination`",
+    "`receiver`",
+    "`identifier`"
+   ],
+   "explanation": "Modifier elements of SupplyDelivery: `status`. `status`: in-progress | completed | abandoned | entered-in-error. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

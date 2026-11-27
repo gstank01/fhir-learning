@@ -1,0 +1,60 @@
+{
+ "resource": "MedicinalProductUndesirableEffect",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **MedicinalProductUndesirableEffect** resource?",
+   "options": [
+    "Describe the undesirable effects of the medicinal product.",
+    "Nucleic acids are defined by three distinct elements: the base, sugar and linkage.",
+    "Source material shall capture information on the taxonomic and anatomical origins as well as the fraction of a material that can result in or can be modified to form a substance.",
+    "Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g."
+   ],
+   "explanation": "**MedicinalProductUndesirableEffect**: Describe the undesirable effects of the medicinal product. The other descriptions belong to **SubstanceNucleicAcid**, **SubstanceSourceMaterial**, **MedicinalProduct**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “Describe the undesirable effects of the medicinal product.”",
+   "options": [
+    "MedicinalProductUndesirableEffect",
+    "MedicinalProductIndication",
+    "MedicinalProduct",
+    "SubstanceNucleicAcid"
+   ],
+   "explanation": "This is the definition of **MedicinalProductUndesirableEffect** (Specialized › Medication Definition)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **MedicinalProductUndesirableEffect** sit in the FHIR R4 resource list?",
+   "options": [
+    "Specialized › Medication Definition",
+    "Financial › Support",
+    "Foundation › Security",
+    "Base › Entities #1"
+   ],
+   "explanation": "**MedicinalProductUndesirableEffect** is in **Specialized › Medication Definition**: Detailed regulatory data about medicinal products and substances (authorisations, ingredients, packaging, interactions, side effects), used by regulators and drug databases rather than in everyday patient care."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **MedicinalProductUndesirableEffect** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`classification` is required in every instance",
+    "`population` is required in every instance",
+    "`subject` is required in every instance"
+   ],
+   "explanation": "Every top-level element of MedicinalProductUndesirableEffect is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `MedicinalProductUndesirableEffect.symptomConditionEffect`?",
+   "options": [
+    "`CodeableConcept`",
+    "`positiveInt`",
+    "`code`",
+    "`Period`"
+   ],
+   "explanation": "`MedicinalProductUndesirableEffect.symptomConditionEffect` (0..1) is `CodeableConcept`: The symptom, condition or undesirable effect."
+  }
+ ]
+}

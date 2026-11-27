@@ -1,0 +1,60 @@
+{
+ "resource": "CapabilityStatement",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **CapabilityStatement** resource?",
+   "options": [
+    "This resource documents a set of capabilities (behaviors) of a FHIR Server for a particular version of FHIR that may be used as a statement of actual server functionality or a statement of required or desired server…",
+    "A compartment definition that defines how resources are accessed on a server.",
+    "A formal computable definition of a graph of resources - that is, a coherent set of resources that form a graph by following references.",
+    "Example of workflow instance."
+   ],
+   "explanation": "**CapabilityStatement**: A Capability Statement documents a set of capabilities (behaviors) of a FHIR Server for a particular version of FHIR that may be used as a statement of actual server functionality or a statement of required or desired server implementation. The other descriptions belong to **CompartmentDefinition**, **GraphDefinition**, **ExampleScenario**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? Find out which resources and interactions a FHIR server supports.",
+   "options": [
+    "CapabilityStatement",
+    "TerminologyCapabilities",
+    "ImplementationGuide",
+    "SearchParameter"
+   ],
+   "explanation": "**CapabilityStatement**. Returned by GET [base]/metadata."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **CapabilityStatement**. Which resource should you use instead when you need “what a terminology server can do”?",
+   "options": [
+    "TerminologyCapabilities",
+    "CapabilityStatement",
+    "NamingSystem",
+    "CodeSystem"
+   ],
+   "explanation": "**TerminologyCapabilities**: what a terminology server can do. **CapabilityStatement** is for something else: A Capability Statement documents a set of capabilities (behaviors) of a FHIR Server for a particular version of FHIR that may be used as a statement of actual server functionality or a statement of required or desired server…"
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **CapabilityStatement** instance?",
+   "options": [
+    "`status`",
+    "`experimental`",
+    "`rest`",
+    "`contact`"
+   ],
+   "explanation": "The required top-level elements of CapabilityStatement are `status` (1..1), `date` (1..1), `kind` (1..1), `fhirVersion` (1..1), `format` (1..*). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **CapabilityStatement** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`url`",
+    "`contact`",
+    "`copyright`"
+   ],
+   "explanation": "Modifier elements of CapabilityStatement: `status`. `status`: draft | active | retired | unknown. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

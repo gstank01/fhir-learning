@@ -1,0 +1,60 @@
+{
+ "resource": "CommunicationRequest",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **CommunicationRequest** resource?",
+   "options": [
+    "A request to convey information; e.g.",
+    "Represents a request for a patient to employ a medical device.",
+    "Record of delivery of what is supplied.",
+    "A record of a request for a medication, substance or device used in the healthcare setting."
+   ],
+   "explanation": "**CommunicationRequest**: A request to convey information; e.g. the CDS system proposes that an alert be sent to a responsible provider, the CDS system proposes that the public health agency be notified about a reportable condition. The other descriptions belong to **DeviceRequest**, **SupplyDelivery**, **SupplyRequest**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “A request to convey information; e.g.”",
+   "options": [
+    "CommunicationRequest",
+    "GuidanceResponse",
+    "SupplyDelivery",
+    "DeviceUseStatement"
+   ],
+   "explanation": "This is the definition of **CommunicationRequest** (Clinical › Request & Response)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **CommunicationRequest** sit in the FHIR R4 resource list?",
+   "options": [
+    "Clinical › Request & Response",
+    "Foundation › Terminology",
+    "Clinical › Diagnostics",
+    "Clinical › Care Provision"
+   ],
+   "explanation": "**CommunicationRequest** is in **Clinical › Request & Response**: Requests and records for other activities: messages between people (Communication), requests for devices and supplies and their delivery, a patient’s use of a device, and responses from decision-support services."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **CommunicationRequest** instance?",
+   "options": [
+    "`status`",
+    "`category`",
+    "`identifier`",
+    "`note`"
+   ],
+   "explanation": "The required top-level elements of CommunicationRequest are `status` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **CommunicationRequest** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`occurrence[x]`",
+    "`sender`",
+    "`subject`"
+   ],
+   "explanation": "Modifier elements of CommunicationRequest: `status`, `doNotPerform`. `status`: draft | active | on-hold | revoked | completed | entered-in-error | unknown. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

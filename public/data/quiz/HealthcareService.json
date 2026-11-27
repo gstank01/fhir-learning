@@ -1,0 +1,60 @@
+{
+ "resource": "HealthcareService",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **HealthcareService** resource?",
+   "options": [
+    "The details of a healthcare service available at a location.",
+    "The technical details of an endpoint that can be used for electronic services, such as for web services providing XDS.b or a REST endpoint for another FHIR server.",
+    "Details and position information for a physical place where services are provided and resources and participants may be stored, found, contained, or accommodated.",
+    "Defines an affiliation/assotiation/relationship between 2 distinct oganizations, that is not a part-of relationship/sub-division relationship."
+   ],
+   "explanation": "**HealthcareService**: The details of a healthcare service available at a location. The other descriptions belong to **Endpoint**, **Location**, **OrganizationAffiliation**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? The physiotherapy service a clinic offers, with opening hours and how to get referred.",
+   "options": [
+    "HealthcareService",
+    "Organization",
+    "PractitionerRole",
+    "Location"
+   ],
+   "explanation": "**HealthcareService**. Describes a service available, not a service that was performed."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **HealthcareService**. Which resource should you use instead when you need “who provides it”?",
+   "options": [
+    "Organization",
+    "HealthcareService",
+    "Location",
+    "Endpoint"
+   ],
+   "explanation": "**Organization**: who provides it. **HealthcareService** is for something else: The details of a healthcare service available at a location."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **HealthcareService** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`eligibility` is required in every instance",
+    "`availabilityExceptions` is required in every instance",
+    "`telecom` is required in every instance"
+   ],
+   "explanation": "Every top-level element of HealthcareService is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **HealthcareService** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`active`",
+    "`availabilityExceptions`",
+    "`eligibility`",
+    "`program`"
+   ],
+   "explanation": "Modifier elements of HealthcareService: `active`. `active`: Whether this HealthcareService record is in active use. A modifier can change the meaning of the whole resource, so systems must understand it before using the data."
+  }
+ ]
+}

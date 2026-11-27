@@ -1,0 +1,60 @@
+{
+ "resource": "Observation",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Observation** resource?",
+   "options": [
+    "Measurements and simple assertions made about a patient, device or other subject.",
+    "Record details about an anatomical structure.",
+    "Representation of the content produced in a DICOM imaging study.",
+    "Raw data describing a biological sequence."
+   ],
+   "explanation": "**Observation**: Measurements and simple assertions made about a patient, device or other subject. The other descriptions belong to **BodyStructure**, **ImagingStudy**, **MolecularSequence**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? The patient smokes 10 cigarettes a day.",
+   "options": [
+    "Observation",
+    "DiagnosticReport",
+    "Condition",
+    "QuestionnaireResponse"
+   ],
+   "explanation": "**Observation**. Social history is recorded as an Observation, not a Condition."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **Observation**. Which resource should you use instead when you need “a report that groups results”?",
+   "options": [
+    "DiagnosticReport",
+    "Observation",
+    "MolecularSequence",
+    "QuestionnaireResponse"
+   ],
+   "explanation": "**DiagnosticReport**: a report that groups results. **Observation** is for something else: Measurements and simple assertions made about a patient, device or other subject."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **Observation** instance?",
+   "options": [
+    "`status`",
+    "`derivedFrom`",
+    "`hasMember`",
+    "`method`"
+   ],
+   "explanation": "The required top-level elements of Observation are `status` (1..1), `code` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **Observation** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`component`",
+    "`referenceRange`",
+    "`effective[x]`"
+   ],
+   "explanation": "Modifier elements of Observation: `status`. `status`: registered | preliminary | final | amended +. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

@@ -1,0 +1,60 @@
+{
+ "resource": "MedicationKnowledge",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **MedicationKnowledge** resource?",
+   "options": [
+    "Information about a medication that is used to support knowledge.",
+    "Describes a comparison of an immunization event against published recommendations to determine if the administration is \"valid\" in relation to those recommendations.",
+    "Indicates that a medication product is to be or has been dispensed for a named person/patient.",
+    "This resource is primarily used for the identification and definition of a medication for the purposes of prescribing, dispensing, and administering a medication as well as for making statements about medication use."
+   ],
+   "explanation": "**MedicationKnowledge**: Information about a medication that is used to support knowledge. The other descriptions belong to **ImmunizationEvaluation**, **MedicationDispense**, **Medication**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “Information about a medication that is used to support knowledge.”",
+   "options": [
+    "MedicationKnowledge",
+    "Medication",
+    "Immunization",
+    "MedicationRequest"
+   ],
+   "explanation": "This is the definition of **MedicationKnowledge** (Clinical › Medications)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **MedicationKnowledge** sit in the FHIR R4 resource list?",
+   "options": [
+    "Clinical › Medications",
+    "Foundation › Security",
+    "Specialized › Definitional Artifacts",
+    "Base › Entities #2"
+   ],
+   "explanation": "**MedicationKnowledge** is in **Clinical › Medications**: The medication lifecycle and vaccines: prescribing (MedicationRequest), dispensing, giving (MedicationAdministration), what the patient says they take (MedicationStatement), and immunizations given or recommended."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **MedicationKnowledge** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`synonym` is required in every instance",
+    "`intendedRoute` is required in every instance",
+    "`productType` is required in every instance"
+   ],
+   "explanation": "Every top-level element of MedicationKnowledge is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **MedicationKnowledge** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`contraindication`",
+    "`productType`",
+    "`monograph`"
+   ],
+   "explanation": "Modifier elements of MedicationKnowledge: `status`. `status`: active | inactive | entered-in-error. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

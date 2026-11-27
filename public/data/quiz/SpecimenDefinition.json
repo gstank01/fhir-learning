@@ -1,0 +1,60 @@
+{
+ "resource": "SpecimenDefinition",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **SpecimenDefinition** resource?",
+   "options": [
+    "A kind of specimen with associated set of requirements.",
+    "This resource provides a reusable description of when a particular event can occur.",
+    "Set of definitional characteristics for a kind of observation or measurement produced or consumed by an orderable health care service.",
+    "A structured set of questions intended to guide the collection of answers from end-users."
+   ],
+   "explanation": "**SpecimenDefinition**: A kind of specimen with associated set of requirements. The other descriptions belong to **EventDefinition**, **ObservationDefinition**, **Questionnaire**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “A kind of specimen with associated set of requirements.”",
+   "options": [
+    "SpecimenDefinition",
+    "DeviceDefinition",
+    "Questionnaire",
+    "EventDefinition"
+   ],
+   "explanation": "This is the definition of **SpecimenDefinition** (Specialized › Definitional Artifacts)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **SpecimenDefinition** sit in the FHIR R4 resource list?",
+   "options": [
+    "Specialized › Definitional Artifacts",
+    "Foundation › Terminology",
+    "Financial › Billing",
+    "Clinical › Request & Response"
+   ],
+   "explanation": "**SpecimenDefinition** is in **Specialized › Definitional Artifacts**: Reusable templates that define things before they happen: protocols and order sets (PlanDefinition, ActivityDefinition), forms (Questionnaire), and definitions of observations, specimens, devices and events."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **SpecimenDefinition** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`collection` is required in every instance",
+    "`patientPreparation` is required in every instance",
+    "`identifier` is required in every instance"
+   ],
+   "explanation": "Every top-level element of SpecimenDefinition is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `SpecimenDefinition.collection`?",
+   "options": [
+    "`CodeableConcept`",
+    "`decimal`",
+    "`string`",
+    "`code`"
+   ],
+   "explanation": "`SpecimenDefinition.collection` (0..*) is `CodeableConcept`: Specimen collection procedure."
+  }
+ ]
+}

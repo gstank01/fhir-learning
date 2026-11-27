@@ -1,0 +1,60 @@
+{
+ "resource": "Slot",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Slot** resource?",
+   "options": [
+    "A slot of time on a schedule that may be available for booking appointments.",
+    "Describes validation requirements, source(s), status and dates for one or more elements.",
+    "A container for slots of time that may be available for booking appointments.",
+    "A reply to an appointment request for a patient and/or practitioner(s), such as a confirmation or rejection."
+   ],
+   "explanation": "**Slot**: A slot of time on a schedule that may be available for booking appointments. The other descriptions belong to **VerificationResult**, **Schedule**, **AppointmentResponse**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? Show the free 15-minute periods in a clinic’s calendar that patients can book.",
+   "options": [
+    "Slot",
+    "Schedule",
+    "Appointment",
+    "VerificationResult"
+   ],
+   "explanation": "**Slot**. Slots belong to a Schedule; an Appointment fills a Slot."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **Slot**. Which resource should you use instead when you need “the booking that fills a slot”?",
+   "options": [
+    "Appointment",
+    "Slot",
+    "AppointmentResponse",
+    "VerificationResult"
+   ],
+   "explanation": "**Appointment**: the booking that fills a slot. **Slot** is for something else: A slot of time on a schedule that may be available for booking appointments."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **Slot** instance?",
+   "options": [
+    "`end`",
+    "`overbooked`",
+    "`serviceType`",
+    "`specialty`"
+   ],
+   "explanation": "The required top-level elements of Slot are `schedule` (1..1), `status` (1..1), `start` (1..1), `end` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `Slot.serviceType`?",
+   "options": [
+    "`CodeableConcept`",
+    "`string`",
+    "`date`",
+    "`Identifier`"
+   ],
+   "explanation": "`Slot.serviceType` (0..*) is `CodeableConcept`: The type of appointments that can be booked into this slot (ideally this would be an identifiable service - which is at a location, rather than the location itself). If provided then this overrides the value provided on the availability resource."
+  }
+ ]
+}

@@ -1,0 +1,60 @@
+{
+ "resource": "Questionnaire",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Questionnaire** resource?",
+   "options": [
+    "A structured set of questions intended to guide the collection of answers from end-users.",
+    "A kind of specimen with associated set of requirements.",
+    "This resource provides a reusable description of when a particular event can occur.",
+    "The characteristics, operational status and capabilities of a medical-related component of a medical device."
+   ],
+   "explanation": "**Questionnaire**: A structured set of questions intended to guide the collection of answers from end-users. Questionnaires provide detailed control over order, presentation, phraseology and grouping to allow coherent, consistent data collection. The other descriptions belong to **SpecimenDefinition**, **EventDefinition**, **DeviceDefinition**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? The PHQ-9 depression screening form, with its questions and answer options.",
+   "options": [
+    "Questionnaire",
+    "QuestionnaireResponse",
+    "SpecimenDefinition",
+    "DeviceDefinition"
+   ],
+   "explanation": "**Questionnaire**. The form definition. Answers go in QuestionnaireResponse."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **Questionnaire**. Which resource should you use instead when you need “the completed answers”?",
+   "options": [
+    "QuestionnaireResponse",
+    "Questionnaire",
+    "Observation",
+    "Specimen"
+   ],
+   "explanation": "**QuestionnaireResponse**: the completed answers. **Questionnaire** is for something else: A structured set of questions intended to guide the collection of answers from end-users."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **Questionnaire** instance?",
+   "options": [
+    "`status`",
+    "`purpose`",
+    "`approvalDate`",
+    "`title`"
+   ],
+   "explanation": "The required top-level elements of Questionnaire are `status` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **Questionnaire** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`version`",
+    "`purpose`",
+    "`jurisdiction`"
+   ],
+   "explanation": "Modifier elements of Questionnaire: `status`. `status`: draft | active | retired | unknown. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

@@ -1,0 +1,60 @@
+{
+ "resource": "DeviceUseStatement",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **DeviceUseStatement** resource?",
+   "options": [
+    "A record of a device being used by a patient where the record is the result of a report from the patient or another clinician.",
+    "An occurrence of information being transmitted; e.g.",
+    "A record of a request for a medication, substance or device used in the healthcare setting.",
+    "Record of delivery of what is supplied."
+   ],
+   "explanation": "**DeviceUseStatement**: A record of a device being used by a patient where the record is the result of a report from the patient or another clinician. The other descriptions belong to **Communication**, **SupplyRequest**, **SupplyDelivery**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? The patient reports using a CPAP machine every night.",
+   "options": [
+    "DeviceUseStatement",
+    "Device",
+    "DeviceRequest",
+    "GuidanceResponse"
+   ],
+   "explanation": "**DeviceUseStatement**. A statement that a device is or was used by the patient."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **DeviceUseStatement**. Which resource should you use instead when you need “an order for a device”?",
+   "options": [
+    "DeviceRequest",
+    "DeviceUseStatement",
+    "SupplyDelivery",
+    "Communication"
+   ],
+   "explanation": "**DeviceRequest**: an order for a device. **DeviceUseStatement** is for something else: A record of a device being used by a patient where the record is the result of a report from the patient or another clinician."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **DeviceUseStatement** instance?",
+   "options": [
+    "`subject`",
+    "`recordedOn`",
+    "`reasonReference`",
+    "`basedOn`"
+   ],
+   "explanation": "The required top-level elements of DeviceUseStatement are `status` (1..1), `subject` (1..1), `device` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **DeviceUseStatement** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`timing[x]`",
+    "`note`",
+    "`subject`"
+   ],
+   "explanation": "Modifier elements of DeviceUseStatement: `status`. `status`: active | completed | entered-in-error +. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

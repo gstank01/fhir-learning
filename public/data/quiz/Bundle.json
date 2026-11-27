@@ -1,0 +1,60 @@
+{
+ "resource": "Bundle",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Bundle** resource?",
+   "options": [
+    "A container for a collection of resources.",
+    "A resource that represents the data of a single raw artifact as digital content accessible in its native format.",
+    "A collection of error, warning, or information messages that result from a system action.",
+    "The subscription resource is used to define a push-based subscription from a server to another system."
+   ],
+   "explanation": "**Bundle**: A container for a collection of resources. The other descriptions belong to **Binary**, **OperationOutcome**, **Subscription**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? Send a patient, an encounter and three observations in one request that must all succeed or all fail.",
+   "options": [
+    "Bundle",
+    "List",
+    "Composition",
+    "MessageHeader"
+   ],
+   "explanation": "**Bundle**. A Bundle of type transaction. Search results are a Bundle of type searchset."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **Bundle**. Which resource should you use instead when you need “a curated list of references”?",
+   "options": [
+    "List",
+    "Bundle",
+    "Encounter",
+    "Flag"
+   ],
+   "explanation": "**List**: a curated list of references. **Bundle** is for something else: A container for a collection of resources."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **Bundle** instance?",
+   "options": [
+    "`type`",
+    "`link`",
+    "`total`",
+    "`signature`"
+   ],
+   "explanation": "The required top-level elements of Bundle are `type` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `Bundle.total`?",
+   "options": [
+    "`unsignedInt`",
+    "`Coding`",
+    "`integer`",
+    "`boolean`"
+   ],
+   "explanation": "`Bundle.total` (0..1) is `unsignedInt`: If search, the total number of matches."
+  }
+ ]
+}

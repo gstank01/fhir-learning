@@ -1,0 +1,60 @@
+{
+ "resource": "Communication",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Communication** resource?",
+   "options": [
+    "An occurrence of information being transmitted; e.g.",
+    "A guidance response is the formal response to a guidance request, including any output parameters returned by the evaluation, as well as the description of any proposed actions to be taken.",
+    "A record of a request for a medication, substance or device used in the healthcare setting.",
+    "Represents a request for a patient to employ a medical device."
+   ],
+   "explanation": "**Communication**: An occurrence of information being transmitted; e.g. an alert that was sent to a responsible provider, a public health agency that was notified about a reportable condition. The other descriptions belong to **GuidanceResponse**, **SupplyRequest**, **DeviceRequest**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? A message sent from the GP to the patient with their test results.",
+   "options": [
+    "Communication",
+    "CommunicationRequest",
+    "Procedure",
+    "Flag"
+   ],
+   "explanation": "**Communication**. A record of information that was shared. A request to send it is CommunicationRequest."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **Communication**. Which resource should you use instead when you need “counselling meant to change the patient”?",
+   "options": [
+    "Procedure",
+    "Communication",
+    "ClinicalImpression",
+    "Condition"
+   ],
+   "explanation": "**Procedure**: counselling meant to change the patient. **Communication** is for something else: An occurrence of information being transmitted; e.g."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **Communication** instance?",
+   "options": [
+    "`status`",
+    "`basedOn`",
+    "`sender`",
+    "`instantiatesCanonical`"
+   ],
+   "explanation": "The required top-level elements of Communication are `status` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **Communication** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`inResponseTo`",
+    "`recipient`",
+    "`subject`"
+   ],
+   "explanation": "Modifier elements of Communication: `status`. `status`: preparation | in-progress | not-done | on-hold | stopped | completed | entered-in-error | unknown. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

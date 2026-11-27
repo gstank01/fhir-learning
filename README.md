@@ -36,6 +36,26 @@ pages have no exam weight; they are background for every exam area.
 The element icons in `public/img/fhir/` are copied from the FHIR R4
 specification, which HL7 publishes under the CC0 public-domain licence.
 
+## Resource quizzes
+
+Every FHIR resource page ends with **Check your understanding**: a quiz of
+five multiple-choice questions on what the resource is for and how it is
+built (its purpose, a use case, look-alike resources, required elements, and
+modifier elements or data types). Each answer shows an explanation, the quiz
+gives a score, and the visitor's best score is kept in their browser and
+shown on the resource cards.
+
+The 730 questions (5 for each of the 146 resources) are generated, not
+written by hand, from the official R4 StructureDefinitions plus the site's
+own data (`lib/resources.js`, `lib/resourcetips.js`, `lib/studycards.js`).
+They are stored in `public/data/quiz/<Resource>.json`. To rebuild them:
+
+```bash
+curl -s -o /tmp/defs.zip https://hl7.org/fhir/R4/definitions.json.zip
+unzip -o /tmp/defs.zip profiles-resources.json -d /tmp
+node tools/build_resource_quizzes.mjs /tmp/profiles-resources.json
+```
+
 ## Study cards
 
 **Study cards** in the top bar opens a flashcard trainer on top of the current page (close it with ✕, Esc, or by clicking outside, and you're back where you were). It has three decks:

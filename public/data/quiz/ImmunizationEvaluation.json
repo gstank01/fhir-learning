@@ -1,0 +1,60 @@
+{
+ "resource": "ImmunizationEvaluation",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **ImmunizationEvaluation** resource?",
+   "options": [
+    "Describes a comparison of an immunization event against published recommendations to determine if the administration is \"valid\" in relation to those recommendations.",
+    "A record of a medication that is being consumed by a patient.",
+    "An order or request for both supply of the medication and the instructions for administration of the medication to a patient.",
+    "Information about a medication that is used to support knowledge."
+   ],
+   "explanation": "**ImmunizationEvaluation**: Describes a comparison of an immunization event against published recommendations to determine if the administration is \"valid\" in relation to those recommendations. The other descriptions belong to **MedicationStatement**, **MedicationRequest**, **MedicationKnowledge**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “Describes a comparison of an immunization event against published recommendations to determine if the administration is \"valid\" in relation to those recommendations.”",
+   "options": [
+    "ImmunizationEvaluation",
+    "MedicationStatement",
+    "Immunization",
+    "MedicationDispense"
+   ],
+   "explanation": "This is the definition of **ImmunizationEvaluation** (Clinical › Medications)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **ImmunizationEvaluation** sit in the FHIR R4 resource list?",
+   "options": [
+    "Clinical › Medications",
+    "Base › Entities #2",
+    "Specialized › Quality Reporting & Testing",
+    "Clinical › Request & Response"
+   ],
+   "explanation": "**ImmunizationEvaluation** is in **Clinical › Medications**: The medication lifecycle and vaccines: prescribing (MedicationRequest), dispensing, giving (MedicationAdministration), what the patient says they take (MedicationStatement), and immunizations given or recommended."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **ImmunizationEvaluation** instance?",
+   "options": [
+    "`immunizationEvent`",
+    "`date`",
+    "`identifier`",
+    "`authority`"
+   ],
+   "explanation": "The required top-level elements of ImmunizationEvaluation are `status` (1..1), `patient` (1..1), `targetDisease` (1..1), `immunizationEvent` (1..1), `doseStatus` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **ImmunizationEvaluation** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`doseNumber[x]`",
+    "`immunizationEvent`",
+    "`identifier`"
+   ],
+   "explanation": "Modifier elements of ImmunizationEvaluation: `status`. `status`: completed | entered-in-error. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

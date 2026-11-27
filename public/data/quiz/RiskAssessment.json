@@ -1,0 +1,60 @@
+{
+ "resource": "RiskAssessment",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **RiskAssessment** resource?",
+   "options": [
+    "An assessment of the likely outcome(s) for a patient or other subject as well as the likelihood of each outcome.",
+    "This resource includes all the people and organizations who plan to participate in the coordination and delivery of care for a patient.",
+    "An authorization for the provision of glasses and/or contact lenses to a patient.",
+    "Describes the intended objective(s) for a patient, group or organization care, for example, weight loss, restoring an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective,…"
+   ],
+   "explanation": "**RiskAssessment**: An assessment of the likely outcome(s) for a patient or other subject as well as the likelihood of each outcome. The other descriptions belong to **CareTeam**, **VisionPrescription**, **Goal**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? The patient’s 10-year risk of cardiovascular disease is 15%.",
+   "options": [
+    "RiskAssessment",
+    "Observation",
+    "Condition",
+    "RequestGroup"
+   ],
+   "explanation": "**RiskAssessment**. A predicted outcome and its probability."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **RiskAssessment**. Which resource should you use instead when you need “something the patient has now”?",
+   "options": [
+    "Condition",
+    "RiskAssessment",
+    "Procedure",
+    "AdverseEvent"
+   ],
+   "explanation": "**Condition**: something the patient has now. **RiskAssessment** is for something else: An assessment of the likely outcome(s) for a patient or other subject as well as the likelihood of each outcome."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **RiskAssessment** instance?",
+   "options": [
+    "`status`",
+    "`prediction`",
+    "`parent`",
+    "`mitigation`"
+   ],
+   "explanation": "The required top-level elements of RiskAssessment are `status` (1..1), `subject` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `RiskAssessment.note`?",
+   "options": [
+    "`Annotation`",
+    "`integer`",
+    "`boolean`",
+    "`CodeableConcept`"
+   ],
+   "explanation": "`RiskAssessment.note` (0..*) is `Annotation`: Comments on the risk assessment."
+  }
+ ]
+}

@@ -1,0 +1,60 @@
+{
+ "resource": "Linkage",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Linkage** resource?",
+   "options": [
+    "Identifies two or more records (resource instances) that refer to the same real-world \"occurrence\".",
+    "A collection of error, warning, or information messages that result from a system action.",
+    "This resource is used for handling concepts not yet defined in FHIR, narrative-only resources that don't map to an existing resource, and custom resources not appropriate for inclusion in the FHIR specification.",
+    "A resource that represents the data of a single raw artifact as digital content accessible in its native format."
+   ],
+   "explanation": "**Linkage**: Identifies two or more records (resource instances) that refer to the same real-world \"occurrence\". The other descriptions belong to **OperationOutcome**, **Basic**, **Binary**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “Identifies two or more records (resource instances) that refer to the same real-world \"occurrence\".”",
+   "options": [
+    "Linkage",
+    "Binary",
+    "Bundle",
+    "Basic"
+   ],
+   "explanation": "This is the definition of **Linkage** (Foundation › Other)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **Linkage** sit in the FHIR R4 resource list?",
+   "options": [
+    "Foundation › Other",
+    "Base › Entities #1",
+    "Specialized › Quality Reporting & Testing",
+    "Foundation › Documents"
+   ],
+   "explanation": "**Linkage** is in **Foundation › Other**: Infrastructure for exchange itself: Bundle (a container of resources), Binary (raw files), OperationOutcome (errors and warnings), Parameters (operation inputs and outputs), MessageHeader (messaging) and Subscription (notifications)."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `Linkage.author`?",
+   "options": [
+    "`Reference(Practitioner | PractitionerRole | Organization)`",
+    "`Annotation`",
+    "`instant`",
+    "`code`"
+   ],
+   "explanation": "`Linkage.author` (0..1) is `Reference(Practitioner | PractitionerRole | Organization)`: Who is responsible for linkages."
+  },
+  {
+   "kind": "cardinality",
+   "question": "What is the cardinality of `Linkage.author` (Who is responsible for linkages)?",
+   "options": [
+    "`0..1`",
+    "`1..1`",
+    "`0..*`",
+    "`1..*`"
+   ],
+   "explanation": "`Linkage.author` is `0..1`: optional, at most one."
+  }
+ ]
+}

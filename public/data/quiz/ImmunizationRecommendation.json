@@ -1,0 +1,60 @@
+{
+ "resource": "ImmunizationRecommendation",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **ImmunizationRecommendation** resource?",
+   "options": [
+    "A patient's point-in-time set of recommendations (i.e.",
+    "Describes the event of a patient consuming or otherwise being administered a medication.",
+    "Describes a comparison of an immunization event against published recommendations to determine if the administration is \"valid\" in relation to those recommendations.",
+    "An order or request for both supply of the medication and the instructions for administration of the medication to a patient."
+   ],
+   "explanation": "**ImmunizationRecommendation**: A patient's point-in-time set of recommendations (i.e. forecasting) according to a published schedule with optional supporting justification. The other descriptions belong to **MedicationAdministration**, **ImmunizationEvaluation**, **MedicationRequest**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? The patient is due for a tetanus booster next month.",
+   "options": [
+    "ImmunizationRecommendation",
+    "Immunization",
+    "ImmunizationEvaluation",
+    "MedicationRequest"
+   ],
+   "explanation": "**ImmunizationRecommendation**. Which vaccines are recommended, and when."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **ImmunizationRecommendation**. Which resource should you use instead when you need “a vaccine that was given”?",
+   "options": [
+    "Immunization",
+    "ImmunizationRecommendation",
+    "MedicationAdministration",
+    "MedicationStatement"
+   ],
+   "explanation": "**Immunization**: a vaccine that was given. **ImmunizationRecommendation** is for something else: A patient's point-in-time set of recommendations (i.e."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `ImmunizationRecommendation.patient`?",
+   "options": [
+    "`Reference(Patient)`",
+    "`Attachment`",
+    "`decimal`",
+    "`canonical`"
+   ],
+   "explanation": "`ImmunizationRecommendation.patient` (1..1) is `Reference(Patient)`: Who this profile is for."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **ImmunizationRecommendation** sit in the FHIR R4 resource list?",
+   "options": [
+    "Clinical › Medications",
+    "Foundation › Conformance",
+    "Clinical › Summary",
+    "Base › Entities #2"
+   ],
+   "explanation": "**ImmunizationRecommendation** is in **Clinical › Medications**: The medication lifecycle and vaccines: prescribing (MedicationRequest), dispensing, giving (MedicationAdministration), what the patient says they take (MedicationStatement), and immunizations given or recommended."
+  }
+ ]
+}

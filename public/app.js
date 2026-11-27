@@ -24,6 +24,9 @@
     accountMode: 'login',
     cards: { deck: 'scenario', category: 'all', hideKnown: false, order: [], index: 0, flipped: false, key: '', filtersOpen: false },
     cardMarks: loadCardMarks(), // cardId -> 'known' | 'learning'
+    quizzes: {}, // resource name -> quiz data | 'loading' | 'error'
+    quizRun: null, // { name, picks: { questionIndex: optionIndex }, orders: {} }
+    quizScores: loadQuizScores(), // resource name -> { best, last }
     randomCard: null, // { index, revealed }
     studiedFilter: 'any',
     resourceIndex: null,
@@ -52,6 +55,12 @@
   }
   function loadStudied() {
     try { return new Set(JSON.parse(localStorage.getItem(STUDIED_KEY) || '[]')); } catch { return new Set(); }
+  }
+  function loadQuizScores() {
+    try { return JSON.parse(localStorage.getItem('fhirprep.quiz.v1') || '{}') || {}; } catch { return {}; }
+  }
+  function saveQuizScores() {
+    try { localStorage.setItem('fhirprep.quiz.v1', JSON.stringify(state.quizScores)); } catch { /* storage unavailable */ }
   }
   function loadCardMarks() {
     try { return JSON.parse(localStorage.getItem('fhirprep.cards.v1') || '{}') || {}; } catch { return {}; }
@@ -273,6 +282,7 @@
         <span class="name">${esc(r.name)}</span>${maturityBadge(r.maturity)}
       </span>
       <span class="desc">${esc(r.description)}</span>
+      ${state.quizScores[r.name] ? `<span class="quiz-badge${state.quizScores[r.name].best === 5 ? ' full' : ''}">Quiz best ${state.quizScores[r.name].best}/5</span>` : ''}
     </a>`;
   }
 
@@ -370,6 +380,91 @@
     if (f) f.innerHTML = renderResourceFilters();
   }
 
+  // ---------- 5-question quiz on each resource page ----------
+  function loadResourceQuiz(name) {
+    state.quizzes[name] = 'loading';
+    fetch(`data/quiz/${encodeURIComponent(name)}.json`)
+      .then((res) => { if (!res.ok) throw new Error(String(res.status)); return res.json(); })
+      .then((data) => { state.quizzes[name] = data; })
+      .catch(() => { state.quizzes[name] = 'error'; })
+      .then(() => refreshResourceQuiz(name));
+  }
+
+  function refreshResourceQuiz(name) {
+    const box = document.getElementById('res-quiz');
+    const route = parseRoute(state.route);
+    if (box && route.resource && route.resource.name === name) box.innerHTML = renderResourceQuiz(name);
+  }
+
+  function renderResourceQuiz(name) {
+    const head = (extra = '') => `<div class="rq-head"><h2>Check your understanding</h2>${extra}</div>`;
+    const data = state.quizzes[name];
+    if (!data) { loadResourceQuiz(name); return `${head()}<p class="rq-sub">Loading the quiz…</p>`; }
+    if (data === 'loading') return `${head()}<p class="rq-sub">Loading the quiz…</p>`;
+    if (data === 'error') return `${head()}<p class="rq-sub">The quiz couldn’t be loaded. Check your connection and reload the page.</p>`;
+
+    if (!state.quizRun || state.quizRun.name !== name) state.quizRun = { name, picks: {}, orders: {} };
+    const run = state.quizRun;
+    const qs = data.questions;
+    const answered = Object.keys(run.picks).length;
+    const correct = qs.filter((q, i) => run.picks[i] === 0).length;
+    const best = state.quizScores[name];
+
+    const items = qs.map((q, i) => {
+      if (!run.orders[i]) run.orders[i] = shuffle(q.options.map((_, k) => k));
+      const picked = run.picks[i];
+      const done = picked !== undefined;
+      const opts = run.orders[i].map((oi, k) => {
+        let cls = '';
+        let tag = '';
+        if (done) {
+          if (oi === 0) { cls = ' correct'; tag = '<span class="q-tag">Correct answer</span>'; }
+          else if (oi === picked) { cls = ' wrong'; tag = '<span class="q-tag">Your answer</span>'; }
+          else cls = ' dim';
+        }
+        return `<li><button type="button" class="q-opt${cls}" data-action="rq-pick" data-q="${i}" data-opt="${oi}"${done ? ' disabled' : ''}>
+          <span class="q-letter" aria-hidden="true">${'ABCD'[k]}</span><span class="q-opt-text">${fmt(q.options[oi])}</span>${tag}</button></li>`;
+      }).join('');
+      return `<li class="rq-item">
+          <p class="rq-q"><span class="rq-num">${i + 1}</span><span class="rq-text">${fmt(q.question)}</span></p>
+          <ol class="q-options">${opts}</ol>
+          ${done ? `<div class="q-result ${picked === 0 ? 'right' : 'wrong'}" role="status">
+              <p class="q-verdict">${picked === 0 ? 'Correct' : 'Not quite'}</p>
+              <p class="q-explain">${fmt(q.explanation)}</p></div>` : ''}
+        </li>`;
+    }).join('');
+
+    const finished = answered === qs.length;
+    const message = correct === qs.length ? 'Perfect score. You know this resource well.'
+      : correct >= qs.length - 1 ? 'Nearly there. Read the explanation for the one you missed.'
+      : 'Worth another look: re-read the definition and key elements above, then try again.';
+    const summary = finished ? `<div class="rq-score${correct === qs.length ? ' full' : ''}" role="status">
+        <p class="rq-score-num">You scored ${correct} of ${qs.length}</p>
+        <p>${message}</p>
+        <button class="btn small" type="button" data-action="rq-reset">Try again</button>
+      </div>` : '';
+
+    return `${head(best ? `<span class="chip">Best score ${best.best}/${qs.length}</span>` : '')}
+      <p class="rq-sub">${qs.length} quick questions on what ${esc(name)} is for and how it’s built. ${finished ? '' : `${answered} of ${qs.length} answered.`}</p>
+      <ol class="rq-list">${items}</ol>
+      ${summary}`;
+  }
+
+  function quizPick(qi, oi) {
+    const run = state.quizRun;
+    if (!run || run.picks[qi] !== undefined) return;
+    run.picks[qi] = oi;
+    const data = state.quizzes[run.name];
+    const total = data.questions.length;
+    if (Object.keys(run.picks).length === total) {
+      const score = data.questions.filter((q, i) => run.picks[i] === 0).length;
+      const prev = state.quizScores[run.name];
+      state.quizScores[run.name] = { best: Math.max(score, prev ? prev.best : 0), last: score };
+      saveQuizScores();
+    }
+    refreshResourceQuiz(run.name);
+  }
+
   function renderResourcePage(route) {
     const r = route.resource;
     const id = RESOURCE_PREFIX + r.name;
@@ -415,6 +510,7 @@
         ${notesBody}
       </section>
       ${renderMyNotesPanel(id)}
+      <section class="res-quiz" id="res-quiz" aria-label="Check your understanding">${renderResourceQuiz(r.name)}</section>
       <footer class="topic-foot">
         <label class="studied-toggle${studied ? ' on' : ''}">
           <input type="checkbox" id="studied-${esc(id)}" data-action="studied" data-id="${esc(id)}"${studied ? ' checked' : ''}>
@@ -1504,6 +1600,14 @@
       renderCards();
     }
     else if (action === 'q-pick') cardAction('pick', el.dataset.opt);
+    else if (action === 'rq-pick') quizPick(Number(el.dataset.q), Number(el.dataset.opt));
+    else if (action === 'rq-reset' && state.quizRun) {
+      const name = state.quizRun.name;
+      state.quizRun = null;
+      refreshResourceQuiz(name);
+      const box = document.getElementById('res-quiz');
+      if (box) box.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    }
     else if (action === 'cards-open') openCards();
     else if (action === 'cards-close') closeCards();
     else if (action === 'random-reveal') { state.randomCard.revealed = true; document.getElementById('random-card-box').innerHTML = renderRandomCard(); }

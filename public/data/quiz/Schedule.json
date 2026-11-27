@@ -1,0 +1,60 @@
+{
+ "resource": "Schedule",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Schedule** resource?",
+   "options": [
+    "A container for slots of time that may be available for booking appointments.",
+    "A slot of time on a schedule that may be available for booking appointments.",
+    "A booking of a healthcare event among patient(s), practitioner(s), related person(s) and/or device(s) for a specific date/time.",
+    "Describes validation requirements, source(s), status and dates for one or more elements."
+   ],
+   "explanation": "**Schedule**: A container for slots of time that may be available for booking appointments. The other descriptions belong to **Slot**, **Appointment**, **VerificationResult**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “A container for slots of time that may be available for booking appointments.”",
+   "options": [
+    "Schedule",
+    "VerificationResult",
+    "AppointmentResponse",
+    "Slot"
+   ],
+   "explanation": "This is the definition of **Schedule** (Base › Workflow)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **Schedule** sit in the FHIR R4 resource list?",
+   "options": [
+    "Base › Workflow",
+    "Base › Entities #1",
+    "Foundation › Conformance",
+    "Specialized › Medication Definition"
+   ],
+   "explanation": "**Schedule** is in **Base › Workflow**: Coordinating work and time: tasks that track who is doing what, appointment booking (Schedule, Slot, Appointment, AppointmentResponse), and checks on information such as a clinician’s credentials."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **Schedule** instance?",
+   "options": [
+    "`actor`",
+    "`specialty`",
+    "`planningHorizon`",
+    "`serviceType`"
+   ],
+   "explanation": "The required top-level elements of Schedule are `actor` (1..*). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **Schedule** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`active`",
+    "`specialty`",
+    "`planningHorizon`",
+    "`serviceCategory`"
+   ],
+   "explanation": "Modifier elements of Schedule: `active`. `active`: Whether this schedule is in active use. A modifier can change the meaning of the whole resource, so systems must understand it before using the data."
+  }
+ ]
+}

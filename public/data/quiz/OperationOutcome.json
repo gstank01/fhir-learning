@@ -1,0 +1,60 @@
+{
+ "resource": "OperationOutcome",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **OperationOutcome** resource?",
+   "options": [
+    "A collection of error, warning, or information messages that result from a system action.",
+    "A resource that represents the data of a single raw artifact as digital content accessible in its native format.",
+    "The header for a message exchange that is either requesting or responding to an action.",
+    "The subscription resource is used to define a push-based subscription from a server to another system."
+   ],
+   "explanation": "**OperationOutcome**: A collection of error, warning, or information messages that result from a system action. The other descriptions belong to **Binary**, **MessageHeader**, **Subscription**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? The server explains why a create request failed validation.",
+   "options": [
+    "OperationOutcome",
+    "AuditEvent",
+    "DetectedIssue",
+    "Subscription"
+   ],
+   "explanation": "**OperationOutcome**. Errors, warnings and information returned by the server."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **OperationOutcome**. Which resource should you use instead when you need “a clinical problem”?",
+   "options": [
+    "DetectedIssue",
+    "OperationOutcome",
+    "ClinicalImpression",
+    "Procedure"
+   ],
+   "explanation": "**DetectedIssue**: a clinical problem. **OperationOutcome** is for something else: A collection of error, warning, or information messages that result from a system action."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **OperationOutcome** sit in the FHIR R4 resource list?",
+   "options": [
+    "Foundation › Other",
+    "Clinical › Request & Response",
+    "Foundation › Terminology",
+    "Base › Workflow"
+   ],
+   "explanation": "**OperationOutcome** is in **Foundation › Other**: Infrastructure for exchange itself: Bundle (a container of resources), Binary (raw files), OperationOutcome (errors and warnings), Parameters (operation inputs and outputs), MessageHeader (messaging) and Subscription (notifications)."
+  },
+  {
+   "kind": "cardinality",
+   "question": "What is the cardinality of `OperationOutcome.issue` (A single issue associated with the action)?",
+   "options": [
+    "`1..*`",
+    "`0..1`",
+    "`1..1`",
+    "`0..*`"
+   ],
+   "explanation": "`OperationOutcome.issue` is `1..*`: required, can repeat. In JSON it is always an array."
+  }
+ ]
+}

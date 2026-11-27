@@ -1,0 +1,60 @@
+{
+ "resource": "Subscription",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Subscription** resource?",
+   "options": [
+    "The subscription resource is used to define a push-based subscription from a server to another system.",
+    "This resource is a non-persisted resource used to pass information into and back from an operation.",
+    "A container for a collection of resources.",
+    "A resource that represents the data of a single raw artifact as digital content accessible in its native format."
+   ],
+   "explanation": "**Subscription**: The subscription resource is used to define a push-based subscription from a server to another system. Once a subscription is registered with the server, the server checks every resource that is created or updated, and if the resource matches the given criteria, it sends a message on the defined \"channel\" so that another system can take an appropriate action. The other descriptions belong to **Parameters**, **Bundle**, **Binary**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? Notify an app whenever a new lab result is created for a patient.",
+   "options": [
+    "Subscription",
+    "MessageHeader",
+    "Communication",
+    "Parameters"
+   ],
+   "explanation": "**Subscription**. Push notifications based on search criteria (R4), sent over a channel such as rest-hook."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **Subscription**. Which resource should you use instead when you need “a message between people”?",
+   "options": [
+    "Communication",
+    "Subscription",
+    "SupplyRequest",
+    "DeviceRequest"
+   ],
+   "explanation": "**Communication**: a message between people. **Subscription** is for something else: The subscription resource is used to define a push-based subscription from a server to another system."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **Subscription** instance?",
+   "options": [
+    "`status`",
+    "`contact`",
+    "`end`",
+    "`error`"
+   ],
+   "explanation": "The required top-level elements of Subscription are `status` (1..1), `reason` (1..1), `criteria` (1..1), `channel` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **Subscription** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`criteria`",
+    "`end`",
+    "`contact`"
+   ],
+   "explanation": "Modifier elements of Subscription: `status`. `status`: requested | active | error | off. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

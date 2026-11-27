@@ -1,0 +1,60 @@
+{
+ "resource": "TestReport",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **TestReport** resource?",
+   "options": [
+    "A summary of information based on the results of executing a TestScript.",
+    "A structured set of tests against a FHIR server or client implementation to determine compliance against the FHIR specification.",
+    "This resource contains the results of the calculation of a measure; and optionally a reference to the resources involved in that calculation.",
+    "This resource provides the definition of a quality measure."
+   ],
+   "explanation": "**TestReport**: A summary of information based on the results of executing a TestScript. The other descriptions belong to **TestScript**, **MeasureReport**, **Measure**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “A summary of information based on the results of executing a TestScript.”",
+   "options": [
+    "TestReport",
+    "TestScript",
+    "MeasureReport",
+    "Measure"
+   ],
+   "explanation": "This is the definition of **TestReport** (Specialized › Quality Reporting & Testing)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **TestReport** sit in the FHIR R4 resource list?",
+   "options": [
+    "Specialized › Quality Reporting & Testing",
+    "Foundation › Conformance",
+    "Foundation › Other",
+    "Financial › Billing"
+   ],
+   "explanation": "**TestReport** is in **Specialized › Quality Reporting & Testing**: Quality measures and their results (Measure, MeasureReport), and scripts and reports for testing FHIR systems (TestScript, TestReport)."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **TestReport** instance?",
+   "options": [
+    "`testScript`",
+    "`participant`",
+    "`setup`",
+    "`name`"
+   ],
+   "explanation": "The required top-level elements of TestReport are `status` (1..1), `testScript` (1..1), `result` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **TestReport** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`tester`",
+    "`issued`",
+    "`name`"
+   ],
+   "explanation": "Modifier elements of TestReport: `status`. `status`: completed | in-progress | waiting | stopped | entered-in-error. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

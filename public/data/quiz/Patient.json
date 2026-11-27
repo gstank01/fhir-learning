@@ -1,0 +1,60 @@
+{
+ "resource": "Patient",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Patient** resource?",
+   "options": [
+    "Demographics and other administrative information about an individual or animal receiving care or other health-related services.",
+    "Represents a defined collection of entities that may be discussed or acted upon collectively but which are not expected to act collectively, and are not formally or legally recognized; i.e.",
+    "Demographics and administrative information about a person independent of a specific health-related context.",
+    "Information about a person that is involved in the care for a patient, but who is not the target of healthcare, nor has a formal responsibility in the care process."
+   ],
+   "explanation": "**Patient**: Demographics and other administrative information about an individual or animal receiving care or other health-related services. The other descriptions belong to **Group**, **Person**, **RelatedPerson**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? Store a person’s name, date of birth, gender and address so they can be registered for care.",
+   "options": [
+    "Patient",
+    "Practitioner",
+    "RelatedPerson",
+    "Person"
+   ],
+   "explanation": "**Patient**. Patient is the “who”: demographics and administrative details, not clinical data."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **Patient**. Which resource should you use instead when you need “staff who provide care”?",
+   "options": [
+    "Practitioner",
+    "Patient",
+    "RelatedPerson",
+    "Person"
+   ],
+   "explanation": "**Practitioner**: staff who provide care. **Patient** is for something else: Demographics and other administrative information about an individual or animal receiving care or other health-related services."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **Patient** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`maritalStatus` is required in every instance",
+    "`managingOrganization` is required in every instance",
+    "`deceased[x]` is required in every instance"
+   ],
+   "explanation": "Every top-level element of Patient is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **Patient** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`active`",
+    "`gender`",
+    "`multipleBirth[x]`",
+    "`communication`"
+   ],
+   "explanation": "Modifier elements of Patient: `active`, `deceased[x]`, `link`. `active`: Whether this patient's record is in active use. A modifier can change the meaning of the whole resource, so systems must understand it before using the data."
+  }
+ ]
+}

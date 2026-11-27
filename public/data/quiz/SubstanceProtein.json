@@ -1,0 +1,60 @@
+{
+ "resource": "SubstanceProtein",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **SubstanceProtein** resource?",
+   "options": [
+    "This resource is defined as a single unit of a linear amino acid sequence, or a combination of subunits that are either covalently linked or have a defined invariant stoichiometric relationship.",
+    "An ingredient of a manufactured item or pharmaceutical product.",
+    "Indication for the Medicinal Product.",
+    "Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g."
+   ],
+   "explanation": "**SubstanceProtein**: A SubstanceProtein is defined as a single unit of a linear amino acid sequence, or a combination of subunits that are either covalently linked or have a defined invariant stoichiometric relationship. This includes all synthetic, recombinant and purified SubstanceProteins of defined sequence, whether the use is therapeutic or prophylactic. This set of elements will be used to describe albumins, coagulation factors, cytokines, growth factors, peptide/SubstanceProtein hormones, enzymes, toxins, toxoids, recombinant vaccines, and immunomodulators. The other descriptions belong to **MedicinalProductIngredient**, **MedicinalProductIndication**, **MedicinalProduct**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “This resource is defined as a single unit of a linear amino acid sequence, or a combination of subunits that are either covalently linked or have a defined invariant stoichiometric relationship.”",
+   "options": [
+    "SubstanceProtein",
+    "MedicinalProductContraindication",
+    "MedicinalProductManufactured",
+    "MedicinalProductPackaged"
+   ],
+   "explanation": "This is the definition of **SubstanceProtein** (Specialized › Medication Definition)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **SubstanceProtein** sit in the FHIR R4 resource list?",
+   "options": [
+    "Specialized › Medication Definition",
+    "Financial › Billing",
+    "Specialized › Evidence-Based Medicine",
+    "Specialized › Quality Reporting & Testing"
+   ],
+   "explanation": "**SubstanceProtein** is in **Specialized › Medication Definition**: Detailed regulatory data about medicinal products and substances (authorisations, ingredients, packaging, interactions, side effects), used by regulators and drug databases rather than in everyday patient care."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **SubstanceProtein** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`sequenceType` is required in every instance",
+    "`disulfideLinkage` is required in every instance",
+    "`numberOfSubunits` is required in every instance"
+   ],
+   "explanation": "Every top-level element of SubstanceProtein is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `SubstanceProtein.numberOfSubunits`?",
+   "options": [
+    "`integer`",
+    "`Identifier`",
+    "`positiveInt`",
+    "`Coding`"
+   ],
+   "explanation": "`SubstanceProtein.numberOfSubunits` (0..1) is `integer`: Number of linear sequences of amino acids linked through peptide bonds. The number of subunits constituting the SubstanceProtein shall be described. It is possible that the number of subunits can be variable."
+  }
+ ]
+}

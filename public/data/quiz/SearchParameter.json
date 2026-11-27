@@ -1,0 +1,60 @@
+{
+ "resource": "SearchParameter",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **SearchParameter** resource?",
+   "options": [
+    "A search parameter that defines a named search item that can be used to search/filter on a resource.",
+    "A set of rules of how a particular interoperability or standards problem is solved - typically through the use of FHIR resources.",
+    "A Map of relationships between 2 structures that can be used to transform data.",
+    "A definition of a FHIR structure."
+   ],
+   "explanation": "**SearchParameter**: A search parameter that defines a named search item that can be used to search/filter on a resource. The other descriptions belong to **ImplementationGuide**, **StructureMap**, **StructureDefinition**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? Define a custom search on an extension, e.g. search patients by birth place.",
+   "options": [
+    "SearchParameter",
+    "OperationDefinition",
+    "StructureDefinition",
+    "CapabilityStatement"
+   ],
+   "explanation": "**SearchParameter**. Named search with a type and a FHIRPath expression."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **SearchParameter**. Which resource should you use instead when you need “defines structures, not searches”?",
+   "options": [
+    "StructureDefinition",
+    "SearchParameter",
+    "StructureMap",
+    "CapabilityStatement"
+   ],
+   "explanation": "**StructureDefinition**: defines structures, not searches. **SearchParameter** is for something else: A search parameter that defines a named search item that can be used to search/filter on a resource."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **SearchParameter** instance?",
+   "options": [
+    "`status`",
+    "`modifier`",
+    "`comparator`",
+    "`experimental`"
+   ],
+   "explanation": "The required top-level elements of SearchParameter are `url` (1..1), `name` (1..1), `status` (1..1), `description` (1..1), `code` (1..1), `base` (1..*), `type` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **SearchParameter** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`code`",
+    "`component`",
+    "`date`"
+   ],
+   "explanation": "Modifier elements of SearchParameter: `status`. `status`: draft | active | retired | unknown. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

@@ -1,0 +1,60 @@
+{
+ "resource": "MedicinalProductInteraction",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **MedicinalProductInteraction** resource?",
+   "options": [
+    "The interactions of the medicinal product with other medicinal products, or other forms of interactions.",
+    "An ingredient of a manufactured item or pharmaceutical product.",
+    "The clinical particulars - indications, contraindications etc.",
+    "Source material shall capture information on the taxonomic and anatomical origins as well as the fraction of a material that can result in or can be modified to form a substance."
+   ],
+   "explanation": "**MedicinalProductInteraction**: The interactions of the medicinal product with other medicinal products, or other forms of interactions. The other descriptions belong to **MedicinalProductIngredient**, **MedicinalProductContraindication**, **SubstanceSourceMaterial**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “The interactions of the medicinal product with other medicinal products, or other forms of interactions.”",
+   "options": [
+    "MedicinalProductInteraction",
+    "MedicinalProductIndication",
+    "SubstanceNucleicAcid",
+    "MedicinalProductPackaged"
+   ],
+   "explanation": "This is the definition of **MedicinalProductInteraction** (Specialized › Medication Definition)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **MedicinalProductInteraction** sit in the FHIR R4 resource list?",
+   "options": [
+    "Specialized › Medication Definition",
+    "Clinical › Summary",
+    "Financial › Support",
+    "Base › Management"
+   ],
+   "explanation": "**MedicinalProductInteraction** is in **Specialized › Medication Definition**: Detailed regulatory data about medicinal products and substances (authorisations, ingredients, packaging, interactions, side effects), used by regulators and drug databases rather than in everyday patient care."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **MedicinalProductInteraction** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`description` is required in every instance",
+    "`subject` is required in every instance",
+    "`interactant` is required in every instance"
+   ],
+   "explanation": "Every top-level element of MedicinalProductInteraction is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `MedicinalProductInteraction.type`?",
+   "options": [
+    "`CodeableConcept`",
+    "`integer`",
+    "`date`",
+    "`canonical`"
+   ],
+   "explanation": "`MedicinalProductInteraction.type` (0..1) is `CodeableConcept`: The type of the interaction e.g. drug-drug interaction, drug-food interaction, drug-lab test interaction."
+  }
+ ]
+}

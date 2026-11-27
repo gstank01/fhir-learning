@@ -1,0 +1,60 @@
+{
+ "resource": "RequestGroup",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **RequestGroup** resource?",
+   "options": [
+    "A group of related requests that can be used to capture intended activities that have inter-dependencies such as \"give this medication after that one\".",
+    "Describes the intention of how one or more practitioners intend to deliver care for a particular patient, group or community for a period of time, possibly limited to care for a specific condition or set of conditions.",
+    "This resource includes all the people and organizations who plan to participate in the coordination and delivery of care for a patient.",
+    "A request to supply a diet, formula feeding (enteral) or oral nutritional supplement to a patient/resident."
+   ],
+   "explanation": "**RequestGroup**: A group of related requests that can be used to capture intended activities that have inter-dependencies such as \"give this medication after that one\". The other descriptions belong to **CarePlan**, **CareTeam**, **NutritionOrder**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “A group of related requests that can be used to capture intended activities that have inter-dependencies such as \"give this medication after that one\".”",
+   "options": [
+    "RequestGroup",
+    "RiskAssessment",
+    "NutritionOrder",
+    "ServiceRequest"
+   ],
+   "explanation": "This is the definition of **RequestGroup** (Clinical › Care Provision)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **RequestGroup** sit in the FHIR R4 resource list?",
+   "options": [
+    "Clinical › Care Provision",
+    "Specialized › Evidence-Based Medicine",
+    "Specialized › Definitional Artifacts",
+    "Clinical › Request & Response"
+   ],
+   "explanation": "**RequestGroup** is in **Clinical › Care Provision**: Planning and ordering care: care plans, care teams and goals, orders for tests, procedures or referrals (ServiceRequest), diet orders, eyewear prescriptions and risk assessments."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **RequestGroup** instance?",
+   "options": [
+    "`status`",
+    "`encounter`",
+    "`code`",
+    "`replaces`"
+   ],
+   "explanation": "The required top-level elements of RequestGroup are `status` (1..1), `intent` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **RequestGroup** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`instantiatesCanonical`",
+    "`replaces`",
+    "`author`"
+   ],
+   "explanation": "Modifier elements of RequestGroup: `status`, `intent`. `status`: draft | active | on-hold | revoked | completed | entered-in-error | unknown. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

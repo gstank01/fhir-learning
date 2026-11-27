@@ -1,0 +1,60 @@
+{
+ "resource": "MedicinalProductIngredient",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **MedicinalProductIngredient** resource?",
+   "options": [
+    "An ingredient of a manufactured item or pharmaceutical product.",
+    "Describe the undesirable effects of the medicinal product.",
+    "A medicinal product in a container or package.",
+    "This resource is defined as a single unit of a linear amino acid sequence, or a combination of subunits that are either covalently linked or have a defined invariant stoichiometric relationship."
+   ],
+   "explanation": "**MedicinalProductIngredient**: An ingredient of a manufactured item or pharmaceutical product. The other descriptions belong to **MedicinalProductUndesirableEffect**, **MedicinalProductPackaged**, **SubstanceProtein**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “An ingredient of a manufactured item or pharmaceutical product.”",
+   "options": [
+    "MedicinalProductIngredient",
+    "MedicinalProductUndesirableEffect",
+    "MedicinalProduct",
+    "MedicinalProductManufactured"
+   ],
+   "explanation": "This is the definition of **MedicinalProductIngredient** (Specialized › Medication Definition)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **MedicinalProductIngredient** sit in the FHIR R4 resource list?",
+   "options": [
+    "Specialized › Medication Definition",
+    "Foundation › Documents",
+    "Specialized › Quality Reporting & Testing",
+    "Base › Entities #1"
+   ],
+   "explanation": "**MedicinalProductIngredient** is in **Specialized › Medication Definition**: Detailed regulatory data about medicinal products and substances (authorisations, ingredients, packaging, interactions, side effects), used by regulators and drug databases rather than in everyday patient care."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **MedicinalProductIngredient** instance?",
+   "options": [
+    "`role`",
+    "`substance`",
+    "`manufacturer`",
+    "`allergenicIndicator`"
+   ],
+   "explanation": "The required top-level elements of MedicinalProductIngredient are `role` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `MedicinalProductIngredient.identifier`?",
+   "options": [
+    "`Identifier`",
+    "`canonical`",
+    "`code`",
+    "`positiveInt`"
+   ],
+   "explanation": "`MedicinalProductIngredient.identifier` (0..1) is `Identifier`: Identifier for the ingredient."
+  }
+ ]
+}

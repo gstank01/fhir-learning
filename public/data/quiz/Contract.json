@@ -1,0 +1,60 @@
+{
+ "resource": "Contract",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Contract** resource?",
+   "options": [
+    "Legally enforceable, formally recorded unilateral or bilateral directive i.e., a policy or agreement.",
+    "A financial tool for tracking value accrued for a particular purpose.",
+    "This resource provides: the claim details; adjudication details from the processing of a Claim; and optionally account balance information, for informing the subscriber of the benefits provided.",
+    "Details of a Health Insurance product/plan provided by an organization."
+   ],
+   "explanation": "**Contract**: Legally enforceable, formally recorded unilateral or bilateral directive i.e., a policy or agreement. The other descriptions belong to **Account**, **ExplanationOfBenefit**, **InsurancePlan**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “Legally enforceable, formally recorded unilateral or bilateral directive i.e., a policy or agreement.”",
+   "options": [
+    "Contract",
+    "ChargeItem",
+    "ChargeItemDefinition",
+    "ExplanationOfBenefit"
+   ],
+   "explanation": "This is the definition of **Contract** (Financial › General)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **Contract** sit in the FHIR R4 resource list?",
+   "options": [
+    "Financial › General",
+    "Specialized › Definitional Artifacts",
+    "Base › Workflow",
+    "Base › Management"
+   ],
+   "explanation": "**Contract** is in **Financial › General**: Other financial records: patient accounts, individual charges and their pricing, contracts, insurance plan details, and the explanation of benefits sent to patients."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **Contract** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`status` is required in every instance",
+    "`subject` is required in every instance",
+    "`rule` is required in every instance"
+   ],
+   "explanation": "Every top-level element of Contract is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **Contract** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`friendly`",
+    "`instantiatesUri`",
+    "`author`"
+   ],
+   "explanation": "Modifier elements of Contract: `status`. `status`: amended | appended | cancelled | disputed | entered-in-error | executable | executed | negotiable | offered | policy | rejected | renewed | revoked | resolved | terminated. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

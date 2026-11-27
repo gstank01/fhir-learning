@@ -1,0 +1,60 @@
+{
+ "resource": "ConceptMap",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **ConceptMap** resource?",
+   "options": [
+    "A statement of relationships from one set of concepts to one or more other concepts - either concepts in code systems, or data element/data element concepts, or classes in class models.",
+    "A curated namespace that issues unique symbols within that namespace for the identification of concepts, people, devices, etc.",
+    "This resource documents a set of capabilities (behaviors) of a FHIR Terminology Server that may be used as a statement of actual server functionality or a statement of required or desired server…",
+    "This resource instance specifies a set of codes drawn from one or more code systems, intended for use in a particular context."
+   ],
+   "explanation": "**ConceptMap**: A statement of relationships from one set of concepts to one or more other concepts - either concepts in code systems, or data element/data element concepts, or classes in class models. The other descriptions belong to **NamingSystem**, **TerminologyCapabilities**, **ValueSet**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? Map a hospital’s local lab codes to LOINC.",
+   "options": [
+    "ConceptMap",
+    "ValueSet",
+    "StructureMap",
+    "CodeSystem"
+   ],
+   "explanation": "**ConceptMap**. Mappings between codes; used by $translate."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **ConceptMap**. Which resource should you use instead when you need “transforms whole structures, not just codes”?",
+   "options": [
+    "StructureMap",
+    "ConceptMap",
+    "GraphDefinition",
+    "CapabilityStatement"
+   ],
+   "explanation": "**StructureMap**: transforms whole structures, not just codes. **ConceptMap** is for something else: A statement of relationships from one set of concepts to one or more other concepts - either concepts in code systems, or data element/data element concepts, or classes in class models."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **ConceptMap** instance?",
+   "options": [
+    "`status`",
+    "`url`",
+    "`copyright`",
+    "`identifier`"
+   ],
+   "explanation": "The required top-level elements of ConceptMap are `status` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **ConceptMap** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`jurisdiction`",
+    "`experimental`",
+    "`contact`"
+   ],
+   "explanation": "Modifier elements of ConceptMap: `status`. `status`: draft | active | retired | unknown. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

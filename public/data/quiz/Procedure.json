@@ -1,0 +1,60 @@
+{
+ "resource": "Procedure",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Procedure** resource?",
+   "options": [
+    "An action that is or was performed on or for a patient.",
+    "A record of a clinical assessment performed to determine what problem(s) may affect the patient and before planning the treatments or management strategies that are best to manage a patient's condition.",
+    "Risk of harmful or undesirable, physiological response which is unique to an individual and associated with exposure to a substance.",
+    "Indicates an actual or potential clinical issue with or between one or more active or proposed clinical actions for a patient; e.g."
+   ],
+   "explanation": "**Procedure**: An action that is or was performed on or for a patient. This can be a physical intervention like an operation, or less invasive like long term services, counseling, or hypnotherapy. The other descriptions belong to **ClinicalImpression**, **AllergyIntolerance**, **DetectedIssue**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? An appendectomy was performed last week.",
+   "options": [
+    "Procedure",
+    "ServiceRequest",
+    "Immunization",
+    "MedicationAdministration"
+   ],
+   "explanation": "**Procedure**. Something done to the patient. The order for it was a ServiceRequest."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **Procedure**. Which resource should you use instead when you need “information shared without intent to change the patient”?",
+   "options": [
+    "Communication",
+    "Procedure",
+    "CommunicationRequest",
+    "GuidanceResponse"
+   ],
+   "explanation": "**Communication**: information shared without intent to change the patient. **Procedure** is for something else: An action that is or was performed on or for a patient."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **Procedure** instance?",
+   "options": [
+    "`status`",
+    "`focalDevice`",
+    "`complicationDetail`",
+    "`location`"
+   ],
+   "explanation": "The required top-level elements of Procedure are `status` (1..1), `subject` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **Procedure** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`subject`",
+    "`reasonReference`",
+    "`statusReason`"
+   ],
+   "explanation": "Modifier elements of Procedure: `status`. `status`: preparation | in-progress | not-done | on-hold | stopped | completed | entered-in-error | unknown. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

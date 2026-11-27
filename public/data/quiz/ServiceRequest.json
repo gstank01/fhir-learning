@@ -1,0 +1,60 @@
+{
+ "resource": "ServiceRequest",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **ServiceRequest** resource?",
+   "options": [
+    "A record of a request for service such as diagnostic investigations, treatments, or operations to be performed.",
+    "An assessment of the likely outcome(s) for a patient or other subject as well as the likelihood of each outcome.",
+    "Describes the intended objective(s) for a patient, group or organization care, for example, weight loss, restoring an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective,…",
+    "Describes the intention of how one or more practitioners intend to deliver care for a particular patient, group or community for a period of time, possibly limited to care for a specific condition or set of conditions."
+   ],
+   "explanation": "**ServiceRequest**: A record of a request for service such as diagnostic investigations, treatments, or operations to be performed. The other descriptions belong to **RiskAssessment**, **Goal**, **CarePlan**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? An order for a chest X-ray, or a referral to a cardiologist.",
+   "options": [
+    "ServiceRequest",
+    "MedicationRequest",
+    "Procedure",
+    "Task"
+   ],
+   "explanation": "**ServiceRequest**. Orders for tests, procedures and referrals. Medications use MedicationRequest."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **ServiceRequest**. Which resource should you use instead when you need “medication orders”?",
+   "options": [
+    "MedicationRequest",
+    "ServiceRequest",
+    "MedicationAdministration",
+    "Medication"
+   ],
+   "explanation": "**MedicationRequest**: medication orders. **ServiceRequest** is for something else: A record of a request for service such as diagnostic investigations, treatments, or operations to be performed."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **ServiceRequest** instance?",
+   "options": [
+    "`intent`",
+    "`encounter`",
+    "`patientInstruction`",
+    "`specimen`"
+   ],
+   "explanation": "The required top-level elements of ServiceRequest are `status` (1..1), `intent` (1..1), `subject` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **ServiceRequest** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`priority`",
+    "`subject`",
+    "`instantiatesUri`"
+   ],
+   "explanation": "Modifier elements of ServiceRequest: `status`, `intent`, `doNotPerform`. `status`: draft | active | on-hold | revoked | completed | entered-in-error | unknown. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

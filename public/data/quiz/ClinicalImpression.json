@@ -1,0 +1,60 @@
+{
+ "resource": "ClinicalImpression",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **ClinicalImpression** resource?",
+   "options": [
+    "A record of a clinical assessment performed to determine what problem(s) may affect the patient and before planning the treatments or management strategies that are best to manage a patient's condition.",
+    "Significant health conditions for a person related to the patient relevant in the context of care for the patient.",
+    "Actual or potential/avoided event causing unintended physical injury resulting from or contributed to by medical care, a research study or other healthcare setting factors that requires additional monitoring, treatment, or…",
+    "An action that is or was performed on or for a patient."
+   ],
+   "explanation": "**ClinicalImpression**: A record of a clinical assessment performed to determine what problem(s) may affect the patient and before planning the treatments or management strategies that are best to manage a patient's condition. Assessments are often 1:1 with a clinical consultation / encounter, but this varies greatly depending on the clinical workflow. This resource is called \"ClinicalImpression\" rather than \"ClinicalAssessment\" to avoid confusion with the recording of assessment tools such as Apgar score. The other descriptions belong to **FamilyMemberHistory**, **AdverseEvent**, **Procedure**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? A clinician’s assessment of a patient’s chest pain, with their reasoning and differential diagnoses.",
+   "options": [
+    "ClinicalImpression",
+    "Condition",
+    "Observation",
+    "FamilyMemberHistory"
+   ],
+   "explanation": "**ClinicalImpression**. The thinking behind a diagnosis. The diagnosis itself is a Condition."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **ClinicalImpression**. Which resource should you use instead when you need “the resulting diagnosis”?",
+   "options": [
+    "Condition",
+    "ClinicalImpression",
+    "FamilyMemberHistory",
+    "Procedure"
+   ],
+   "explanation": "**Condition**: the resulting diagnosis. **ClinicalImpression** is for something else: A record of a clinical assessment performed to determine what problem(s) may affect the patient and before planning the treatments or management strategies that are best to manage a patient's condition."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **ClinicalImpression** instance?",
+   "options": [
+    "`subject`",
+    "`problem`",
+    "`statusReason`",
+    "`prognosisReference`"
+   ],
+   "explanation": "The required top-level elements of ClinicalImpression are `status` (1..1), `subject` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **ClinicalImpression** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`investigation`",
+    "`encounter`",
+    "`finding`"
+   ],
+   "explanation": "Modifier elements of ClinicalImpression: `status`. `status`: in-progress | completed | entered-in-error. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

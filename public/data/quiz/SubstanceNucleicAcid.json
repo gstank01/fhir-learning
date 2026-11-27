@@ -1,0 +1,60 @@
+{
+ "resource": "SubstanceNucleicAcid",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **SubstanceNucleicAcid** resource?",
+   "options": [
+    "Nucleic acids are defined by three distinct elements: the base, sugar and linkage.",
+    "This resource is defined as a single unit of a linear amino acid sequence, or a combination of subunits that are either covalently linked or have a defined invariant stoichiometric relationship.",
+    "The interactions of the medicinal product with other medicinal products, or other forms of interactions.",
+    "Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g."
+   ],
+   "explanation": "**SubstanceNucleicAcid**: Nucleic acids are defined by three distinct elements: the base, sugar and linkage. Individual substance/moiety IDs will be created for each of these elements. The nucleotide sequence will be always entered in the 5’-3’ direction. The other descriptions belong to **SubstanceProtein**, **MedicinalProductInteraction**, **MedicinalProduct**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “Nucleic acids are defined by three distinct elements: the base, sugar and linkage.”",
+   "options": [
+    "SubstanceNucleicAcid",
+    "MedicinalProductIngredient",
+    "SubstanceSourceMaterial",
+    "MedicinalProductPharmaceutical"
+   ],
+   "explanation": "This is the definition of **SubstanceNucleicAcid** (Specialized › Medication Definition)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **SubstanceNucleicAcid** sit in the FHIR R4 resource list?",
+   "options": [
+    "Specialized › Medication Definition",
+    "Financial › Billing",
+    "Clinical › Diagnostics",
+    "Base › Management"
+   ],
+   "explanation": "**SubstanceNucleicAcid** is in **Specialized › Medication Definition**: Detailed regulatory data about medicinal products and substances (authorisations, ingredients, packaging, interactions, side effects), used by regulators and drug databases rather than in everyday patient care."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **SubstanceNucleicAcid** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`subunit` is required in every instance",
+    "`numberOfSubunits` is required in every instance",
+    "`areaOfHybridisation` is required in every instance"
+   ],
+   "explanation": "Every top-level element of SubstanceNucleicAcid is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `SubstanceNucleicAcid.numberOfSubunits`?",
+   "options": [
+    "`integer`",
+    "`Identifier`",
+    "`Period`",
+    "`decimal`"
+   ],
+   "explanation": "`SubstanceNucleicAcid.numberOfSubunits` (0..1) is `integer`: The number of linear sequences of nucleotides linked through phosphodiester bonds shall be described. Subunits would be strands of nucleic acids that are tightly associated typically through Watson-Crick base pairing. NOTE: If not specified in the reference source, the assumption is that there is 1 subunit."
+  }
+ ]
+}

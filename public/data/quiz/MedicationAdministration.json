@@ -1,0 +1,60 @@
+{
+ "resource": "MedicationAdministration",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **MedicationAdministration** resource?",
+   "options": [
+    "Describes the event of a patient consuming or otherwise being administered a medication.",
+    "Information about a medication that is used to support knowledge.",
+    "Indicates that a medication product is to be or has been dispensed for a named person/patient.",
+    "Describes a comparison of an immunization event against published recommendations to determine if the administration is \"valid\" in relation to those recommendations."
+   ],
+   "explanation": "**MedicationAdministration**: Describes the event of a patient consuming or otherwise being administered a medication. This may be as simple as swallowing a tablet or it may be a long running infusion. Related resources tie this event to the authorizing prescription, and the specific encounter between patient and health care practitioner. The other descriptions belong to **MedicationKnowledge**, **MedicationDispense**, **ImmunizationEvaluation**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? A nurse gives the patient a dose of morphine on the ward.",
+   "options": [
+    "MedicationAdministration",
+    "MedicationDispense",
+    "MedicationStatement",
+    "Immunization"
+   ],
+   "explanation": "**MedicationAdministration**. The actual giving of a dose to the patient."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **MedicationAdministration**. Which resource should you use instead when you need “a report of medication use”?",
+   "options": [
+    "MedicationStatement",
+    "MedicationAdministration",
+    "ImmunizationEvaluation",
+    "Immunization"
+   ],
+   "explanation": "**MedicationStatement**: a report of medication use. **MedicationAdministration** is for something else: Describes the event of a patient consuming or otherwise being administered a medication."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **MedicationAdministration** instance?",
+   "options": [
+    "`subject`",
+    "`reasonCode`",
+    "`note`",
+    "`instantiates`"
+   ],
+   "explanation": "The required top-level elements of MedicationAdministration are `status` (1..1), `medication[x]` (1..1), `subject` (1..1), `effective[x]` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **MedicationAdministration** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`request`",
+    "`eventHistory`",
+    "`identifier`"
+   ],
+   "explanation": "Modifier elements of MedicationAdministration: `status`. `status`: in-progress | not-done | on-hold | completed | entered-in-error | stopped | unknown. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

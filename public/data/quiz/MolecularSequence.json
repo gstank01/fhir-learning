@@ -1,0 +1,60 @@
+{
+ "resource": "MolecularSequence",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **MolecularSequence** resource?",
+   "options": [
+    "Raw data describing a biological sequence.",
+    "A photo, video, or audio recording acquired or used in healthcare.",
+    "Representation of the content produced in a DICOM imaging study.",
+    "A structured set of questions and their answers."
+   ],
+   "explanation": "**MolecularSequence**: Raw data describing a biological sequence. The other descriptions belong to **Media**, **ImagingStudy**, **QuestionnaireResponse**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “Raw data describing a biological sequence.”",
+   "options": [
+    "MolecularSequence",
+    "Observation",
+    "BodyStructure",
+    "Media"
+   ],
+   "explanation": "This is the definition of **MolecularSequence** (Clinical › Diagnostics)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **MolecularSequence** sit in the FHIR R4 resource list?",
+   "options": [
+    "Clinical › Diagnostics",
+    "Foundation › Terminology",
+    "Clinical › Care Provision",
+    "Clinical › Summary"
+   ],
+   "explanation": "**MolecularSequence** is in **Clinical › Diagnostics**: Tests and their results: single results and measurements (Observation), reports that group them (DiagnosticReport), specimens, imaging studies, photos and other media, form answers and genetic sequences."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **MolecularSequence** instance?",
+   "options": [
+    "`coordinateSystem`",
+    "`readCoverage`",
+    "`identifier`",
+    "`patient`"
+   ],
+   "explanation": "The required top-level elements of MolecularSequence are `coordinateSystem` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `MolecularSequence.patient`?",
+   "options": [
+    "`Reference(Patient)`",
+    "`integer`",
+    "`instant`",
+    "`string`"
+   ],
+   "explanation": "`MolecularSequence.patient` (0..1) is `Reference(Patient)`: Who and/or what this is about."
+  }
+ ]
+}

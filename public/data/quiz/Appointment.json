@@ -1,0 +1,60 @@
+{
+ "resource": "Appointment",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Appointment** resource?",
+   "options": [
+    "A booking of a healthcare event among patient(s), practitioner(s), related person(s) and/or device(s) for a specific date/time.",
+    "A slot of time on a schedule that may be available for booking appointments.",
+    "A container for slots of time that may be available for booking appointments.",
+    "A reply to an appointment request for a patient and/or practitioner(s), such as a confirmation or rejection."
+   ],
+   "explanation": "**Appointment**: A booking of a healthcare event among patient(s), practitioner(s), related person(s) and/or device(s) for a specific date/time. This may result in one or more Encounter(s). The other descriptions belong to **Slot**, **Schedule**, **AppointmentResponse**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? Book the patient in with Dr Lee on Thursday at 10:00.",
+   "options": [
+    "Appointment",
+    "Encounter",
+    "Slot",
+    "AppointmentResponse"
+   ],
+   "explanation": "**Appointment**. A planned meeting. When it happens, the actual visit is an Encounter."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **Appointment**. Which resource should you use instead when you need “free time that can be booked”?",
+   "options": [
+    "Slot",
+    "Appointment",
+    "AppointmentResponse",
+    "Schedule"
+   ],
+   "explanation": "**Slot**: free time that can be booked. **Appointment** is for something else: A booking of a healthcare event among patient(s), practitioner(s), related person(s) and/or device(s) for a specific date/time."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **Appointment** instance?",
+   "options": [
+    "`participant`",
+    "`cancelationReason`",
+    "`description`",
+    "`supportingInformation`"
+   ],
+   "explanation": "The required top-level elements of Appointment are `status` (1..1), `participant` (1..*). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **Appointment** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`description`",
+    "`participant`",
+    "`identifier`"
+   ],
+   "explanation": "Modifier elements of Appointment: `status`. `status`: proposed | pending | booked | arrived | fulfilled | cancelled | noshow | entered-in-error | checked-in | waitlist. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

@@ -1,0 +1,60 @@
+{
+ "resource": "Substance",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Substance** resource?",
+   "options": [
+    "A homogeneous material with a definite composition.",
+    "A material substance originating from a biological entity intended to be transplanted or infused into another (possibly the same) biological entity.",
+    "Describes a measurement, calculation or setting capability of a medical device.",
+    "A type of a manufactured item that is used in the provision of healthcare without being substantially changed through that activity."
+   ],
+   "explanation": "**Substance**: A homogeneous material with a definite composition. The other descriptions belong to **BiologicallyDerivedProduct**, **DeviceMetric**, **Device**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? A container of latex or a batch of a chemical used in a procedure.",
+   "options": [
+    "Substance",
+    "Medication",
+    "Device",
+    "DeviceMetric"
+   ],
+   "explanation": "**Substance**. A material with a definite composition, often used in allergy and supply records."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **Substance**. Which resource should you use instead when you need “a manufactured item”?",
+   "options": [
+    "Device",
+    "Substance",
+    "BiologicallyDerivedProduct",
+    "DeviceMetric"
+   ],
+   "explanation": "**Device**: a manufactured item. **Substance** is for something else: A homogeneous material with a definite composition."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **Substance** instance?",
+   "options": [
+    "`code`",
+    "`status`",
+    "`identifier`",
+    "`instance`"
+   ],
+   "explanation": "The required top-level elements of Substance are `code` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **Substance** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`description`",
+    "`identifier`",
+    "`ingredient`"
+   ],
+   "explanation": "Modifier elements of Substance: `status`. `status`: active | inactive | entered-in-error. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

@@ -1,0 +1,60 @@
+{
+ "resource": "InsurancePlan",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **InsurancePlan** resource?",
+   "options": [
+    "Details of a Health Insurance product/plan provided by an organization.",
+    "A financial tool for tracking value accrued for a particular purpose.",
+    "The resource this resource describes the provision of healthcare provider products for a certain patient, therefore referring not only to the product, but containing in addition details of the provision, like date, time, amounts…",
+    "Legally enforceable, formally recorded unilateral or bilateral directive i.e., a policy or agreement."
+   ],
+   "explanation": "**InsurancePlan**: Details of a Health Insurance product/plan provided by an organization. The other descriptions belong to **Account**, **ChargeItem**, **Contract**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “Details of a Health Insurance product/plan provided by an organization.”",
+   "options": [
+    "InsurancePlan",
+    "Contract",
+    "ChargeItemDefinition",
+    "Account"
+   ],
+   "explanation": "This is the definition of **InsurancePlan** (Financial › General)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **InsurancePlan** sit in the FHIR R4 resource list?",
+   "options": [
+    "Financial › General",
+    "Base › Workflow",
+    "Base › Entities #2",
+    "Foundation › Conformance"
+   ],
+   "explanation": "**InsurancePlan** is in **Financial › General**: Other financial records: patient accounts, individual charges and their pricing, contracts, insurance plan details, and the explanation of benefits sent to patients."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **InsurancePlan** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`contact` is required in every instance",
+    "`identifier` is required in every instance",
+    "`endpoint` is required in every instance"
+   ],
+   "explanation": "Every top-level element of InsurancePlan is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **InsurancePlan** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`administeredBy`",
+    "`coverage`",
+    "`period`"
+   ],
+   "explanation": "Modifier elements of InsurancePlan: `status`. `status`: draft | active | retired | unknown. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

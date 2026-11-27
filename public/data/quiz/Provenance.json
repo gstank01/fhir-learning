@@ -1,0 +1,60 @@
+{
+ "resource": "Provenance",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Provenance** resource?",
+   "options": [
+    "This resource of a resource is a record that describes entities and processes involved in producing and delivering or otherwise influencing that resource.",
+    "A record of an event made for purposes of maintaining a security log.",
+    "A record of a healthcare consumer’s choices, which permits or denies identified recipient(s) or recipient role(s) to perform one or more actions within a given policy context, for specific purposes and periods of time.",
+    "This resource is a non-persisted resource used to pass information into and back from an operation."
+   ],
+   "explanation": "**Provenance**: Provenance of a resource is a record that describes entities and processes involved in producing and delivering or otherwise influencing that resource. Provenance provides a critical foundation for assessing authenticity, enabling trust, and allowing reproducibility. Provenance assertions are a form of contextual metadata and can themselves become important records with their own provenance. Provenance statement indicates clinical significance in terms of confidence in authenticity, reliability, and trustworthiness, integrity, and stage in lifecycle (e.g. Document Completion - has the artifact been legally authenticated), all of which may impact security, privacy, and trust policies. The other descriptions belong to **AuditEvent**, **Consent**, **Parameters**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? Record which system and which person created a lab result, and when it was imported.",
+   "options": [
+    "Provenance",
+    "AuditEvent",
+    "Consent",
+    "MessageDefinition"
+   ],
+   "explanation": "**Provenance**. Where data came from and who is responsible. Access logs are AuditEvent."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **Provenance**. Which resource should you use instead when you need “what the patient allows”?",
+   "options": [
+    "Consent",
+    "Provenance",
+    "AuditEvent",
+    "CompartmentDefinition"
+   ],
+   "explanation": "**Consent**: what the patient allows. **Provenance** is for something else: Provenance of a resource is a record that describes entities and processes involved in producing and delivering or otherwise influencing that resource."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **Provenance** instance?",
+   "options": [
+    "`agent`",
+    "`entity`",
+    "`reason`",
+    "`signature`"
+   ],
+   "explanation": "The required top-level elements of Provenance are `target` (1..*), `recorded` (1..1), `agent` (1..*). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `Provenance.reason`?",
+   "options": [
+    "`CodeableConcept`",
+    "`Coding`",
+    "`integer`",
+    "`decimal`"
+   ],
+   "explanation": "`Provenance.reason` (0..*) is `CodeableConcept`: Reason the activity is occurring."
+  }
+ ]
+}

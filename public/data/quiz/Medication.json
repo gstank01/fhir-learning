@@ -1,0 +1,60 @@
+{
+ "resource": "Medication",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Medication** resource?",
+   "options": [
+    "This resource is primarily used for the identification and definition of a medication for the purposes of prescribing, dispensing, and administering a medication as well as for making statements about medication use.",
+    "Describes a comparison of an immunization event against published recommendations to determine if the administration is \"valid\" in relation to those recommendations.",
+    "A patient's point-in-time set of recommendations (i.e.",
+    "An order or request for both supply of the medication and the instructions for administration of the medication to a patient."
+   ],
+   "explanation": "**Medication**: This resource is primarily used for the identification and definition of a medication for the purposes of prescribing, dispensing, and administering a medication as well as for making statements about medication use. The other descriptions belong to **ImmunizationEvaluation**, **ImmunizationRecommendation**, **MedicationRequest**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? Describe a drug product: its code, form (tablet) and ingredients.",
+   "options": [
+    "Medication",
+    "MedicationKnowledge",
+    "MedicationRequest",
+    "ImmunizationEvaluation"
+   ],
+   "explanation": "**Medication**. Medication describes the drug; other resources reference it."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **Medication**. Which resource should you use instead when you need “an order that uses a Medication”?",
+   "options": [
+    "MedicationRequest",
+    "Medication",
+    "MedicationDispense",
+    "MedicationKnowledge"
+   ],
+   "explanation": "**MedicationRequest**: an order that uses a Medication. **Medication** is for something else: This resource is primarily used for the identification and definition of a medication for the purposes of prescribing, dispensing, and administering a medication as well as for making statements about medication use."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **Medication** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`manufacturer` is required in every instance",
+    "`status` is required in every instance",
+    "`ingredient` is required in every instance"
+   ],
+   "explanation": "Every top-level element of Medication is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **Medication** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`identifier`",
+    "`code`",
+    "`ingredient`"
+   ],
+   "explanation": "Modifier elements of Medication: `status`. `status`: active | inactive | entered-in-error. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

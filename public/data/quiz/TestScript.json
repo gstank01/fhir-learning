@@ -1,0 +1,60 @@
+{
+ "resource": "TestScript",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **TestScript** resource?",
+   "options": [
+    "A structured set of tests against a FHIR server or client implementation to determine compliance against the FHIR specification.",
+    "This resource provides the definition of a quality measure.",
+    "This resource contains the results of the calculation of a measure; and optionally a reference to the resources involved in that calculation.",
+    "A summary of information based on the results of executing a TestScript."
+   ],
+   "explanation": "**TestScript**: A structured set of tests against a FHIR server or client implementation to determine compliance against the FHIR specification. The other descriptions belong to **Measure**, **MeasureReport**, **TestReport**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “A structured set of tests against a FHIR server or client implementation to determine compliance against the FHIR specification.”",
+   "options": [
+    "TestScript",
+    "MeasureReport",
+    "Measure",
+    "TestReport"
+   ],
+   "explanation": "This is the definition of **TestScript** (Specialized › Quality Reporting & Testing)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **TestScript** sit in the FHIR R4 resource list?",
+   "options": [
+    "Specialized › Quality Reporting & Testing",
+    "Financial › Payment",
+    "Base › Entities #1",
+    "Specialized › Medication Definition"
+   ],
+   "explanation": "**TestScript** is in **Specialized › Quality Reporting & Testing**: Quality measures and their results (Measure, MeasureReport), and scripts and reports for testing FHIR systems (TestScript, TestReport)."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **TestScript** instance?",
+   "options": [
+    "`status`",
+    "`version`",
+    "`useContext`",
+    "`copyright`"
+   ],
+   "explanation": "The required top-level elements of TestScript are `url` (1..1), `name` (1..1), `status` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **TestScript** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`fixture`",
+    "`setup`",
+    "`jurisdiction`"
+   ],
+   "explanation": "Modifier elements of TestScript: `status`. `status`: draft | active | retired | unknown. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

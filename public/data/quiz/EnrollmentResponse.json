@@ -1,0 +1,60 @@
+{
+ "resource": "EnrollmentResponse",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **EnrollmentResponse** resource?",
+   "options": [
+    "This resource provides enrollment and plan details from the processing of an EnrollmentRequest resource.",
+    "Financial instrument which may be used to reimburse or pay for health care products and services.",
+    "This resource provides patient and insurance coverage information to an insurer for them to respond, in the form of an CoverageEligibilityResponse, with information regarding whether the stated coverage is…",
+    "This resource provides the insurance enrollment details to the insurer regarding a specified coverage."
+   ],
+   "explanation": "**EnrollmentResponse**: This resource provides enrollment and plan details from the processing of an EnrollmentRequest resource. The other descriptions belong to **Coverage**, **CoverageEligibilityRequest**, **EnrollmentRequest**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “This resource provides enrollment and plan details from the processing of an EnrollmentRequest resource.”",
+   "options": [
+    "EnrollmentResponse",
+    "CoverageEligibilityResponse",
+    "Coverage",
+    "CoverageEligibilityRequest"
+   ],
+   "explanation": "This is the definition of **EnrollmentResponse** (Financial › Support)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **EnrollmentResponse** sit in the FHIR R4 resource list?",
+   "options": [
+    "Financial › Support",
+    "Clinical › Request & Response",
+    "Specialized › Definitional Artifacts",
+    "Foundation › Conformance"
+   ],
+   "explanation": "**EnrollmentResponse** is in **Financial › Support**: Insurance cover and enrolment: who pays for the patient’s care (Coverage), and checking eligibility before care is given."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **EnrollmentResponse** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`disposition` is required in every instance",
+    "`identifier` is required in every instance",
+    "`organization` is required in every instance"
+   ],
+   "explanation": "Every top-level element of EnrollmentResponse is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **EnrollmentResponse** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`organization`",
+    "`created`",
+    "`request`"
+   ],
+   "explanation": "Modifier elements of EnrollmentResponse: `status`. `status`: active | cancelled | draft | entered-in-error. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

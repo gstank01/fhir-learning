@@ -1,0 +1,60 @@
+{
+ "resource": "GraphDefinition",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **GraphDefinition** resource?",
+   "options": [
+    "A formal computable definition of a graph of resources - that is, a coherent set of resources that form a graph by following references.",
+    "A compartment definition that defines how resources are accessed on a server.",
+    "A set of rules of how a particular interoperability or standards problem is solved - typically through the use of FHIR resources.",
+    "This resource documents a set of capabilities (behaviors) of a FHIR Server for a particular version of FHIR that may be used as a statement of actual server functionality or a statement of required or desired server…"
+   ],
+   "explanation": "**GraphDefinition**: A formal computable definition of a graph of resources - that is, a coherent set of resources that form a graph by following references. The Graph Definition resource defines a set and makes rules about the set. The other descriptions belong to **CompartmentDefinition**, **ImplementationGuide**, **CapabilityStatement**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “A formal computable definition of a graph of resources - that is, a coherent set of resources that form a graph by following references.”",
+   "options": [
+    "GraphDefinition",
+    "CompartmentDefinition",
+    "StructureDefinition",
+    "SearchParameter"
+   ],
+   "explanation": "This is the definition of **GraphDefinition** (Foundation › Conformance)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **GraphDefinition** sit in the FHIR R4 resource list?",
+   "options": [
+    "Foundation › Conformance",
+    "Foundation › Terminology",
+    "Financial › General",
+    "Clinical › Medications"
+   ],
+   "explanation": "**GraphDefinition** is in **Foundation › Conformance**: Describe how FHIR is used rather than any patient: what a server can do (CapabilityStatement), the rules for resources (StructureDefinition, used for profiles and extensions), implementation guides, custom searches and operations."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **GraphDefinition** instance?",
+   "options": [
+    "`name`",
+    "`link`",
+    "`description`",
+    "`version`"
+   ],
+   "explanation": "The required top-level elements of GraphDefinition are `name` (1..1), `status` (1..1), `start` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **GraphDefinition** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`link`",
+    "`useContext`",
+    "`description`"
+   ],
+   "explanation": "Modifier elements of GraphDefinition: `status`. `status`: draft | active | retired | unknown. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

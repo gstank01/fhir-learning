@@ -1,0 +1,60 @@
+{
+ "resource": "ActivityDefinition",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **ActivityDefinition** resource?",
+   "options": [
+    "This resource allows for the definition of some activity to be performed, independent of a particular patient, practitioner, or other performance context.",
+    "A kind of specimen with associated set of requirements.",
+    "Set of definitional characteristics for a kind of observation or measurement produced or consumed by an orderable health care service.",
+    "A structured set of questions intended to guide the collection of answers from end-users."
+   ],
+   "explanation": "**ActivityDefinition**: This resource allows for the definition of some activity to be performed, independent of a particular patient, practitioner, or other performance context. The other descriptions belong to **SpecimenDefinition**, **ObservationDefinition**, **Questionnaire**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “This resource allows for the definition of some activity to be performed, independent of a particular patient, practitioner, or other performance context.”",
+   "options": [
+    "ActivityDefinition",
+    "ObservationDefinition",
+    "SpecimenDefinition",
+    "Questionnaire"
+   ],
+   "explanation": "This is the definition of **ActivityDefinition** (Specialized › Definitional Artifacts)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **ActivityDefinition** sit in the FHIR R4 resource list?",
+   "options": [
+    "Specialized › Definitional Artifacts",
+    "Specialized › Medication Definition",
+    "Financial › Billing",
+    "Financial › General"
+   ],
+   "explanation": "**ActivityDefinition** is in **Specialized › Definitional Artifacts**: Reusable templates that define things before they happen: protocols and order sets (PlanDefinition, ActivityDefinition), forms (Questionnaire), and definitions of observations, specimens, devices and events."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **ActivityDefinition** instance?",
+   "options": [
+    "`status`",
+    "`contact`",
+    "`publisher`",
+    "`url`"
+   ],
+   "explanation": "The required top-level elements of ActivityDefinition are `status` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **ActivityDefinition** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`doNotPerform`",
+    "`transform`",
+    "`copyright`",
+    "`endorser`"
+   ],
+   "explanation": "Modifier elements of ActivityDefinition: `status`, `doNotPerform`. `doNotPerform`: True if the activity should not be performed. A modifier can change the meaning of the whole resource, so systems must understand it before using the data."
+  }
+ ]
+}

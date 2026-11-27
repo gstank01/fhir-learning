@@ -1,0 +1,60 @@
+{
+ "resource": "DeviceRequest",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **DeviceRequest** resource?",
+   "options": [
+    "Represents a request for a patient to employ a medical device.",
+    "A guidance response is the formal response to a guidance request, including any output parameters returned by the evaluation, as well as the description of any proposed actions to be taken.",
+    "Record of delivery of what is supplied.",
+    "A request to convey information; e.g."
+   ],
+   "explanation": "**DeviceRequest**: Represents a request for a patient to employ a medical device. The device may be an implantable device, or an external assistive device, such as a walker. The other descriptions belong to **GuidanceResponse**, **SupplyDelivery**, **CommunicationRequest**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “Represents a request for a patient to employ a medical device.”",
+   "options": [
+    "DeviceRequest",
+    "GuidanceResponse",
+    "CommunicationRequest",
+    "DeviceUseStatement"
+   ],
+   "explanation": "This is the definition of **DeviceRequest** (Clinical › Request & Response)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **DeviceRequest** sit in the FHIR R4 resource list?",
+   "options": [
+    "Clinical › Request & Response",
+    "Specialized › Definitional Artifacts",
+    "Financial › Support",
+    "Clinical › Diagnostics"
+   ],
+   "explanation": "**DeviceRequest** is in **Clinical › Request & Response**: Requests and records for other activities: messages between people (Communication), requests for devices and supplies and their delivery, a patient’s use of a device, and responses from decision-support services."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **DeviceRequest** instance?",
+   "options": [
+    "`intent`",
+    "`authoredOn`",
+    "`performer`",
+    "`instantiatesCanonical`"
+   ],
+   "explanation": "The required top-level elements of DeviceRequest are `intent` (1..1), `code[x]` (1..1), `subject` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **DeviceRequest** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`reasonReference`",
+    "`reasonCode`",
+    "`occurrence[x]`"
+   ],
+   "explanation": "Modifier elements of DeviceRequest: `status`, `intent`. `status`: draft | active | on-hold | revoked | completed | entered-in-error | unknown. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

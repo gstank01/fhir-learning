@@ -1,0 +1,60 @@
+{
+ "resource": "Group",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Group** resource?",
+   "options": [
+    "Represents a defined collection of entities that may be discussed or acted upon collectively but which are not expected to act collectively, and are not formally or legally recognized; i.e.",
+    "A person who is directly or indirectly involved in the provisioning of healthcare.",
+    "Demographics and other administrative information about an individual or animal receiving care or other health-related services.",
+    "Demographics and administrative information about a person independent of a specific health-related context."
+   ],
+   "explanation": "**Group**: Represents a defined collection of entities that may be discussed or acted upon collectively but which are not expected to act collectively, and are not formally or legally recognized; i.e. a collection of entities that isn't an Organization. The other descriptions belong to **Practitioner**, **Patient**, **Person**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? All patients enrolled in a diabetes management programme, used as the subject of a bulk export.",
+   "options": [
+    "Group",
+    "Organization",
+    "CareTeam",
+    "List"
+   ],
+   "explanation": "**Group**. A Group is a set of people (or things) that are acted on together, but not an organisation."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **Group**. Which resource should you use instead when you need “a formally recognised body that acts together”?",
+   "options": [
+    "Organization",
+    "Group",
+    "Endpoint",
+    "OrganizationAffiliation"
+   ],
+   "explanation": "**Organization**: a formally recognised body that acts together. **Group** is for something else: Represents a defined collection of entities that may be discussed or acted upon collectively but which are not expected to act collectively, and are not formally or legally recognized; i.e."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **Group** instance?",
+   "options": [
+    "`actual`",
+    "`active`",
+    "`code`",
+    "`identifier`"
+   ],
+   "explanation": "The required top-level elements of Group are `type` (1..1), `actual` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `Group.name`?",
+   "options": [
+    "`string`",
+    "`Quantity`",
+    "`decimal`",
+    "`dateTime`"
+   ],
+   "explanation": "`Group.name` (0..1) is `string`: Label for Group."
+  }
+ ]
+}

@@ -1,0 +1,60 @@
+{
+ "resource": "Person",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Person** resource?",
+   "options": [
+    "Demographics and administrative information about a person independent of a specific health-related context.",
+    "A person who is directly or indirectly involved in the provisioning of healthcare.",
+    "Demographics and other administrative information about an individual or animal receiving care or other health-related services.",
+    "Represents a defined collection of entities that may be discussed or acted upon collectively but which are not expected to act collectively, and are not formally or legally recognized; i.e."
+   ],
+   "explanation": "**Person**: Demographics and administrative information about a person independent of a specific health-related context. The other descriptions belong to **Practitioner**, **Patient**, **Group**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? Link the Patient record and the Practitioner record of a nurse who is also being treated at her own hospital.",
+   "options": [
+    "Person",
+    "Patient",
+    "Linkage",
+    "RelatedPerson"
+   ],
+   "explanation": "**Person**. Person ties together records of the same human across roles and systems."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **Person**. Which resource should you use instead when you need “links any resource instances that describe the same thing”?",
+   "options": [
+    "Linkage",
+    "Person",
+    "Bundle",
+    "Parameters"
+   ],
+   "explanation": "**Linkage**: links any resource instances that describe the same thing. **Person** is for something else: Demographics and administrative information about a person independent of a specific health-related context."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **Person** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`active` is required in every instance",
+    "`gender` is required in every instance",
+    "`name` is required in every instance"
+   ],
+   "explanation": "Every top-level element of Person is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **Person** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`active`",
+    "`gender`",
+    "`birthDate`",
+    "`link`"
+   ],
+   "explanation": "Modifier elements of Person: `active`. `active`: This person's record is in active use. A modifier can change the meaning of the whole resource, so systems must understand it before using the data."
+  }
+ ]
+}

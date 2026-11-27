@@ -1,0 +1,60 @@
+{
+ "resource": "ResearchStudy",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **ResearchStudy** resource?",
+   "options": [
+    "A process where a researcher or organization plans and then executes a series of steps intended to increase the field of healthcare-related knowledge.",
+    "A physical entity which is the primary unit of operational and/or administrative interest in a study.",
+    "This resource provides a reusable description of when a particular event can occur.",
+    "Nucleic acids are defined by three distinct elements: the base, sugar and linkage."
+   ],
+   "explanation": "**ResearchStudy**: A process where a researcher or organization plans and then executes a series of steps intended to increase the field of healthcare-related knowledge. This includes studies of safety, efficacy, comparative effectiveness and other information about medications, devices, therapies and other interventional and investigative techniques. A ResearchStudy involves the gathering of information about human or animal subjects. The other descriptions belong to **ResearchSubject**, **EventDefinition**, **SubstanceNucleicAcid**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? A clinical trial of a new asthma drug, with its phase and sites.",
+   "options": [
+    "ResearchStudy",
+    "ResearchSubject",
+    "PlanDefinition",
+    "MedicinalProductAuthorization"
+   ],
+   "explanation": "**ResearchStudy**. The study. Each enrolled patient is a ResearchSubject."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **ResearchStudy**. Which resource should you use instead when you need “one person in the study”?",
+   "options": [
+    "ResearchSubject",
+    "ResearchStudy",
+    "ResearchDefinition",
+    "MedicinalProductPharmaceutical"
+   ],
+   "explanation": "**ResearchSubject**: one person in the study. **ResearchStudy** is for something else: A process where a researcher or organization plans and then executes a series of steps intended to increase the field of healthcare-related knowledge."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **ResearchStudy** instance?",
+   "options": [
+    "`status`",
+    "`identifier`",
+    "`relatedArtifact`",
+    "`partOf`"
+   ],
+   "explanation": "The required top-level elements of ResearchStudy are `status` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **ResearchStudy** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`objective`",
+    "`focus`",
+    "`note`"
+   ],
+   "explanation": "Modifier elements of ResearchStudy: `status`. `status`: active | administratively-completed | approved | closed-to-accrual | closed-to-accrual-and-intervention | completed | disapproved | in-review | temporarily-closed-to-accrual | temporarily-closed-to-accrual-and-intervention | withdrawn. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

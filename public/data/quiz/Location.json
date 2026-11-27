@@ -1,0 +1,60 @@
+{
+ "resource": "Location",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Location** resource?",
+   "options": [
+    "Details and position information for a physical place where services are provided and resources and participants may be stored, found, contained, or accommodated.",
+    "Defines an affiliation/assotiation/relationship between 2 distinct oganizations, that is not a part-of relationship/sub-division relationship.",
+    "A formally or informally recognized grouping of people or organizations formed for the purpose of achieving some form of collective action.",
+    "The technical details of an endpoint that can be used for electronic services, such as for web services providing XDS.b or a REST endpoint for another FHIR server."
+   ],
+   "explanation": "**Location**: Details and position information for a physical place where services are provided and resources and participants may be stored, found, contained, or accommodated. The other descriptions belong to **OrganizationAffiliation**, **Organization**, **Endpoint**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? Ward 3B, bed 12, or the street address of a clinic building.",
+   "options": [
+    "Location",
+    "Organization",
+    "HealthcareService",
+    "OrganizationAffiliation"
+   ],
+   "explanation": "**Location**. Location is a physical place. The organisation that runs it is an Organization."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **Location**. Which resource should you use instead when you need “what is offered there”?",
+   "options": [
+    "HealthcareService",
+    "Location",
+    "OrganizationAffiliation",
+    "Endpoint"
+   ],
+   "explanation": "**HealthcareService**: what is offered there. **Location** is for something else: Details and position information for a physical place where services are provided and resources and participants may be stored, found, contained, or accommodated."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **Location** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`address` is required in every instance",
+    "`operationalStatus` is required in every instance",
+    "`partOf` is required in every instance"
+   ],
+   "explanation": "Every top-level element of Location is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **Location** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`hoursOfOperation`",
+    "`managingOrganization`",
+    "`address`"
+   ],
+   "explanation": "Modifier elements of Location: `status`. `status`: active | suspended | inactive. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

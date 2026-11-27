@@ -1,0 +1,60 @@
+{
+ "resource": "SubstanceSpecification",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **SubstanceSpecification** resource?",
+   "options": [
+    "The detailed description of a substance, typically at a level beyond what is used for prescribing.",
+    "The interactions of the medicinal product with other medicinal products, or other forms of interactions.",
+    "Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g.",
+    "A medicinal product in a container or package."
+   ],
+   "explanation": "**SubstanceSpecification**: The detailed description of a substance, typically at a level beyond what is used for prescribing. The other descriptions belong to **MedicinalProductInteraction**, **MedicinalProduct**, **MedicinalProductPackaged**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “The detailed description of a substance, typically at a level beyond what is used for prescribing.”",
+   "options": [
+    "SubstanceSpecification",
+    "MedicinalProductIndication",
+    "MedicinalProduct",
+    "SubstanceReferenceInformation"
+   ],
+   "explanation": "This is the definition of **SubstanceSpecification** (Specialized › Medication Definition)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **SubstanceSpecification** sit in the FHIR R4 resource list?",
+   "options": [
+    "Specialized › Medication Definition",
+    "Base › Individuals",
+    "Specialized › Public Health & Research",
+    "Base › Entities #1"
+   ],
+   "explanation": "**SubstanceSpecification** is in **Specialized › Medication Definition**: Detailed regulatory data about medicinal products and substances (authorisations, ingredients, packaging, interactions, side effects), used by regulators and drug databases rather than in everyday patient care."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **SubstanceSpecification** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`property` is required in every instance",
+    "`code` is required in every instance",
+    "`molecularWeight` is required in every instance"
+   ],
+   "explanation": "Every top-level element of SubstanceSpecification is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `SubstanceSpecification.description`?",
+   "options": [
+    "`string`",
+    "`code`",
+    "`dateTime`",
+    "`Coding`"
+   ],
+   "explanation": "`SubstanceSpecification.description` (0..1) is `string`: Textual description of the substance."
+  }
+ ]
+}

@@ -1,0 +1,60 @@
+{
+ "resource": "MedicinalProductAuthorization",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **MedicinalProductAuthorization** resource?",
+   "options": [
+    "The regulatory authorization of a medicinal product.",
+    "The clinical particulars - indications, contraindications etc.",
+    "A pharmaceutical product described in terms of its composition and dose form.",
+    "Nucleic acids are defined by three distinct elements: the base, sugar and linkage."
+   ],
+   "explanation": "**MedicinalProductAuthorization**: The regulatory authorization of a medicinal product. The other descriptions belong to **MedicinalProductContraindication**, **MedicinalProductPharmaceutical**, **SubstanceNucleicAcid**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “The regulatory authorization of a medicinal product.”",
+   "options": [
+    "MedicinalProductAuthorization",
+    "MedicinalProductManufactured",
+    "SubstanceReferenceInformation",
+    "MedicinalProductContraindication"
+   ],
+   "explanation": "This is the definition of **MedicinalProductAuthorization** (Specialized › Medication Definition)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **MedicinalProductAuthorization** sit in the FHIR R4 resource list?",
+   "options": [
+    "Specialized › Medication Definition",
+    "Specialized › Definitional Artifacts",
+    "Base › Workflow",
+    "Financial › General"
+   ],
+   "explanation": "**MedicinalProductAuthorization** is in **Specialized › Medication Definition**: Detailed regulatory data about medicinal products and substances (authorisations, ingredients, packaging, interactions, side effects), used by regulators and drug databases rather than in everyday patient care."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **MedicinalProductAuthorization** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`status` is required in every instance",
+    "`restoreDate` is required in every instance",
+    "`subject` is required in every instance"
+   ],
+   "explanation": "Every top-level element of MedicinalProductAuthorization is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `MedicinalProductAuthorization.dataExclusivityPeriod`?",
+   "options": [
+    "`Period`",
+    "`Identifier`",
+    "`uri`",
+    "`Annotation`"
+   ],
+   "explanation": "`MedicinalProductAuthorization.dataExclusivityPeriod` (0..1) is `Period`: A period of time after authorization before generic product applicatiosn can be submitted."
+  }
+ ]
+}

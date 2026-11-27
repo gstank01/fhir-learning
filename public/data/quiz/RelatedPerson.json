@@ -1,0 +1,60 @@
+{
+ "resource": "RelatedPerson",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **RelatedPerson** resource?",
+   "options": [
+    "Information about a person that is involved in the care for a patient, but who is not the target of healthcare, nor has a formal responsibility in the care process.",
+    "A person who is directly or indirectly involved in the provisioning of healthcare.",
+    "Demographics and administrative information about a person independent of a specific health-related context.",
+    "Demographics and other administrative information about an individual or animal receiving care or other health-related services."
+   ],
+   "explanation": "**RelatedPerson**: Information about a person that is involved in the care for a patient, but who is not the target of healthcare, nor has a formal responsibility in the care process. The other descriptions belong to **Practitioner**, **Person**, **Patient**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? The patient’s daughter brings her to appointments and is involved in her care decisions.",
+   "options": [
+    "RelatedPerson",
+    "Patient",
+    "Practitioner",
+    "Person"
+   ],
+   "explanation": "**RelatedPerson**. RelatedPerson takes part in care in their own right. Patient.contact only holds contact details."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **RelatedPerson**. Which resource should you use instead when you need “professional caregivers”?",
+   "options": [
+    "Practitioner",
+    "RelatedPerson",
+    "Group",
+    "Patient"
+   ],
+   "explanation": "**Practitioner**: professional caregivers. **RelatedPerson** is for something else: Information about a person that is involved in the care for a patient, but who is not the target of healthcare, nor has a formal responsibility in the care process."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **RelatedPerson** instance?",
+   "options": [
+    "`patient`",
+    "`birthDate`",
+    "`relationship`",
+    "`communication`"
+   ],
+   "explanation": "The required top-level elements of RelatedPerson are `patient` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **RelatedPerson** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`active`",
+    "`relationship`",
+    "`period`",
+    "`name`"
+   ],
+   "explanation": "Modifier elements of RelatedPerson: `active`. `active`: Whether this related person's record is in active use. A modifier can change the meaning of the whole resource, so systems must understand it before using the data."
+  }
+ ]
+}

@@ -1,0 +1,60 @@
+{
+ "resource": "Media",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Media** resource?",
+   "options": [
+    "A photo, video, or audio recording acquired or used in healthcare.",
+    "A structured set of questions and their answers.",
+    "Representation of the content produced in a DICOM imaging study.",
+    "Record details about an anatomical structure."
+   ],
+   "explanation": "**Media**: A photo, video, or audio recording acquired or used in healthcare. The actual content may be inline or provided by direct reference. The other descriptions belong to **QuestionnaireResponse**, **ImagingStudy**, **BodyStructure**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? A photo of a skin wound taken during a consultation.",
+   "options": [
+    "Media",
+    "ImagingStudy",
+    "DocumentReference",
+    "Binary"
+   ],
+   "explanation": "**Media**. Photos, video and audio captured during care (R4; replaced by DocumentReference in R5)."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **Media**. Which resource should you use instead when you need “raw content only”?",
+   "options": [
+    "Binary",
+    "Media",
+    "Linkage",
+    "MessageHeader"
+   ],
+   "explanation": "**Binary**: raw content only. **Media** is for something else: A photo, video, or audio recording acquired or used in healthcare."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **Media** instance?",
+   "options": [
+    "`content`",
+    "`reasonCode`",
+    "`subject`",
+    "`view`"
+   ],
+   "explanation": "The required top-level elements of Media are `status` (1..1), `content` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **Media** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`encounter`",
+    "`device`",
+    "`issued`"
+   ],
+   "explanation": "Modifier elements of Media: `status`. `status`: preparation | in-progress | not-done | on-hold | stopped | completed | entered-in-error | unknown. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

@@ -1,0 +1,60 @@
+{
+ "resource": "AdverseEvent",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **AdverseEvent** resource?",
+   "options": [
+    "Actual or potential/avoided event causing unintended physical injury resulting from or contributed to by medical care, a research study or other healthcare setting factors that requires additional monitoring, treatment, or…",
+    "Significant health conditions for a person related to the patient relevant in the context of care for the patient.",
+    "An action that is or was performed on or for a patient.",
+    "A clinical condition, problem, diagnosis, or other event, situation, issue, or clinical concept that has risen to a level of concern."
+   ],
+   "explanation": "**AdverseEvent**: Actual or potential/avoided event causing unintended physical injury resulting from or contributed to by medical care, a research study or other healthcare setting factors that requires additional monitoring, treatment, or hospitalization, or that results in death. The other descriptions belong to **FamilyMemberHistory**, **Procedure**, **Condition**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? A patient fell on the ward and broke their wrist.",
+   "options": [
+    "AdverseEvent",
+    "AllergyIntolerance",
+    "DetectedIssue",
+    "FamilyMemberHistory"
+   ],
+   "explanation": "**AdverseEvent**. An event that caused (or could have caused) harm during care or research."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **AdverseEvent**. Which resource should you use instead when you need “a potential problem found by a check”?",
+   "options": [
+    "DetectedIssue",
+    "AdverseEvent",
+    "AllergyIntolerance",
+    "Procedure"
+   ],
+   "explanation": "**DetectedIssue**: a potential problem found by a check. **AdverseEvent** is for something else: Actual or potential/avoided event causing unintended physical injury resulting from or contributed to by medical care, a research study or other healthcare setting factors that requires additional monitoring, treatment, or…"
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **AdverseEvent** instance?",
+   "options": [
+    "`actuality`",
+    "`referenceDocument`",
+    "`seriousness`",
+    "`resultingCondition`"
+   ],
+   "explanation": "The required top-level elements of AdverseEvent are `actuality` (1..1), `subject` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **AdverseEvent** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`actuality`",
+    "`subject`",
+    "`seriousness`",
+    "`suspectEntity`"
+   ],
+   "explanation": "Modifier elements of AdverseEvent: `actuality`. `actuality`: actual | potential. A modifier can change the meaning of the whole resource, so systems must understand it before using the data."
+  }
+ ]
+}

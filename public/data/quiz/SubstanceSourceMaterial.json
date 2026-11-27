@@ -1,0 +1,60 @@
+{
+ "resource": "SubstanceSourceMaterial",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **SubstanceSourceMaterial** resource?",
+   "options": [
+    "Source material shall capture information on the taxonomic and anatomical origins as well as the fraction of a material that can result in or can be modified to form a substance.",
+    "The detailed description of a substance, typically at a level beyond what is used for prescribing.",
+    "A pharmaceutical product described in terms of its composition and dose form.",
+    "The interactions of the medicinal product with other medicinal products, or other forms of interactions."
+   ],
+   "explanation": "**SubstanceSourceMaterial**: Source material shall capture information on the taxonomic and anatomical origins as well as the fraction of a material that can result in or can be modified to form a substance. This set of data elements shall be used to define polymer substances isolated from biological matrices. Taxonomic and anatomical origins shall be described using a controlled vocabulary as required. This information is captured for naturally derived polymers ( . starch) and structurally diverse substances. For Organisms belonging to the Kingdom Plantae the Substance level defines the fresh material of a single species or infraspecies, the Herbal Drug and the Herbal preparation. For Herbal preparations, the fraction information will be captured at the Substance information level and additional information for herbal extracts will be captured at the Specified Substance Group 1 information level. See for further explanation the Substance Class: Structurally Diverse and the herbal annex. The other descriptions belong to **SubstanceSpecification**, **MedicinalProductPharmaceutical**, **MedicinalProductInteraction**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “Source material shall capture information on the taxonomic and anatomical origins as well as the fraction of a material that can result in or can be modified to form a substance.”",
+   "options": [
+    "SubstanceSourceMaterial",
+    "MedicinalProductManufactured",
+    "SubstanceReferenceInformation",
+    "MedicinalProductContraindication"
+   ],
+   "explanation": "This is the definition of **SubstanceSourceMaterial** (Specialized › Medication Definition)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **SubstanceSourceMaterial** sit in the FHIR R4 resource list?",
+   "options": [
+    "Specialized › Medication Definition",
+    "Financial › Payment",
+    "Financial › General",
+    "Financial › Billing"
+   ],
+   "explanation": "**SubstanceSourceMaterial** is in **Specialized › Medication Definition**: Detailed regulatory data about medicinal products and substances (authorisations, ingredients, packaging, interactions, side effects), used by regulators and drug databases rather than in everyday patient care."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **SubstanceSourceMaterial** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`organism` is required in every instance",
+    "`organismName` is required in every instance",
+    "`geographicalLocation` is required in every instance"
+   ],
+   "explanation": "Every top-level element of SubstanceSourceMaterial is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `SubstanceSourceMaterial.countryOfOrigin`?",
+   "options": [
+    "`CodeableConcept`",
+    "`string`",
+    "`decimal`",
+    "`positiveInt`"
+   ],
+   "explanation": "`SubstanceSourceMaterial.countryOfOrigin` (0..*) is `CodeableConcept`: The country where the plant material is harvested or the countries where the plasma is sourced from as laid down in accordance with the Plasma Master File. For “Plasma-derived substances” the attribute country of origin provides information about the countries used for the manufacturing of the Cryopoor plama or Crioprecipitate."
+  }
+ ]
+}

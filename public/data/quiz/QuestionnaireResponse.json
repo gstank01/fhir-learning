@@ -1,0 +1,60 @@
+{
+ "resource": "QuestionnaireResponse",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **QuestionnaireResponse** resource?",
+   "options": [
+    "A structured set of questions and their answers.",
+    "A sample to be used for analysis.",
+    "The findings and interpretation of diagnostic tests performed on patients, groups of patients, devices, and locations, and/or specimens derived from these.",
+    "Record details about an anatomical structure."
+   ],
+   "explanation": "**QuestionnaireResponse**: A structured set of questions and their answers. The questions are ordered and grouped into coherent subsets, corresponding to the structure of the grouping of the questionnaire being responded to. The other descriptions belong to **Specimen**, **DiagnosticReport**, **BodyStructure**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? A patient’s completed answers to the PHQ-9 form.",
+   "options": [
+    "QuestionnaireResponse",
+    "Questionnaire",
+    "Observation",
+    "DiagnosticReport"
+   ],
+   "explanation": "**QuestionnaireResponse**. The filled-in form, pointing back to its Questionnaire."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **QuestionnaireResponse**. Which resource should you use instead when you need “the form definition”?",
+   "options": [
+    "Questionnaire",
+    "QuestionnaireResponse",
+    "PlanDefinition",
+    "DeviceDefinition"
+   ],
+   "explanation": "**Questionnaire**: the form definition. **QuestionnaireResponse** is for something else: A structured set of questions and their answers."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **QuestionnaireResponse** instance?",
+   "options": [
+    "`status`",
+    "`questionnaire`",
+    "`partOf`",
+    "`authored`"
+   ],
+   "explanation": "The required top-level elements of QuestionnaireResponse are `status` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **QuestionnaireResponse** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`authored`",
+    "`subject`",
+    "`identifier`"
+   ],
+   "explanation": "Modifier elements of QuestionnaireResponse: `status`. `status`: in-progress | completed | amended | entered-in-error | stopped. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

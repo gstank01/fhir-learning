@@ -1,0 +1,60 @@
+{
+ "resource": "PractitionerRole",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **PractitionerRole** resource?",
+   "options": [
+    "A specific set of Roles/Locations/specialties/services that a practitioner may perform at an organization for a period of time.",
+    "Demographics and other administrative information about an individual or animal receiving care or other health-related services.",
+    "A person who is directly or indirectly involved in the provisioning of healthcare.",
+    "Information about a person that is involved in the care for a patient, but who is not the target of healthcare, nor has a formal responsibility in the care process."
+   ],
+   "explanation": "**PractitionerRole**: A specific set of Roles/Locations/specialties/services that a practitioner may perform at an organization for a period of time. The other descriptions belong to **Patient**, **Practitioner**, **RelatedPerson**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? Dr Smith works as a cardiologist at City Hospital on Mondays and Wednesdays.",
+   "options": [
+    "PractitionerRole",
+    "Practitioner",
+    "CareTeam",
+    "RelatedPerson"
+   ],
+   "explanation": "**PractitionerRole**. A role links a Practitioner to an Organization, with specialty, location and availability."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **PractitionerRole**. Which resource should you use instead when you need “the person, independent of any role”?",
+   "options": [
+    "Practitioner",
+    "PractitionerRole",
+    "Group",
+    "Patient"
+   ],
+   "explanation": "**Practitioner**: the person, independent of any role. **PractitionerRole** is for something else: A specific set of Roles/Locations/specialties/services that a practitioner may perform at an organization for a period of time."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **PractitionerRole** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`availabilityExceptions` is required in every instance",
+    "`healthcareService` is required in every instance",
+    "`organization` is required in every instance"
+   ],
+   "explanation": "Every top-level element of PractitionerRole is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `PractitionerRole.identifier`?",
+   "options": [
+    "`Identifier`",
+    "`markdown`",
+    "`Attachment`",
+    "`instant`"
+   ],
+   "explanation": "`PractitionerRole.identifier` (0..*) is `Identifier`: Business Identifiers that are specific to a role/location."
+  }
+ ]
+}

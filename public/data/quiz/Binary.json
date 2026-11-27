@@ -1,0 +1,60 @@
+{
+ "resource": "Binary",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Binary** resource?",
+   "options": [
+    "A resource that represents the data of a single raw artifact as digital content accessible in its native format.",
+    "The subscription resource is used to define a push-based subscription from a server to another system.",
+    "A container for a collection of resources.",
+    "A collection of error, warning, or information messages that result from a system action."
+   ],
+   "explanation": "**Binary**: A resource that represents the data of a single raw artifact as digital content accessible in its native format. A Binary resource can contain any content, whether text, image, pdf, zip archive, etc. The other descriptions belong to **Subscription**, **Bundle**, **OperationOutcome**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? Store the raw bytes of a PDF or an image.",
+   "options": [
+    "Binary",
+    "DocumentReference",
+    "Media",
+    "OperationOutcome"
+   ],
+   "explanation": "**Binary**. Content in its native format, with a content type."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **Binary**. Which resource should you use instead when you need “metadata that points to the content”?",
+   "options": [
+    "DocumentReference",
+    "Binary",
+    "Composition",
+    "CatalogEntry"
+   ],
+   "explanation": "**DocumentReference**: metadata that points to the content. **Binary** is for something else: A resource that represents the data of a single raw artifact as digital content accessible in its native format."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `Binary.securityContext`?",
+   "options": [
+    "`Reference(Resource)`",
+    "`string`",
+    "`positiveInt`",
+    "`Quantity`"
+   ],
+   "explanation": "`Binary.securityContext` (0..1) is `Reference(Resource)`: Identifies another resource to use as proxy when enforcing access control."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **Binary** sit in the FHIR R4 resource list?",
+   "options": [
+    "Foundation › Other",
+    "Specialized › Medication Definition",
+    "Foundation › Documents",
+    "Specialized › Definitional Artifacts"
+   ],
+   "explanation": "**Binary** is in **Foundation › Other**: Infrastructure for exchange itself: Bundle (a container of resources), Binary (raw files), OperationOutcome (errors and warnings), Parameters (operation inputs and outputs), MessageHeader (messaging) and Subscription (notifications)."
+  }
+ ]
+}

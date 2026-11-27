@@ -1,0 +1,60 @@
+{
+ "resource": "Invoice",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Invoice** resource?",
+   "options": [
+    "This resource containing collected ChargeItems from an Account with calculated individual and total price for Billing purpose.",
+    "This resource provides the adjudication details from the processing of a Claim resource.",
+    "A provider issued list of professional services and products which have been provided, or are to be provided, to a patient which is sent to an insurer for reimbursement.",
+    "This resource provides eligibility and plan details from the processing of an CoverageEligibilityRequest resource."
+   ],
+   "explanation": "**Invoice**: Invoice containing collected ChargeItems from an Account with calculated individual and total price for Billing purpose. The other descriptions belong to **ClaimResponse**, **Claim**, **CoverageEligibilityResponse**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “This resource containing collected ChargeItems from an Account with calculated individual and total price for Billing purpose.”",
+   "options": [
+    "Invoice",
+    "Claim",
+    "ClaimResponse",
+    "ChargeItem"
+   ],
+   "explanation": "This is the definition of **Invoice** (Financial › Billing)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **Invoice** sit in the FHIR R4 resource list?",
+   "options": [
+    "Financial › Billing",
+    "Foundation › Terminology",
+    "Foundation › Other",
+    "Foundation › Security"
+   ],
+   "explanation": "**Invoice** is in **Financial › Billing**: Asking to be paid: claims sent to insurers, their responses, and invoices."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **Invoice** instance?",
+   "options": [
+    "`status`",
+    "`note`",
+    "`paymentTerms`",
+    "`date`"
+   ],
+   "explanation": "The required top-level elements of Invoice are `status` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **Invoice** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`cancelledReason`",
+    "`issuer`",
+    "`identifier`"
+   ],
+   "explanation": "Modifier elements of Invoice: `status`. `status`: draft | issued | balanced | cancelled | entered-in-error. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

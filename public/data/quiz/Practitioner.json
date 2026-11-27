@@ -1,0 +1,60 @@
+{
+ "resource": "Practitioner",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Practitioner** resource?",
+   "options": [
+    "A person who is directly or indirectly involved in the provisioning of healthcare.",
+    "Demographics and other administrative information about an individual or animal receiving care or other health-related services.",
+    "Represents a defined collection of entities that may be discussed or acted upon collectively but which are not expected to act collectively, and are not formally or legally recognized; i.e.",
+    "Demographics and administrative information about a person independent of a specific health-related context."
+   ],
+   "explanation": "**Practitioner**: A person who is directly or indirectly involved in the provisioning of healthcare. The other descriptions belong to **Patient**, **Group**, **Person**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? Record a doctor’s name, qualifications and licence number, regardless of where they work.",
+   "options": [
+    "Practitioner",
+    "PractitionerRole",
+    "Patient",
+    "Person"
+   ],
+   "explanation": "**Practitioner**. Practitioner is the person. Where and as what they work is PractitionerRole."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **Practitioner**. Which resource should you use instead when you need “what they do, where, and for which organisation”?",
+   "options": [
+    "PractitionerRole",
+    "Practitioner",
+    "RelatedPerson",
+    "Group"
+   ],
+   "explanation": "**PractitionerRole**: what they do, where, and for which organisation. **Practitioner** is for something else: A person who is directly or indirectly involved in the provisioning of healthcare."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **Practitioner** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`telecom` is required in every instance",
+    "`photo` is required in every instance",
+    "`address` is required in every instance"
+   ],
+   "explanation": "Every top-level element of Practitioner is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `Practitioner.birthDate`?",
+   "options": [
+    "`date`",
+    "`Coding`",
+    "`Quantity`",
+    "`markdown`"
+   ],
+   "explanation": "`Practitioner.birthDate` (0..1) is `date`: The date  on which the practitioner was born."
+  }
+ ]
+}

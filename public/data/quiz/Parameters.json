@@ -1,0 +1,60 @@
+{
+ "resource": "Parameters",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Parameters** resource?",
+   "options": [
+    "This resource is a non-persisted resource used to pass information into and back from an operation.",
+    "This resource is used for handling concepts not yet defined in FHIR, narrative-only resources that don't map to an existing resource, and custom resources not appropriate for inclusion in the FHIR specification.",
+    "A collection of error, warning, or information messages that result from a system action.",
+    "A container for a collection of resources."
+   ],
+   "explanation": "**Parameters**: This resource is a non-persisted resource used to pass information into and back from an operation. It has no other use, and there is no RESTful endpoint associated with it. The other descriptions belong to **Basic**, **OperationOutcome**, **Bundle**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? The inputs sent to the $validate operation.",
+   "options": [
+    "Parameters",
+    "Bundle",
+    "Linkage",
+    "Binary"
+   ],
+   "explanation": "**Parameters**. Used only for operation inputs and outputs; it has no REST endpoint."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **Parameters**. Which resource should you use instead when you need “a collection of resources with its own REST endpoint”?",
+   "options": [
+    "Bundle",
+    "Parameters",
+    "Linkage",
+    "Subscription"
+   ],
+   "explanation": "**Bundle**: a collection of resources with its own REST endpoint. **Parameters** is for something else: This resource is a non-persisted resource used to pass information into and back from an operation."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **Parameters** sit in the FHIR R4 resource list?",
+   "options": [
+    "Foundation › Other",
+    "Foundation › Security",
+    "Clinical › Summary",
+    "Clinical › Medications"
+   ],
+   "explanation": "**Parameters** is in **Foundation › Other**: Infrastructure for exchange itself: Bundle (a container of resources), Binary (raw files), OperationOutcome (errors and warnings), Parameters (operation inputs and outputs), MessageHeader (messaging) and Subscription (notifications)."
+  },
+  {
+   "kind": "cardinality",
+   "question": "What is the cardinality of `Parameters.parameter` (Operation Parameter)?",
+   "options": [
+    "`0..*`",
+    "`0..1`",
+    "`1..1`",
+    "`1..*`"
+   ],
+   "explanation": "`Parameters.parameter` is `0..*`: optional, can repeat. In JSON it is always an array."
+  }
+ ]
+}

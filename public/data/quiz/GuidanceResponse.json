@@ -1,0 +1,60 @@
+{
+ "resource": "GuidanceResponse",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **GuidanceResponse** resource?",
+   "options": [
+    "A guidance response is the formal response to a guidance request, including any output parameters returned by the evaluation, as well as the description of any proposed actions to be taken.",
+    "A record of a device being used by a patient where the record is the result of a report from the patient or another clinician.",
+    "A record of a request for a medication, substance or device used in the healthcare setting.",
+    "Record of delivery of what is supplied."
+   ],
+   "explanation": "**GuidanceResponse**: A guidance response is the formal response to a guidance request, including any output parameters returned by the evaluation, as well as the description of any proposed actions to be taken. The other descriptions belong to **DeviceUseStatement**, **SupplyRequest**, **SupplyDelivery**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “A guidance response is the formal response to a guidance request, including any output parameters returned by the evaluation, as well as the description of any proposed actions to be taken.”",
+   "options": [
+    "GuidanceResponse",
+    "DeviceRequest",
+    "DeviceUseStatement",
+    "CommunicationRequest"
+   ],
+   "explanation": "This is the definition of **GuidanceResponse** (Clinical › Request & Response)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **GuidanceResponse** sit in the FHIR R4 resource list?",
+   "options": [
+    "Clinical › Request & Response",
+    "Foundation › Conformance",
+    "Specialized › Quality Reporting & Testing",
+    "Financial › Support"
+   ],
+   "explanation": "**GuidanceResponse** is in **Clinical › Request & Response**: Requests and records for other activities: messages between people (Communication), requests for devices and supplies and their delivery, a patient’s use of a device, and responses from decision-support services."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **GuidanceResponse** instance?",
+   "options": [
+    "`status`",
+    "`result`",
+    "`identifier`",
+    "`dataRequirement`"
+   ],
+   "explanation": "The required top-level elements of GuidanceResponse are `module[x]` (1..1), `status` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **GuidanceResponse** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`result`",
+    "`requestIdentifier`",
+    "`evaluationMessage`"
+   ],
+   "explanation": "Modifier elements of GuidanceResponse: `status`. `status`: success | data-requested | data-required | in-progress | failure | entered-in-error. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

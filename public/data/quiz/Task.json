@@ -1,0 +1,60 @@
+{
+ "resource": "Task",
+ "questions": [
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? Track that the lab has accepted a test order and is currently working on it.",
+   "options": [
+    "Task",
+    "ServiceRequest",
+    "Procedure",
+    "Appointment"
+   ],
+   "explanation": "**Task**. Task tracks the fulfilment of a request: who is doing it and its status."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **Task**. Which resource should you use instead when you need “the clinical action that was done”?",
+   "options": [
+    "Procedure",
+    "Task",
+    "AllergyIntolerance",
+    "ClinicalImpression"
+   ],
+   "explanation": "**Procedure**: the clinical action that was done. **Task** is for something else: A task to be performed."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **Task** instance?",
+   "options": [
+    "`status`",
+    "`location`",
+    "`insurance`",
+    "`restriction`"
+   ],
+   "explanation": "The required top-level elements of Task are `status` (1..1), `intent` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **Task** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`for`",
+    "`authoredOn`",
+    "`focus`"
+   ],
+   "explanation": "Modifier elements of Task: `status`. `status`: draft | requested | received | accepted | +. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `Task.executionPeriod`?",
+   "options": [
+    "`Period`",
+    "`canonical`",
+    "`boolean`",
+    "`markdown`"
+   ],
+   "explanation": "`Task.executionPeriod` (0..1) is `Period`: Start and end time of execution."
+  }
+ ]
+}

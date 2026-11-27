@@ -1,0 +1,60 @@
+{
+ "resource": "AuditEvent",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **AuditEvent** resource?",
+   "options": [
+    "A record of an event made for purposes of maintaining a security log.",
+    "This resource of a resource is a record that describes entities and processes involved in producing and delivering or otherwise influencing that resource.",
+    "A record of a healthcare consumer’s choices, which permits or denies identified recipient(s) or recipient role(s) to perform one or more actions within a given policy context, for specific purposes and periods of time.",
+    "This resource documents a set of capabilities (behaviors) of a FHIR Terminology Server that may be used as a statement of actual server functionality or a statement of required or desired server…"
+   ],
+   "explanation": "**AuditEvent**: A record of an event made for purposes of maintaining a security log. Typical uses include detection of intrusion attempts and monitoring for inappropriate usage. The other descriptions belong to **Provenance**, **Consent**, **TerminologyCapabilities**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? Log that a user viewed a patient’s record at 14:32 from a ward PC.",
+   "options": [
+    "AuditEvent",
+    "Provenance",
+    "Consent",
+    "DocumentManifest"
+   ],
+   "explanation": "**AuditEvent**. A security log of activity. See the Basic Audit Log Patterns IG."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **AuditEvent**. Which resource should you use instead when you need “where data came from and who is responsible”?",
+   "options": [
+    "Provenance",
+    "AuditEvent",
+    "Consent",
+    "Linkage"
+   ],
+   "explanation": "**Provenance**: where data came from and who is responsible. **AuditEvent** is for something else: A record of an event made for purposes of maintaining a security log."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **AuditEvent** instance?",
+   "options": [
+    "`agent`",
+    "`outcomeDesc`",
+    "`outcome`",
+    "`action`"
+   ],
+   "explanation": "The required top-level elements of AuditEvent are `type` (1..1), `recorded` (1..1), `agent` (1..*), `source` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `AuditEvent.subtype`?",
+   "options": [
+    "`Coding`",
+    "`Identifier`",
+    "`positiveInt`",
+    "`code`"
+   ],
+   "explanation": "`AuditEvent.subtype` (0..*) is `Coding`: More specific type/id for the event."
+  }
+ ]
+}

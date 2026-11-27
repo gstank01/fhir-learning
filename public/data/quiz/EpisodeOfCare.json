@@ -1,0 +1,60 @@
+{
+ "resource": "EpisodeOfCare",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **EpisodeOfCare** resource?",
+   "options": [
+    "An association between a patient and an organization / healthcare provider(s) during which time encounters may occur.",
+    "Prospective warnings of potential issues when providing care to the patient.",
+    "This resource is a general-purpose container for knowledge asset definitions.",
+    "An interaction between a patient and healthcare provider(s) for the purpose of providing healthcare service(s) or assessing the health status of a patient."
+   ],
+   "explanation": "**EpisodeOfCare**: An association between a patient and an organization / healthcare provider(s) during which time encounters may occur. The managing organization assumes a level of responsibility for the patient during this time. The other descriptions belong to **Flag**, **Library**, **Encounter**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? All the care a woman receives during her pregnancy, across many visits.",
+   "options": [
+    "EpisodeOfCare",
+    "Encounter",
+    "CarePlan",
+    "Library"
+   ],
+   "explanation": "**EpisodeOfCare**. Groups encounters over a period of responsibility for a condition. One episode, many encounters."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **EpisodeOfCare**. Which resource should you use instead when you need “what is planned, not the period of responsibility”?",
+   "options": [
+    "CarePlan",
+    "EpisodeOfCare",
+    "VisionPrescription",
+    "RiskAssessment"
+   ],
+   "explanation": "**CarePlan**: what is planned, not the period of responsibility. **EpisodeOfCare** is for something else: An association between a patient and an organization / healthcare provider(s) during which time encounters may occur."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **EpisodeOfCare** instance?",
+   "options": [
+    "`status`",
+    "`identifier`",
+    "`account`",
+    "`type`"
+   ],
+   "explanation": "The required top-level elements of EpisodeOfCare are `status` (1..1), `patient` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **EpisodeOfCare** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`patient`",
+    "`account`",
+    "`identifier`"
+   ],
+   "explanation": "Modifier elements of EpisodeOfCare: `status`. `status`: planned | waitlist | active | onhold | finished | cancelled | entered-in-error. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

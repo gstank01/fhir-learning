@@ -1,0 +1,60 @@
+{
+ "resource": "ExampleScenario",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **ExampleScenario** resource?",
+   "options": [
+    "Example of workflow instance.",
+    "A set of rules of how a particular interoperability or standards problem is solved - typically through the use of FHIR resources.",
+    "A compartment definition that defines how resources are accessed on a server.",
+    "A definition of a FHIR structure."
+   ],
+   "explanation": "**ExampleScenario**: Example of workflow instance. The other descriptions belong to **ImplementationGuide**, **CompartmentDefinition**, **StructureDefinition**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “Example of workflow instance.”",
+   "options": [
+    "ExampleScenario",
+    "SearchParameter",
+    "StructureDefinition",
+    "GraphDefinition"
+   ],
+   "explanation": "This is the definition of **ExampleScenario** (Foundation › Conformance)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **ExampleScenario** sit in the FHIR R4 resource list?",
+   "options": [
+    "Foundation › Conformance",
+    "Base › Entities #1",
+    "Clinical › Care Provision",
+    "Financial › Billing"
+   ],
+   "explanation": "**ExampleScenario** is in **Foundation › Conformance**: Describe how FHIR is used rather than any patient: what a server can do (CapabilityStatement), the rules for resources (StructureDefinition, used for profiles and extensions), implementation guides, custom searches and operations."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **ExampleScenario** instance?",
+   "options": [
+    "`status`",
+    "`version`",
+    "`useContext`",
+    "`jurisdiction`"
+   ],
+   "explanation": "The required top-level elements of ExampleScenario are `status` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **ExampleScenario** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`version`",
+    "`name`",
+    "`experimental`"
+   ],
+   "explanation": "Modifier elements of ExampleScenario: `status`. `status`: draft | active | retired | unknown. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

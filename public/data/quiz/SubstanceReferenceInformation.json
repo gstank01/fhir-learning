@@ -1,0 +1,60 @@
+{
+ "resource": "SubstanceReferenceInformation",
+ "questions": [
+  {
+   "kind": "group",
+   "question": "Where does **SubstanceReferenceInformation** sit in the FHIR R4 resource list?",
+   "options": [
+    "Specialized › Medication Definition",
+    "Foundation › Conformance",
+    "Clinical › Request & Response",
+    "Financial › Support"
+   ],
+   "explanation": "**SubstanceReferenceInformation** is in **Specialized › Medication Definition**: Detailed regulatory data about medicinal products and substances (authorisations, ingredients, packaging, interactions, side effects), used by regulators and drug databases rather than in everyday patient care."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **SubstanceReferenceInformation** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`target` is required in every instance",
+    "`comment` is required in every instance",
+    "`gene` is required in every instance"
+   ],
+   "explanation": "Every top-level element of SubstanceReferenceInformation is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `SubstanceReferenceInformation.comment`?",
+   "options": [
+    "`string`",
+    "`canonical`",
+    "`positiveInt`",
+    "`decimal`"
+   ],
+   "explanation": "`SubstanceReferenceInformation.comment` (0..1) is `string`: Todo."
+  },
+  {
+   "kind": "cardinality",
+   "question": "What is the cardinality of `SubstanceReferenceInformation.comment` (Todo)?",
+   "options": [
+    "`0..1`",
+    "`1..1`",
+    "`0..*`",
+    "`1..*`"
+   ],
+   "explanation": "`SubstanceReferenceInformation.comment` is `0..1`: optional, at most one."
+  },
+  {
+   "kind": "cardinality",
+   "question": "What is the cardinality of `SubstanceReferenceInformation.geneElement` (Todo)?",
+   "options": [
+    "`0..*`",
+    "`0..1`",
+    "`1..1`",
+    "`1..*`"
+   ],
+   "explanation": "`SubstanceReferenceInformation.geneElement` is `0..*`: optional, can repeat. In JSON it is always an array."
+  }
+ ]
+}

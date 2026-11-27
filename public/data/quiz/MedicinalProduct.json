@@ -1,0 +1,60 @@
+{
+ "resource": "MedicinalProduct",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **MedicinalProduct** resource?",
+   "options": [
+    "Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g.",
+    "An ingredient of a manufactured item or pharmaceutical product.",
+    "A pharmaceutical product described in terms of its composition and dose form.",
+    "The manufactured item as contained in the packaged medicinal product."
+   ],
+   "explanation": "**MedicinalProduct**: Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use). The other descriptions belong to **MedicinalProductIngredient**, **MedicinalProductPharmaceutical**, **MedicinalProductManufactured**."
+  },
+  {
+   "kind": "definition",
+   "question": "Which resource matches this definition from the specification? “Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g.”",
+   "options": [
+    "MedicinalProduct",
+    "SubstanceReferenceInformation",
+    "MedicinalProductInteraction",
+    "SubstanceNucleicAcid"
+   ],
+   "explanation": "This is the definition of **MedicinalProduct** (Specialized › Medication Definition)."
+  },
+  {
+   "kind": "group",
+   "question": "Where does **MedicinalProduct** sit in the FHIR R4 resource list?",
+   "options": [
+    "Specialized › Medication Definition",
+    "Clinical › Diagnostics",
+    "Base › Workflow",
+    "Clinical › Care Provision"
+   ],
+   "explanation": "**MedicinalProduct** is in **Specialized › Medication Definition**: Detailed regulatory data about medicinal products and substances (authorisations, ingredients, packaging, interactions, side effects), used by regulators and drug databases rather than in everyday patient care."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **MedicinalProduct** instance?",
+   "options": [
+    "`name`",
+    "`specialMeasures`",
+    "`marketingStatus`",
+    "`manufacturingBusinessOperation`"
+   ],
+   "explanation": "The required top-level elements of MedicinalProduct are `name` (1..*). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `MedicinalProduct.clinicalTrial`?",
+   "options": [
+    "`Reference(ResearchStudy)`",
+    "`Quantity`",
+    "`instant`",
+    "`date`"
+   ],
+   "explanation": "`MedicinalProduct.clinicalTrial` (0..*) is `Reference(ResearchStudy)`: Clinical trials or studies that this product is involved in."
+  }
+ ]
+}

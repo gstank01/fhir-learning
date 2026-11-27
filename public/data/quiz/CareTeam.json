@@ -1,0 +1,60 @@
+{
+ "resource": "CareTeam",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **CareTeam** resource?",
+   "options": [
+    "This resource includes all the people and organizations who plan to participate in the coordination and delivery of care for a patient.",
+    "A record of a request for service such as diagnostic investigations, treatments, or operations to be performed.",
+    "An assessment of the likely outcome(s) for a patient or other subject as well as the likelihood of each outcome.",
+    "An authorization for the provision of glasses and/or contact lenses to a patient."
+   ],
+   "explanation": "**CareTeam**: The Care Team includes all the people and organizations who plan to participate in the coordination and delivery of care for a patient. The other descriptions belong to **ServiceRequest**, **RiskAssessment**, **VisionPrescription**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? The GP, practice nurse and dietitian who together look after a patient’s diabetes.",
+   "options": [
+    "CareTeam",
+    "PractitionerRole",
+    "Group",
+    "ServiceRequest"
+   ],
+   "explanation": "**CareTeam**. Everyone who takes part in a patient’s care."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **CareTeam**. Which resource should you use instead when you need “one practitioner’s job”?",
+   "options": [
+    "PractitionerRole",
+    "CareTeam",
+    "Practitioner",
+    "Person"
+   ],
+   "explanation": "**PractitionerRole**: one practitioner’s job. **CareTeam** is for something else: The Care Team includes all the people and organizations who plan to participate in the coordination and delivery of care for a patient."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **CareTeam** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`name` is required in every instance",
+    "`telecom` is required in every instance",
+    "`status` is required in every instance"
+   ],
+   "explanation": "Every top-level element of CareTeam is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **CareTeam** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`managingOrganization`",
+    "`name`",
+    "`reasonCode`"
+   ],
+   "explanation": "Modifier elements of CareTeam: `status`. `status`: proposed | active | suspended | inactive | entered-in-error. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

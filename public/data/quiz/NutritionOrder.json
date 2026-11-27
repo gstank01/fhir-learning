@@ -1,0 +1,60 @@
+{
+ "resource": "NutritionOrder",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **NutritionOrder** resource?",
+   "options": [
+    "A request to supply a diet, formula feeding (enteral) or oral nutritional supplement to a patient/resident.",
+    "This resource includes all the people and organizations who plan to participate in the coordination and delivery of care for a patient.",
+    "Describes the intention of how one or more practitioners intend to deliver care for a particular patient, group or community for a period of time, possibly limited to care for a specific condition or set of conditions.",
+    "A group of related requests that can be used to capture intended activities that have inter-dependencies such as \"give this medication after that one\"."
+   ],
+   "explanation": "**NutritionOrder**: A request to supply a diet, formula feeding (enteral) or oral nutritional supplement to a patient/resident. The other descriptions belong to **CareTeam**, **CarePlan**, **RequestGroup**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? Order a diabetic diet for an inpatient.",
+   "options": [
+    "NutritionOrder",
+    "ServiceRequest",
+    "MedicationRequest",
+    "CareTeam"
+   ],
+   "explanation": "**NutritionOrder**. Diet, supplement and feeding orders."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **NutritionOrder**. Which resource should you use instead when you need “other orders”?",
+   "options": [
+    "ServiceRequest",
+    "NutritionOrder",
+    "CarePlan",
+    "Goal"
+   ],
+   "explanation": "**ServiceRequest**: other orders. **NutritionOrder** is for something else: A request to supply a diet, formula feeding (enteral) or oral nutritional supplement to a patient/resident."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **NutritionOrder** instance?",
+   "options": [
+    "`status`",
+    "`oralDiet`",
+    "`orderer`",
+    "`instantiates`"
+   ],
+   "explanation": "The required top-level elements of NutritionOrder are `status` (1..1), `intent` (1..1), `patient` (1..1), `dateTime` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **NutritionOrder** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`supplement`",
+    "`dateTime`",
+    "`allergyIntolerance`"
+   ],
+   "explanation": "Modifier elements of NutritionOrder: `status`, `intent`. `status`: draft | active | on-hold | revoked | completed | entered-in-error | unknown. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

@@ -1,0 +1,60 @@
+{
+ "resource": "Device",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **Device** resource?",
+   "options": [
+    "A type of a manufactured item that is used in the provision of healthcare without being substantially changed through that activity.",
+    "Describes a measurement, calculation or setting capability of a medical device.",
+    "A homogeneous material with a definite composition.",
+    "A material substance originating from a biological entity intended to be transplanted or infused into another (possibly the same) biological entity."
+   ],
+   "explanation": "**Device**: A type of a manufactured item that is used in the provision of healthcare without being substantially changed through that activity. The device may be a medical or non-medical device. The other descriptions belong to **DeviceMetric**, **Substance**, **BiologicallyDerivedProduct**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? A specific insulin pump with its serial number, assigned to a patient.",
+   "options": [
+    "Device",
+    "DeviceRequest",
+    "DeviceUseStatement",
+    "DeviceDefinition"
+   ],
+   "explanation": "**Device**. Device is the actual item. DeviceRequest orders one; DeviceUseStatement records its use."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **Device**. Which resource should you use instead when you need “an order for a device”?",
+   "options": [
+    "DeviceRequest",
+    "Device",
+    "DeviceUseStatement",
+    "SupplyRequest"
+   ],
+   "explanation": "**DeviceRequest**: an order for a device. **Device** is for something else: A type of a manufactured item that is used in the provision of healthcare without being substantially changed through that activity."
+  },
+  {
+   "kind": "required-none",
+   "question": "Which statement about required elements in **Device** is true?",
+   "options": [
+    "No top-level element is required: every element has a minimum cardinality of 0",
+    "`contact` is required in every instance",
+    "`patient` is required in every instance",
+    "`identifier` is required in every instance"
+   ],
+   "explanation": "Every top-level element of Device is optional (`0..1` or `0..*`) in the base resource. Profiles can make elements required for a particular use."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **Device** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`statusReason`",
+    "`patient`",
+    "`lotNumber`"
+   ],
+   "explanation": "Modifier elements of Device: `status`. `status`: active | inactive | entered-in-error | unknown. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

@@ -1,0 +1,60 @@
+{
+ "resource": "MessageHeader",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **MessageHeader** resource?",
+   "options": [
+    "The header for a message exchange that is either requesting or responding to an action.",
+    "A resource that represents the data of a single raw artifact as digital content accessible in its native format.",
+    "This resource is a non-persisted resource used to pass information into and back from an operation.",
+    "A collection of error, warning, or information messages that result from a system action."
+   ],
+   "explanation": "**MessageHeader**: The header for a message exchange that is either requesting or responding to an action. The reference(s) that are the subject of the action as well as other information related to the action are typically transmitted in a bundle in which the MessageHeader resource instance is the first resource in the bundle. The other descriptions belong to **Binary**, **Parameters**, **OperationOutcome**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? The first entry of a FHIR message, saying which event it is and who it is for.",
+   "options": [
+    "MessageHeader",
+    "Bundle",
+    "Subscription",
+    "Linkage"
+   ],
+   "explanation": "**MessageHeader**. Bundle.type = message, MessageHeader first."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **MessageHeader**. Which resource should you use instead when you need “notifications based on search criteria”?",
+   "options": [
+    "Subscription",
+    "MessageHeader",
+    "Linkage",
+    "OperationOutcome"
+   ],
+   "explanation": "**Subscription**: notifications based on search criteria. **MessageHeader** is for something else: The header for a message exchange that is either requesting or responding to an action."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **MessageHeader** instance?",
+   "options": [
+    "`event[x]`",
+    "`reason`",
+    "`definition`",
+    "`author`"
+   ],
+   "explanation": "The required top-level elements of MessageHeader are `event[x]` (1..1), `source` (1..1). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "type",
+   "question": "What is the data type of `MessageHeader.author`?",
+   "options": [
+    "`Reference(Practitioner | PractitionerRole)`",
+    "`code`",
+    "`uri`",
+    "`positiveInt`"
+   ],
+   "explanation": "`MessageHeader.author` (0..1) is `Reference(Practitioner | PractitionerRole)`: The source of the decision."
+  }
+ ]
+}

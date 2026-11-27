@@ -1,0 +1,60 @@
+{
+ "resource": "DocumentReference",
+ "questions": [
+  {
+   "kind": "purpose",
+   "question": "Which description fits the **DocumentReference** resource?",
+   "options": [
+    "A reference to a document of any kind for any purpose.",
+    "A set of healthcare-related information that is assembled together into a single logical package that provides a single coherent statement of meaning, establishes its own context and that has clinical attestation with regard…",
+    "A collection of documents compiled for a purpose together with metadata that applies to the collection.",
+    "Catalog entries are wrappers that contextualize items included in a catalog."
+   ],
+   "explanation": "**DocumentReference**: A reference to a document of any kind for any purpose. Provides metadata about the document so that the document can be discovered and managed. The scope of a document is any seralized object with a mime-type, so includes formal patient centric documents (CDA), cliical notes, scanned paper, and non-patient specific documents like policy text. The other descriptions belong to **Composition**, **DocumentManifest**, **CatalogEntry**."
+  },
+  {
+   "kind": "scenario",
+   "question": "Which resource would you use? A scanned discharge letter (PDF), stored with its type, date and author so it can be found.",
+   "options": [
+    "DocumentReference",
+    "Composition",
+    "Binary",
+    "DiagnosticReport"
+   ],
+   "explanation": "**DocumentReference**. Metadata about any document, pointing to the content."
+  },
+  {
+   "kind": "lookalike",
+   "question": "You know **DocumentReference**. Which resource should you use instead when you need “a structured report of results”?",
+   "options": [
+    "DiagnosticReport",
+    "DocumentReference",
+    "Observation",
+    "ImagingStudy"
+   ],
+   "explanation": "**DiagnosticReport**: a structured report of results. **DocumentReference** is for something else: A reference to a document of any kind for any purpose."
+  },
+  {
+   "kind": "required",
+   "question": "Which element is **required** (minimum cardinality 1) in every **DocumentReference** instance?",
+   "options": [
+    "`status`",
+    "`identifier`",
+    "`type`",
+    "`description`"
+   ],
+   "explanation": "The required top-level elements of DocumentReference are `status` (1..1), `content` (1..*). The other options have a minimum cardinality of 0, so they are optional."
+  },
+  {
+   "kind": "modifier",
+   "question": "Which element of **DocumentReference** is a **modifier** (?!), so receiving systems must not ignore it?",
+   "options": [
+    "`status`",
+    "`identifier`",
+    "`category`",
+    "`authenticator`"
+   ],
+   "explanation": "Modifier elements of DocumentReference: `status`. `status`: current | superseded | entered-in-error. A modifier can change the meaning of the whole resource: for example, a status of `entered-in-error` means the data must not be used."
+  }
+ ]
+}

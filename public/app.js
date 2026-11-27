@@ -857,6 +857,17 @@
     return c.optOrders[card.id];
   }
 
+  // A table or other material the question refers to, shown like an exam exhibit.
+  function renderExhibit(id) {
+    const ex = id && (state.data.exhibits || {})[id];
+    if (!ex) return '';
+    if (!ex.html) ex.html = renderMarkdown(ex.markdown); // render once, reuse
+    return `<details class="q-exhibit" open>
+        <summary>Exhibit: ${esc(ex.title)}</summary>
+        <div class="q-exhibit-body notes">${ex.html}</div>
+      </details>`;
+  }
+
   function renderQuestionCard(card) {
     const c = state.cards;
     const q = card.q;
@@ -884,6 +895,7 @@
     return `<div class="qcard" tabindex="-1">
         <p class="card-label">Exam-style question${area ? ` · ${esc(area.title)}` : ''}</p>
         <p class="q-text">${fmt(q.question)}</p>
+        ${renderExhibit(q.exhibit)}
         <ol class="q-options">${options}</ol>
         ${result}
         ${mark ? `<span class="card-mark ${mark}">${mark === 'known' ? 'Answered correctly' : 'Still learning'}</span>` : ''}

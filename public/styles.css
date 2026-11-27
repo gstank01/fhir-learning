@@ -818,6 +818,23 @@ body.cards-active .section-nav .nav-btn { color: var(--ink); border-bottom-color
   .q-opt { padding: 0.65rem 0.75rem; }
 }
 
+/* Exhibits in exam-style questions */
+.q-exhibit { border: 1px solid var(--line); border-radius: 0.65rem; background: var(--bg); }
+.q-exhibit summary {
+  cursor: pointer; padding: 0.55rem 0.85rem; font-size: 0.8rem; font-weight: 600;
+  letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted);
+}
+.q-exhibit[open] summary { border-bottom: 1px solid var(--line); }
+.q-exhibit-body { max-height: 24rem; overflow: auto; padding: 0.5rem; overscroll-behavior: contain; }
+.q-exhibit-body .table-wrap { margin: 0; border: 0; }
+.q-exhibit-body table { font-size: 0.82rem; }
+
 /* Diagrams in notes: readable on phones by scrolling sideways inside their own box */
 .notes .diagram { overflow-x: auto; margin: 0 0 1.25rem; }
 .notes .diagram svg { display: block; width: 100%; min-width: 600px; max-width: 760px; height: auto; }
+
+/* Let wide exhibits scroll inside their box instead of widening the card */
+.card-stage > *, .qcard > * { min-width: 0; }
+.q-exhibit-body .structure-table td:first-child { white-space: nowrap; }
+.q-exhibit-body table { min-width: 52rem; }
+.q-exhibit-body td:last-child { min-width: 17rem; }

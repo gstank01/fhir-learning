@@ -6,6 +6,7 @@ Usage:
   python3 tools/spec_to_markdown.py /tmp/procedure.html structure   > structure.md
   python3 tools/spec_to_markdown.py /tmp/procedure.html bindings    > bindings.md
   python3 tools/spec_to_markdown.py /tmp/procedure.html search      > search.md
+  python3 tools/spec_to_markdown.py /tmp/procedure.html constraints > constraints.md
 
 "structure" gives the structure table with the site's element icons
 (public/img/fhir/), indentation and links to the spec. "bindings" and
@@ -30,6 +31,11 @@ def absolute(href):
     href = html.unescape(href)
     if href.startswith(('http://', 'https://')):
         return href
+    if href.startswith('#'):
+        # In-page link to an element, e.g. #ConceptMap.group.element.target.dependsOn:
+        # point it at the resource's definitions page, which has the same anchors.
+        resource = href[1:].split('.')[0]
+        return f'{BASE}{resource.lower()}-definitions.html{href}'
     return BASE + href.lstrip('./')
 
 
@@ -113,5 +119,7 @@ if __name__ == '__main__':
         print(grid_after(page, 'Terminology Bindings'))
     elif what == 'search':
         print(grid_after(page, 'Search Parameters'))
+    elif what == 'constraints':
+        print(grid_after(page, 'Constraints'))
     else:
-        raise SystemExit('Choose structure, bindings or search')
+        raise SystemExit('Choose structure, bindings, constraints or search')

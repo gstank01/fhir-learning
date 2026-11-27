@@ -78,6 +78,7 @@ curl -s -o /tmp/observation.html https://hl7.org/fhir/R4/observation.html
 python3 tools/spec_to_markdown.py /tmp/observation.html structure
 python3 tools/spec_to_markdown.py /tmp/observation.html bindings
 python3 tools/spec_to_markdown.py /tmp/observation.html search
+python3 tools/spec_to_markdown.py /tmp/observation.html constraints
 ```
 
 ## Deploy on Vercel

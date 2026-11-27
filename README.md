@@ -46,6 +46,7 @@ Each answer also shows the resource's definition and maturity, its key
 elements (with required ones marked) and the look-alike resources it is
 often confused with. That detail is in `lib/resourcetips.js`, one entry per
 resource.
+- **Exam-style questions:** multiple-choice questions in the style of the exam, each with four options and an explanation. Pick an answer to see which is right and why. Questions are in `lib/questions.js`: list the correct option first (the site shuffles the options), and tag each question with its exam area (`ig`, `api`, `res`, `impl`, `ts`).
 - **Definition → resource:** every resource's official definition, with its name hidden.
 - **Resource → what it's for:** the resource name; recall what it's used for.
 

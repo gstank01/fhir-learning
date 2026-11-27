@@ -3,6 +3,7 @@ import { readOriginalNotes } from '../lib/content.js';
 import { deleteNotes, getEditedNotes, saveNotes, storageMode, StorageUnavailable } from '../lib/db.js';
 import { RESOURCE_CATEGORIES, SPEC_BASE } from '../lib/resources.js';
 import { RESOURCE_TIPS } from '../lib/resourcetips.js';
+import { QUESTIONS } from '../lib/questions.js';
 import { SCENARIO_CARDS } from '../lib/studycards.js';
 import { allTopicIds, DOMAINS, EXAM, isTopicId } from '../lib/structure.js';
 
@@ -75,6 +76,7 @@ async function getAll(req, res) {
     resources: { specBase: SPEC_BASE, categories: RESOURCE_CATEGORIES },
     cards: SCENARIO_CARDS,
     tips: RESOURCE_TIPS,
+    questions: QUESTIONS,
     notes,
     storage: storageMode(),
     storageError,

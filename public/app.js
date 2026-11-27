@@ -713,6 +713,7 @@
   // ---------- Study cards ----------
   const DECKS = [
     { id: 'scenario', title: 'Which resource?', blurb: 'Real-life situations. Name the resource you would use.' },
+    { id: 'questions', title: 'Exam-style questions', blurb: 'Multiple choice, like the real exam. Pick an answer to see the explanation.' },
     { id: 'definition', title: 'Definition → resource', blurb: 'The official definition from the spec, with the resource name hidden.' },
     { id: 'reverse', title: 'Resource → what it’s for', blurb: 'See the resource name and recall what it’s used for.' },
   ];
@@ -732,7 +733,30 @@
     return text.split(name).join('_____').replace(new RegExp(escRe(spaced), 'gi'), '_____');
   }
 
+  // Short text formatting for questions: `code` and **bold**.
+  function fmt(text) {
+    return esc(text).replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  }
+
+  function examAreas() {
+    return state.data.domains.filter((d) => d.weight);
+  }
+
+  // Which filter group a card belongs to: an exam area for questions,
+  // otherwise the resource category.
+  function cardGroup(x) {
+    return x.topic || (x.r && x.r.category.id);
+  }
+  function inCategory(x) {
+    return state.cards.category === 'all' || cardGroup(x) === state.cards.category;
+  }
+
   function deckCards(deckId) {
+    if (deckId === 'questions') {
+      return (state.data.questions || []).map((q, i) => ({
+        id: `q${i}`, q, topic: q.topic, r: q.resource ? findResource(q.resource) : null,
+      }));
+    }
     if (deckId === 'scenario') {
       return (state.data.cards || []).map((c, i) => ({ id: `s${i}:${c.resource}`, r: findResource(c.resource), prompt: c.scenario, note: c.note }))
         .filter((c) => c.r);
@@ -745,8 +769,7 @@
 
   function cardPool() {
     const c = state.cards;
-    return deckCards(c.deck).filter((x) => (c.category === 'all' || x.r.category.id === c.category)
-      && (!c.hideKnown || state.cardMarks[x.id] !== 'known'));
+    return deckCards(c.deck).filter((x) => inCategory(x) && (!c.hideKnown || state.cardMarks[x.id] !== 'known'));
   }
 
   function reshuffle() {
@@ -754,6 +777,8 @@
     c.order = shuffle(cardPool().map((x) => x.id));
     c.index = 0;
     c.flipped = false;
+    c.picked = null;
+    c.optOrders = {};
     c.key = `${c.deck}|${c.category}|${c.hideKnown}`;
   }
 
@@ -825,11 +850,56 @@
     };
   }
 
+  function optionOrder(card) {
+    const c = state.cards;
+    c.optOrders = c.optOrders || {};
+    if (!c.optOrders[card.id]) c.optOrders[card.id] = shuffle(card.q.options.map((_, i) => i));
+    return c.optOrders[card.id];
+  }
+
+  function renderQuestionCard(card) {
+    const c = state.cards;
+    const q = card.q;
+    const order = optionOrder(card);
+    const answered = c.picked !== null && c.picked !== undefined;
+    const area = examAreas().find((d) => d.id === q.topic);
+    const mark = state.cardMarks[card.id];
+    const options = order.map((oi, k) => {
+      let cls = '';
+      let tag = '';
+      if (answered) {
+        if (oi === 0) { cls = ' correct'; tag = '<span class="q-tag">Correct answer</span>'; }
+        else if (oi === c.picked) { cls = ' wrong'; tag = '<span class="q-tag">Your answer</span>'; }
+        else cls = ' dim';
+      }
+      return `<li><button type="button" class="q-opt${cls}" data-action="q-pick" data-opt="${oi}"${answered ? ' disabled' : ''}>
+        <span class="q-letter" aria-hidden="true">${'ABCD'[k]}</span><span class="q-opt-text">${fmt(q.options[oi])}</span>${tag}</button></li>`;
+    }).join('');
+    const verdict = c.picked === 0 ? 'Correct' : c.picked === -1 ? 'Here’s the answer' : 'Not quite';
+    const result = answered ? `<div class="q-result ${c.picked === 0 ? 'right' : 'wrong'}" role="status">
+        <p class="q-verdict">${verdict}</p>
+        <p class="q-explain">${fmt(q.explanation)}</p>
+        ${card.r ? answerDetails(card.r, { definition: false }) + `<a class="card-link" href="#${RESOURCE_PREFIX}${esc(card.r.name)}">Open ${esc(card.r.name)} →</a>` : ''}
+      </div>` : '';
+    return `<div class="qcard" tabindex="-1">
+        <p class="card-label">Exam-style question${area ? ` · ${esc(area.title)}` : ''}</p>
+        <p class="q-text">${fmt(q.question)}</p>
+        <ol class="q-options">${options}</ol>
+        ${result}
+        ${mark ? `<span class="card-mark ${mark}">${mark === 'known' ? 'Answered correctly' : 'Still learning'}</span>` : ''}
+      </div>
+      <div class="card-controls">
+        <button class="btn" type="button" data-action="card-prev"${c.index === 0 ? ' disabled' : ''}>← Previous</button>
+        ${answered ? '' : '<button class="btn" type="button" data-action="card-flip">Show answer</button>'}
+        <button class="btn${answered ? ' primary' : ''}" type="button" data-action="card-next"${c.index >= c.order.length - 1 ? ' disabled' : ''}>Next →</button>
+      </div>`;
+  }
+
   function renderCardsPage() {
     const c = state.cards;
     const card = currentCard();
     const pool = c.order.length;
-    const all = deckCards(c.deck).filter((x) => c.category === 'all' || x.r.category.id === c.category);
+    const all = deckCards(c.deck).filter(inCategory);
     const known = all.filter((x) => state.cardMarks[x.id] === 'known').length;
     const learning = all.filter((x) => state.cardMarks[x.id] === 'learning').length;
     const deck = DECKS.find((d) => d.id === c.deck);
@@ -841,6 +911,8 @@
       body = `<div class="empty-notes"><p>${c.hideKnown && all.length ? `You know all ${all.length} cards in this set. Nice work.` : 'There are no cards in this set.'}</p>
         <div class="confirm">${c.hideKnown ? '<button class="btn small primary" type="button" data-action="card-set" data-key="hideKnown" data-value="false">Show all cards again</button>' : ''}
         <button class="btn small" type="button" data-action="card-reset">Reset progress for this set</button></div></div>`;
+    } else if (c.deck === 'questions') {
+      body = renderQuestionCard(card);
     } else {
       const faces = cardFaces(card);
       const mark = state.cardMarks[card.id];
@@ -862,7 +934,10 @@
         </div>`;
     }
 
-    const catTitle = c.category === 'all' ? 'All categories' : (resourceCategories().find((x) => x.id === c.category) || {}).title;
+    const groups = c.deck === 'questions'
+      ? examAreas().map((d) => ({ id: d.id, title: d.title }))
+      : resourceCategories().map((x) => ({ id: x.id, title: x.title }));
+    const catTitle = c.category === 'all' ? (c.deck === 'questions' ? 'All exam areas' : 'All categories') : (groups.find((x) => x.id === c.category) || {}).title;
     return `<header class="cards-head">
         <div class="cards-head-text">
           <p class="eyebrow">Study cards · ${esc(deck.title)}</p>
@@ -878,9 +953,9 @@
         <details class="card-filters" id="card-filters"${c.filtersOpen ? ' open' : ''}>
           <summary>Filters: ${esc(catTitle)} · ${c.hideKnown ? 'hiding cards I know' : 'all cards'}</summary>
           <div class="card-filter-body">
-            <div class="seg" role="group" aria-label="Category"><span class="seg-label">Category</span>
+            <div class="seg" role="group" aria-label="${c.deck === 'questions' ? 'Exam area' : 'Category'}"><span class="seg-label">${c.deck === 'questions' ? 'Exam area' : 'Category'}</span>
               ${chip('category', 'all', 'All', c.category === 'all')}
-              ${resourceCategories().map((cat) => chip('category', cat.id, esc(cat.title), c.category === cat.id)).join('')}</div>
+              ${groups.map((g) => chip('category', g.id, esc(g.title), c.category === g.id)).join('')}</div>
             <div class="seg" role="group" aria-label="Which cards"><span class="seg-label">Show</span>
               ${chip('hideKnown', 'false', 'All cards', !c.hideKnown)}${chip('hideKnown', 'true', 'Hide cards I know', c.hideKnown)}</div>
           </div>
@@ -894,7 +969,9 @@
       <div class="card-stage">${body}</div>
       <div class="card-foot">
         <button class="link-btn" type="button" data-action="card-shuffle">Shuffle again</button>
-        <span class="kbd-help">Keys: <kbd>Space</kbd> flip · <kbd>←</kbd> <kbd>→</kbd> move · <kbd>1</kbd> still learning · <kbd>2</kbd> I knew it · <kbd>Esc</kbd> close</span>
+        <span class="kbd-help">${c.deck === 'questions'
+          ? 'Keys: <kbd>1</kbd>–<kbd>4</kbd> answer · <kbd>Space</kbd> show answer / next · <kbd>←</kbd> <kbd>→</kbd> move · <kbd>Esc</kbd> close'
+          : 'Keys: <kbd>Space</kbd> flip · <kbd>←</kbd> <kbd>→</kbd> move · <kbd>1</kbd> still learning · <kbd>2</kbd> I knew it · <kbd>Esc</kbd> close'}</span>
       </div>`;
   }
 
@@ -935,9 +1012,21 @@
   function cardAction(action, value) {
     const c = state.cards;
     const card = currentCard();
-    if (action === 'flip' && card) c.flipped = !c.flipped;
-    else if (action === 'next' && c.index < c.order.length - 1) { c.index += 1; c.flipped = false; }
-    else if (action === 'prev' && c.index > 0) { c.index -= 1; c.flipped = false; }
+    const isQ = c.deck === 'questions';
+    const answered = c.picked !== null && c.picked !== undefined;
+    if (action === 'flip' && card && isQ) {
+      if (!answered) {
+        c.picked = -1;
+        state.cardMarks[card.id] = 'learning';
+        saveCardMarks();
+      } else if (c.index < c.order.length - 1) { c.index += 1; c.picked = null; }
+    } else if (action === 'pick' && card && isQ && !answered) {
+      c.picked = Number(value);
+      state.cardMarks[card.id] = c.picked === 0 ? 'known' : 'learning';
+      saveCardMarks();
+    } else if (action === 'flip' && card) c.flipped = !c.flipped;
+    else if (action === 'next' && c.index < c.order.length - 1) { c.index += 1; c.flipped = false; c.picked = null; }
+    else if (action === 'prev' && c.index > 0) { c.index -= 1; c.flipped = false; c.picked = null; }
     else if (action === 'mark' && card) {
       state.cardMarks[card.id] = value;
       saveCardMarks();
@@ -948,14 +1037,20 @@
       c.flipped = false;
     } else if (action === 'shuffle') reshuffle();
     else if (action === 'reset') {
-      deckCards(c.deck).filter((x) => c.category === 'all' || x.r.category.id === c.category).forEach((x) => delete state.cardMarks[x.id]);
+      deckCards(c.deck).filter(inCategory).forEach((x) => delete state.cardMarks[x.id]);
       saveCardMarks();
       c.hideKnown = false;
       reshuffle();
     }
     renderCards();
-    const fc = els.cardsBody.querySelector('.flashcard');
-    if (fc && (action === 'flip' || action === 'next' || action === 'prev' || action === 'mark')) fc.focus({ preventScroll: true });
+    const fc = els.cardsBody.querySelector('.flashcard, .qcard');
+    if (fc && (action === 'flip' || action === 'next' || action === 'prev' || action === 'mark' || action === 'pick')) fc.focus({ preventScroll: true });
+    // Moving to another question starts at the top; answering shows the explanation.
+    if (isQ && (action === 'next' || action === 'prev' || (action === 'flip' && answered))) els.cardsBody.scrollTop = 0;
+    if (isQ && (action === 'pick' || (action === 'flip' && !answered))) {
+      const res = els.cardsBody.querySelector('.q-result');
+      if (res) res.scrollIntoView({ block: 'nearest', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    }
   }
 
   // A random scenario card on the overview page.
@@ -1123,6 +1218,14 @@
       if ((ev.key === ' ' || ev.key === 'Enter') && ev.target.classList.contains('flashcard')) { ev.preventDefault(); cardAction('flip'); return; }
       if (ev.key === 'ArrowRight') { ev.preventDefault(); cardAction('next'); return; }
       if (ev.key === 'ArrowLeft') { ev.preventDefault(); cardAction('prev'); return; }
+      if (state.cards.deck === 'questions') {
+        const k = 'abcd'.indexOf(ev.key.toLowerCase()) >= 0 ? 'abcd'.indexOf(ev.key.toLowerCase()) : '1234'.indexOf(ev.key);
+        const card = currentCard();
+        if (k >= 0 && card && (state.cards.picked === null || state.cards.picked === undefined)) {
+          cardAction('pick', optionOrder(card)[k]);
+        }
+        return;
+      }
       if ((ev.key === '1' || ev.key === '2') && state.cards.flipped) { cardAction('mark', ev.key === '1' ? 'learning' : 'known'); return; }
     }
     if ((ev.ctrlKey || ev.metaKey) && ev.key.toLowerCase() === 's' && state.editing) {
@@ -1384,9 +1487,11 @@
     else if (action === 'card-reset') cardAction('reset');
     else if (action === 'card-set') {
       const k = el.dataset.key;
+      if (k === 'deck' && el.dataset.value !== state.cards.deck) state.cards.category = 'all';
       state.cards[k] = k === 'hideKnown' ? el.dataset.value === 'true' : el.dataset.value;
       renderCards();
     }
+    else if (action === 'q-pick') cardAction('pick', el.dataset.opt);
     else if (action === 'cards-open') openCards();
     else if (action === 'cards-close') closeCards();
     else if (action === 'random-reveal') { state.randomCard.revealed = true; document.getElementById('random-card-box').innerHTML = renderRandomCard(); }

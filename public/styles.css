@@ -817,3 +817,7 @@ body.cards-active .section-nav .nav-btn { color: var(--ink); border-bottom-color
   .qcard { padding: 1.2rem 1.1rem; }
   .q-opt { padding: 0.65rem 0.75rem; }
 }
+
+/* Diagrams in notes: readable on phones by scrolling sideways inside their own box */
+.notes .diagram { overflow-x: auto; margin: 0 0 1.25rem; }
+.notes .diagram svg { display: block; width: 100%; min-width: 600px; max-width: 760px; height: auto; }
